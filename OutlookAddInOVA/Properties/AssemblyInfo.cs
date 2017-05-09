@@ -7,11 +7,11 @@ using System.Security;
 // набора атрибутов. Отредактируйте эти значения атрибутов, чтобы изменить сведения,
 // сопоставленные со сборкой.
 [assembly: AssemblyTitle("OutlookAddInOVA")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Надстройка для MS Outlook для использованя в работе компании 1АБ")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("OutlookAddInOVA")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("Главизнин Алексей Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

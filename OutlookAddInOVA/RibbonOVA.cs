@@ -36,7 +36,8 @@ namespace OutlookAddInOVA
 			Properties.Settings.Default.Save();
 		}
 
-		private void btnMailBOSSOVA_Click(object sender, RibbonControlEventArgs e)
+		
+		private void btnCreateZUnInABF_Click(object sender, RibbonControlEventArgs e)
 		{
 			Outlook.MailItem mailItem = (Outlook.MailItem)
 			OutlookAddInOVA.Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);

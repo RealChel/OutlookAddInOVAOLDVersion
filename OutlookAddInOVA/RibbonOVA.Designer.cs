@@ -36,12 +36,11 @@
 		{
 			this.tabOVA = this.Factory.CreateRibbonTab();
 			this.groupOVA = this.Factory.CreateRibbonGroup();
-			this.btnMailToZUn = this.Factory.CreateRibbonButton();
 			this.groupPrametrs = this.Factory.CreateRibbonGroup();
-			this.cbQuestionForward = this.Factory.CreateRibbonCheckBox();
-			this.cbQuestionAnswer = this.Factory.CreateRibbonCheckBox();
 			this.cbQuestionNew = this.Factory.CreateRibbonCheckBox();
-			this.btnMailBOSSOVA = this.Factory.CreateRibbonButton();
+			this.cbQuestionAnswer = this.Factory.CreateRibbonCheckBox();
+			this.cbQuestionForward = this.Factory.CreateRibbonCheckBox();
+			this.btnCreateZUnInABF = this.Factory.CreateRibbonButton();
 			this.tabOVA.SuspendLayout();
 			this.groupOVA.SuspendLayout();
 			this.groupPrametrs.SuspendLayout();
@@ -57,16 +56,8 @@
 			// 
 			// groupOVA
 			// 
-			this.groupOVA.Items.Add(this.btnMailToZUn);
-			this.groupOVA.Items.Add(this.btnMailBOSSOVA);
-			this.groupOVA.Label = "Создание заявок";
+			this.groupOVA.Items.Add(this.btnCreateZUnInABF);
 			this.groupOVA.Name = "groupOVA";
-			// 
-			// btnMailToZUn
-			// 
-			this.btnMailToZUn.Label = "Создать ЗУн";
-			this.btnMailToZUn.Name = "btnMailToZUn";
-			this.btnMailToZUn.SuperTip = "Создать Заявку универсальную в УК ОВА";
 			// 
 			// groupPrametrs
 			// 
@@ -76,12 +67,12 @@
 			this.groupPrametrs.Label = "Запрос на создание ЗУн в ОВА";
 			this.groupPrametrs.Name = "groupPrametrs";
 			// 
-			// cbQuestionForward
+			// cbQuestionNew
 			// 
-			this.cbQuestionForward.Label = "При пересылке";
-			this.cbQuestionForward.Name = "cbQuestionForward";
-			this.cbQuestionForward.ScreenTip = "При пересылке письма с указанием сотрудника УК ОВА";
-			this.cbQuestionForward.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.cbQuestionForward_Click);
+			this.cbQuestionNew.Label = "При новом письме";
+			this.cbQuestionNew.Name = "cbQuestionNew";
+			this.cbQuestionNew.ScreenTip = "При создании нового письма в УК ОВА";
+			this.cbQuestionNew.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.cbQuestionNew_Click);
 			// 
 			// cbQuestionAnswer
 			// 
@@ -90,18 +81,23 @@
 			this.cbQuestionAnswer.ScreenTip = "При ответе на письмо с указанием сотрудника УК ОВА";
 			this.cbQuestionAnswer.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.cbQuestionAnswer_Click);
 			// 
-			// cbQuestionNew
+			// cbQuestionForward
 			// 
-			this.cbQuestionNew.Label = "При новом письме";
-			this.cbQuestionNew.Name = "cbQuestionNew";
-			this.cbQuestionNew.ScreenTip = "При создании нового письма в УК ОВА";
-			this.cbQuestionNew.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.cbQuestionNew_Click);
+			this.cbQuestionForward.Label = "При пересылке";
+			this.cbQuestionForward.Name = "cbQuestionForward";
+			this.cbQuestionForward.ScreenTip = "При пересылке письма с указанием сотрудника УК ОВА";
+			this.cbQuestionForward.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.cbQuestionForward_Click);
 			// 
-			// btnMailBOSSOVA
+			// btnCreateZUnInABF
 			// 
-			this.btnMailBOSSOVA.Label = "Письмо руководителю ОВА";
-			this.btnMailBOSSOVA.Name = "btnMailBOSSOVA";
-			this.btnMailBOSSOVA.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnMailBOSSOVA_Click);
+			this.btnCreateZUnInABF.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			this.btnCreateZUnInABF.Description = "asdfasdfasdfdsafsdfsadf";
+			this.btnCreateZUnInABF.Image = global::OutlookAddInOVA.Properties.Resources.mini;
+			this.btnCreateZUnInABF.Label = "Зарегестрировать ошибку в АБФ";
+			this.btnCreateZUnInABF.Name = "btnCreateZUnInABF";
+			this.btnCreateZUnInABF.ScreenTip = "Создать Заявку универсальную в  УК ОВА с добавлением скриншота из буфер";
+			this.btnCreateZUnInABF.ShowImage = true;
+			this.btnCreateZUnInABF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateZUnInABF_Click);
 			// 
 			// RibbonOVA
 			// 
@@ -123,12 +119,11 @@
 
 		internal Microsoft.Office.Tools.Ribbon.RibbonTab tabOVA;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupOVA;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton btnMailToZUn;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCreateZUnInABF;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupPrametrs;
 		internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox cbQuestionNew;
 		internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox cbQuestionAnswer;
 		internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox cbQuestionForward;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton btnMailBOSSOVA;
 	}
 
 	partial class ThisRibbonCollection

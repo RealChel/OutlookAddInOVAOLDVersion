@@ -6,14 +6,20 @@ using System.Xml.Linq;
 using Outlook = Microsoft.Office.Interop.Outlook;
 using Office = Microsoft.Office.Core;
 
+
+
 namespace OutlookAddInOVA
 {
-    public partial class ThisAddIn
+
+	public partial class ThisAddIn
     {
-        private void ThisAddIn_Startup(object sender, System.EventArgs e)
+		Outlook.Inspectors inspectors;
+		private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-			
-        }
+			inspectors = this.Application.Inspectors;
+			inspectors.NewInspector +=
+			new Microsoft.Office.Interop.Outlook.InspectorsEvents_NewInspectorEventHandler(Inspectors_NewInspector);
+		}
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
@@ -32,7 +38,21 @@ namespace OutlookAddInOVA
             this.Startup += new System.EventHandler(ThisAddIn_Startup);
             this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
         }
-        
-        #endregion
-    }
+
+		#endregion
+
+		void Inspectors_NewInspector(Microsoft.Office.Interop.Outlook.Inspector Inspector)
+		{
+			Outlook.MailItem mailItem = Inspector.CurrentItem as Outlook.MailItem;
+			if (mailItem != null)
+			{
+				if (mailItem.EntryID == null)
+				{
+					mailItem.Subject = "This text was added by using code";
+					mailItem.Body = "This text was added by using code";
+				}
+
+			}
+		}
+	}
 }
