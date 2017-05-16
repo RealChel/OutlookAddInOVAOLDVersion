@@ -21,20 +21,16 @@ namespace OutlookAddInOVA
 			private void FormRegionOVAFactory_FormRegionInitializing(object sender, Microsoft.Office.Tools.Outlook.FormRegionInitializingEventArgs e)
 			{
 				e.Cancel = true;
-				Outlook.MailItem myItem = (Outlook.MailItem)e.OutlookItem ;
+				//Outlook.MailItem myItem = (Outlook.MailItem)e.OutlookItem ;
 
-				if (myItem != null)
-				{
-					string allmale = GetAllSMTPAddressForRecipients(myItem);
-					if (allmale.Contains("glaal@1ab.ru"))
-					{
-						e.Cancel = false;
-					}
-
-
-
-				}
-
+				//if (myItem != null)
+				//{
+				//	string allmale = GetAllSMTPAddressForRecipients(myItem);
+				//	if (allmale.Contains("glaal@1ab.ru"))
+				//	{
+				//		e.Cancel = false;
+				//	}
+				//}
 				return;
 			}
 

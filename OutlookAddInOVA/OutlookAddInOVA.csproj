@@ -26,8 +26,10 @@
     <NoStandardLibraries>false</NoStandardLibraries>
     <RootNamespace>OutlookAddInOVA</RootNamespace>
     <AssemblyName>OutlookAddInOVA</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>publish\</PublishUrl>
     <InstallUrl />
@@ -37,7 +39,6 @@
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
-    <IsWebBootstrapper>False</IsWebBootstrapper>
     <ProductName>OutlookAddInOVA</ProductName>
     <PublisherName>Главизнин Алексей</PublisherName>
     <SupportUrl />
@@ -178,11 +179,20 @@
     <Compile Include="FormRegionOVA.Designer.cs">
       <DependentUpon>FormRegionOVA.cs</DependentUpon>
     </Compile>
+    <Compile Include="instructionInZUn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="instructionInZUn.Designer.cs">
+      <DependentUpon>instructionInZUn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <EmbeddedResource Include="FormRegionOVA.resx">
       <DependentUpon>FormRegionOVA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="instructionInZUn.resx">
+      <DependentUpon>instructionInZUn.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -227,6 +237,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mini.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="V83">
+      <Guid>{98AC3B5B-5323-418F-8F07-E32F231D2393}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

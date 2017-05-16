@@ -36,11 +36,11 @@
 		{
 			this.tabOVA = this.Factory.CreateRibbonTab();
 			this.groupOVA = this.Factory.CreateRibbonGroup();
+			this.btnCreateZUnInABF = this.Factory.CreateRibbonButton();
 			this.groupPrametrs = this.Factory.CreateRibbonGroup();
 			this.cbQuestionNew = this.Factory.CreateRibbonCheckBox();
 			this.cbQuestionAnswer = this.Factory.CreateRibbonCheckBox();
 			this.cbQuestionForward = this.Factory.CreateRibbonCheckBox();
-			this.btnCreateZUnInABF = this.Factory.CreateRibbonButton();
 			this.tabOVA.SuspendLayout();
 			this.groupOVA.SuspendLayout();
 			this.groupPrametrs.SuspendLayout();
@@ -59,6 +59,17 @@
 			this.groupOVA.Items.Add(this.btnCreateZUnInABF);
 			this.groupOVA.Name = "groupOVA";
 			// 
+			// btnCreateZUnInABF
+			// 
+			this.btnCreateZUnInABF.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			this.btnCreateZUnInABF.Description = "asdfasdfasdfdsafsdfsadf";
+			this.btnCreateZUnInABF.Image = global::OutlookAddInOVA.Properties.Resources.mini;
+			this.btnCreateZUnInABF.Label = "Зарегестрировать ошибку в АБФ";
+			this.btnCreateZUnInABF.Name = "btnCreateZUnInABF";
+			this.btnCreateZUnInABF.ScreenTip = "Создать Заявку универсальную в  УК ОВА с добавлением скриншота из буфер";
+			this.btnCreateZUnInABF.ShowImage = true;
+			this.btnCreateZUnInABF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateZUnInABF_Click);
+			// 
 			// groupPrametrs
 			// 
 			this.groupPrametrs.Items.Add(this.cbQuestionNew);
@@ -66,6 +77,7 @@
 			this.groupPrametrs.Items.Add(this.cbQuestionForward);
 			this.groupPrametrs.Label = "Запрос на создание ЗУн в ОВА";
 			this.groupPrametrs.Name = "groupPrametrs";
+			this.groupPrametrs.Visible = false;
 			// 
 			// cbQuestionNew
 			// 
@@ -87,17 +99,6 @@
 			this.cbQuestionForward.Name = "cbQuestionForward";
 			this.cbQuestionForward.ScreenTip = "При пересылке письма с указанием сотрудника УК ОВА";
 			this.cbQuestionForward.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.cbQuestionForward_Click);
-			// 
-			// btnCreateZUnInABF
-			// 
-			this.btnCreateZUnInABF.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			this.btnCreateZUnInABF.Description = "asdfasdfasdfdsafsdfsadf";
-			this.btnCreateZUnInABF.Image = global::OutlookAddInOVA.Properties.Resources.mini;
-			this.btnCreateZUnInABF.Label = "Зарегестрировать ошибку в АБФ";
-			this.btnCreateZUnInABF.Name = "btnCreateZUnInABF";
-			this.btnCreateZUnInABF.ScreenTip = "Создать Заявку универсальную в  УК ОВА с добавлением скриншота из буфер";
-			this.btnCreateZUnInABF.ShowImage = true;
-			this.btnCreateZUnInABF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateZUnInABF_Click);
 			// 
 			// RibbonOVA
 			// 
