@@ -10,7 +10,7 @@ using System.Security;
 [assembly: AssemblyDescription("Надстройка для MS Outlook для использованя в работе компании 1АБ")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("1С-Архитектор бизнеса")]
-[assembly: AssemblyProduct("1С-Архитектор бизнеса")]
+[assembly: AssemblyProduct("OutlookAddInOVA")]
 [assembly: AssemblyCopyright("Главизнин Алексей Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -33,6 +33,6 @@ using System.Security;
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // с помощью знака '*', как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
+[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.2.0.0")]
 

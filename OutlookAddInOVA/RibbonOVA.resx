@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="groupOVA.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
+  <data name="checPriStarteOutlook.SuperTip" xml:space="preserve">
+    <value>Подключение к АБФ происходит в момент запуска MS Outlook\n Что увеличит время старта на 10 сек. Зато при создании ЗУн задержек не будет. \n этот вариант подходит тем кто планирует делать много ЗУн из MS Outlook</value>
+  </data>
+  <data name="checkPriCreateZUn.SuperTip" xml:space="preserve">
+    <value>Подключение к АБФ происходит в момент создания ЗУн\n Что увеличит время созданияч ЗУн на 15 сек. Зато при старте MS Outlook задержек не будет. \n этот вариант подходит тем кто планирует делать мало ЗУн из MS Outlook</value>
+  </data>
+  <metadata name="backgroundWorkerOVA.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
   </metadata>
 </root>

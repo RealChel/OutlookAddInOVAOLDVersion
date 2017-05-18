@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(instructionInZUn));
 			this.tbInstruction = new System.Windows.Forms.TextBox();
 			this.lblTextinstruction = new System.Windows.Forms.Label();
 			this.btnOK = new System.Windows.Forms.Button();
@@ -87,6 +88,7 @@
 			this.Controls.Add(this.btnOK);
 			this.Controls.Add(this.lblTextinstruction);
 			this.Controls.Add(this.tbInstruction);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "instructionInZUn";
 			this.Text = "Текст поручения для ЗУн";
 			this.ResumeLayout(false);
