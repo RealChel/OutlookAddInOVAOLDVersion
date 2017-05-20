@@ -63,6 +63,16 @@ namespace OutlookAddInOVA.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _306 {
+            get {
+                object obj = ResourceManager.GetObject("306", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap forward {
             get {
                 object obj = ResourceManager.GetObject("forward", resourceCulture);
@@ -71,12 +81,12 @@ namespace OutlookAddInOVA.Properties {
         }
         
         /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        ///   Поиск локализованного ресурса типа System.Drawing.Icon, аналогичного (Значок).
         /// </summary>
-        internal static System.Drawing.Bitmap mini {
+        internal static System.Drawing.Icon ico_1ab {
             get {
-                object obj = ResourceManager.GetObject("mini", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("ico_1ab", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

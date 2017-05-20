@@ -15,8 +15,13 @@ namespace OutlookAddInOVA
 		
 		Outlook.Inspectors inspectors;
 		public Outlook.Explorer currentExplorer = null;
-		//public const string usersOVA = "aleks;glaal;vasta;rogva;lihyu;provi;chest";
+#if DEBUG
+		public const string usersOVA = "aleks;glaal;vasta;rogva;lihyu;provi;chest";
+#else
 		public const string usersOVA = "glaal;vasta;rogva;lihyu;provi;chest";
+#endif
+		
+		
 		private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
 			inspectors = this.Application.Inspectors;
@@ -31,7 +36,7 @@ namespace OutlookAddInOVA
             //    должно выполняться при завершении работы Outlook, см. статью на странице https://go.microsoft.com/fwlink/?LinkId=506785
         }
 
-        #region Код, автоматически созданный VSTO
+#region Код, автоматически созданный VSTO
 
         /// <summary>
         /// Требуемый метод для поддержки конструктора — не изменяйте 
@@ -43,7 +48,7 @@ namespace OutlookAddInOVA
             this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
         }
 
-		#endregion
+#endregion
 
 		//void Inspectors_NewInspector(Microsoft.Office.Interop.Outlook.Inspector Inspector)
 		//{

@@ -78,6 +78,7 @@ namespace OutlookAddInOVA
 					return;
 
 				}
+				notifyIconOVA.Visible = false;
 				string screenshotName = SaveClipBoardToPicture();
 				if (screenshotName == "")
 				{
@@ -175,7 +176,7 @@ namespace OutlookAddInOVA
 				MessageBox.Show("Идёт процес создания ЗУн.\nПопробуйте через минуту...", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
-
+			notifyIconOVA.Visible = false;
 			if (((Microsoft.Office.Tools.Ribbon.OfficeRibbon)((Microsoft.Office.Tools.Ribbon.RibbonComponent)sender).Parent.Parent.Parent).Context is Outlook.Inspector)
 			{
 
@@ -218,9 +219,14 @@ namespace OutlookAddInOVA
 		}
 
 		
+		/// <summary>
+		/// Тестовая функция для проверки работы NotifyIcon
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void button1_Click(object sender, RibbonControlEventArgs e)
 		{
-			notifyIconOVA.Icon = SystemIcons.Error;
+			notifyIconOVA.Icon = Properties.Resources.ico_1ab;
 			notifyIconOVA.BalloonTipIcon = ToolTipIcon.Error;
 			notifyIconOVA.BalloonTipText = "Заявка универсальная №УК12/12312 от 12.12.2017";
 			notifyIconOVA.BalloonTipTitle = "Создана Заявка ниверсальная";
@@ -261,24 +267,28 @@ namespace OutlookAddInOVA
 
 				string user = @"""Create_ZUn""";
 				string pas = @"""bF6k6mjbCEfEJayL""";
-				//string file = @"""G:\\ABF""";
+#if DEBUG
+				string file = @"""G:\\ABF""";
+#else
 				string Srvr = @"""1ab-1cv80""";
 				string Ref = @"""pav-oper82""";
-
-
-
-
+#endif
 				com1s.PoolCapacity = 1;
 				com1s.PoolTimeout = 1;
 				com1s.MaxConnections = 1;
+#if DEBUG
+				string connectString = "File=" + file + ";Usr=" + user + ";Pwd=" + pas + ";";
+#else
 				string connectString = "Srvr=" + Srvr + ";Ref=" + Ref + ";Usr=" + user + ";Pwd=" + pas + ";";
-				//string connectString = "File=" + file + ";Usr=" + user + ";Pwd=" + pas + ";";
-
+#endif
 				result = com1s.Connect(connectString);
-				//createZunResult = result.ДляВнешнихСоединений.CreateZUN("glaal" + "@1ab.ru", pathToFile, preTextZun + textZun, errorCreateZun);
-				createZunResult = result.ДляВнешнихСоединений.CreateZUN(EMailFromCurrentMail, pathToFile, preTextZun + textZun, errorCreateZun);
 
-
+#if DEBUG
+				createZunResult = result.ДляВнешнихСоединений.CreateZUN("glaal@1ab.ru", pathToFile, preTextZun + textZun, ref errorCreateZun);
+				//createZunResult = result.ДляВнешнихСоединений.CreateZUN("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun);
+#else
+				createZunResult = result.ДляВнешнихСоединений.CreateZUN(EMailFromCurrentMail, pathToFile, preTextZun + textZun, ref errorCreateZun);
+#endif
 				if (createZunResult == "")
 				{
 					e.Result = false;
@@ -310,23 +320,12 @@ namespace OutlookAddInOVA
 				GC.Collect();
 			}
 		}
-		
 		private void backgroundWorkerOVA_RunWorkerCompleted_1(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
 			if ((bool)e.Result)
 			{
 				//MessageBox.Show("Создана заявка универсальная в УК ОВА.\n" + createZunResult, "Заявка создана успешно", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				
-				//Outlook.MailItem mailItem = (Outlook.MailItem)
-				//OutlookAddInOVA.Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
-				//mailItem.Subject = "Создана заявка универсальная в УК ОВА";
-				//mailItem.To = "glaal@1ab.ru";
-				//mailItem.Body = createZunResult;
-				//mailItem.Importance = Outlook.OlImportance.olImportanceHigh;
-				////mailItem.Display(false);
-				//mailItem.Send();
-
-				notifyIconOVA.Icon = SystemIcons.Information;
+				notifyIconOVA.Icon = Properties.Resources.ico_1ab;
 				notifyIconOVA.BalloonTipIcon = ToolTipIcon.Info;
 				notifyIconOVA.BalloonTipText = createZunResult;
 				notifyIconOVA.BalloonTipTitle = "Создана Заявка универсальная";
@@ -338,14 +337,11 @@ namespace OutlookAddInOVA
 				notifyIconOVA.ContextMenuStrip = myContextMenu;
 				notifyIconOVA.Visible = true;
 				notifyIconOVA.ShowBalloonTip(60000);
-
-
 			}
 			else
 			{
 				//MessageBox.Show("При создании ЗУн возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + errorCreateZun, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-				notifyIconOVA.Icon = SystemIcons.Error;
+				notifyIconOVA.Icon = Properties.Resources.ico_1ab;
 				notifyIconOVA.BalloonTipIcon = ToolTipIcon.Error;
 				notifyIconOVA.BalloonTipText = "В УК ОВА было отпралено письмо с ошибкой.";
 				notifyIconOVA.BalloonTipTitle = "При создании ЗУн возникла ошибка";
@@ -353,17 +349,13 @@ namespace OutlookAddInOVA
 				notifyIconOVA.Visible = true;
 				notifyIconOVA.ShowBalloonTip(60000);
 
-
 				Outlook.MailItem mailItem = (Outlook.MailItem)
 				OutlookAddInOVA.Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
 				mailItem.Subject = "При создании ЗУн возникла ошибка.";
 				mailItem.To = "glaal@1ab.ru";
 				mailItem.Body = errorCreateZun;
 				mailItem.Importance = Outlook.OlImportance.olImportanceHigh;
-				//mailItem.Display(false);
-
 				mailItem.Send();
-
 			}
 			workWorker = false;
 		}

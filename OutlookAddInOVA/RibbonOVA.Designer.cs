@@ -38,9 +38,7 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonOVA));
 			this.tabOVA = this.Factory.CreateRibbonTab();
 			this.groupCreateErrorZUn = this.Factory.CreateRibbonGroup();
-			this.btnCreateZUnInABF = this.Factory.CreateRibbonButton();
 			this.groupCreateZunWithMsg = this.Factory.CreateRibbonGroup();
-			this.buttonCreateZunWithMsg = this.Factory.CreateRibbonButton();
 			this.groupParametrsABF = this.Factory.CreateRibbonGroup();
 			this.button1 = this.Factory.CreateRibbonButton();
 			this.checPriStarteOutlook = this.Factory.CreateRibbonCheckBox();
@@ -53,6 +51,8 @@
 			this.cbCreateZunFromMe = this.Factory.CreateRibbonCheckBox();
 			this.backgroundWorkerOVA = new System.ComponentModel.BackgroundWorker();
 			this.notifyIconOVA = new System.Windows.Forms.NotifyIcon(this.components);
+			this.btnCreateZUnInABF = this.Factory.CreateRibbonButton();
+			this.buttonCreateZunWithMsg = this.Factory.CreateRibbonButton();
 			this.tabOVA.SuspendLayout();
 			this.groupCreateErrorZUn.SuspendLayout();
 			this.groupCreateZunWithMsg.SuspendLayout();
@@ -77,30 +77,10 @@
 			this.groupCreateErrorZUn.Items.Add(this.btnCreateZUnInABF);
 			this.groupCreateErrorZUn.Name = "groupCreateErrorZUn";
 			// 
-			// btnCreateZUnInABF
-			// 
-			this.btnCreateZUnInABF.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			this.btnCreateZUnInABF.Image = global::OutlookAddInOVA.Properties.Resources.mini;
-			this.btnCreateZUnInABF.Label = "Зарегестрировать ошибку в АБФ";
-			this.btnCreateZUnInABF.Name = "btnCreateZUnInABF";
-			this.btnCreateZUnInABF.ShowImage = true;
-			this.btnCreateZUnInABF.SuperTip = "Создать Заявку универсальную в  УК ОВА с добавлением скриншота из буфер";
-			this.btnCreateZUnInABF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateZUnInABF_Click);
-			// 
 			// groupCreateZunWithMsg
 			// 
 			this.groupCreateZunWithMsg.Items.Add(this.buttonCreateZunWithMsg);
 			this.groupCreateZunWithMsg.Name = "groupCreateZunWithMsg";
-			// 
-			// buttonCreateZunWithMsg
-			// 
-			this.buttonCreateZunWithMsg.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			this.buttonCreateZunWithMsg.Image = global::OutlookAddInOVA.Properties.Resources.forward;
-			this.buttonCreateZunWithMsg.Label = "Создать ЗУн из письма";
-			this.buttonCreateZunWithMsg.Name = "buttonCreateZunWithMsg";
-			this.buttonCreateZunWithMsg.ShowImage = true;
-			this.buttonCreateZunWithMsg.SuperTip = "Создать ЗУн в АБФ приложив текущее письмо";
-			this.buttonCreateZunWithMsg.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonCreateZunWithMsg_Click);
 			// 
 			// groupParametrsABF
 			// 
@@ -181,6 +161,26 @@
 			// notifyIconOVA
 			// 
 			this.notifyIconOVA.Visible = true;
+			// 
+			// btnCreateZUnInABF
+			// 
+			this.btnCreateZUnInABF.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			this.btnCreateZUnInABF.Image = global::OutlookAddInOVA.Properties.Resources._306;
+			this.btnCreateZUnInABF.Label = "Зарегестрировать ошибку в АБФ";
+			this.btnCreateZUnInABF.Name = "btnCreateZUnInABF";
+			this.btnCreateZUnInABF.ShowImage = true;
+			this.btnCreateZUnInABF.SuperTip = "Создать Заявку универсальную в  УК ОВА с добавлением скриншота из буфер";
+			this.btnCreateZUnInABF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateZUnInABF_Click);
+			// 
+			// buttonCreateZunWithMsg
+			// 
+			this.buttonCreateZunWithMsg.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			this.buttonCreateZunWithMsg.Image = global::OutlookAddInOVA.Properties.Resources.forward;
+			this.buttonCreateZunWithMsg.Label = "Создать ЗУн из письма";
+			this.buttonCreateZunWithMsg.Name = "buttonCreateZunWithMsg";
+			this.buttonCreateZunWithMsg.ShowImage = true;
+			this.buttonCreateZunWithMsg.SuperTip = "Создать ЗУн в АБФ приложив текущее письмо";
+			this.buttonCreateZunWithMsg.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonCreateZunWithMsg_Click);
 			// 
 			// RibbonOVA
 			// 
