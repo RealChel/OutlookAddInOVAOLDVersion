@@ -10,15 +10,13 @@ using Office = Microsoft.Office.Core;
 
 namespace OutlookAddInOVA
 {
-
-	
-
-
 	public partial class ThisAddIn
     {
 		
 		Outlook.Inspectors inspectors;
 		public Outlook.Explorer currentExplorer = null;
+		//public const string usersOVA = "aleks;glaal;vasta;rogva;lihyu;provi;chest";
+		public const string usersOVA = "glaal;vasta;rogva;lihyu;provi;chest";
 		private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
 			inspectors = this.Application.Inspectors;
@@ -60,5 +58,23 @@ namespace OutlookAddInOVA
 
 		//	}
 		//}
+
+		public string GetAllSMTPAddressForRecipients(Outlook.MailItem myMail)
+		{
+			string AllEmail = "";
+			const string PR_SMTP_ADDRESS =
+				"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
+			Outlook.Recipients recips = myMail.Recipients;
+			foreach (Outlook.Recipient recip in recips)
+			{
+				Outlook.PropertyAccessor pa = recip.PropertyAccessor;
+				AllEmail +=
+					pa.GetProperty(PR_SMTP_ADDRESS).ToString();
+			}
+			return AllEmail;
+		}
+
+
+		
 	}
 }

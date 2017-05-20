@@ -13,6 +13,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 
 
+
 namespace OutlookAddInOVA
 {
 	public partial class RibbonOVA
@@ -24,34 +25,48 @@ namespace OutlookAddInOVA
 		private string errorCreateZun="";
 		private bool workWorker=false;
 		private string createZunResult;
-		//private bool creatAtMsg;
+		private bool currentUserIsOVA = false;
+		private string EMailFromCurrentMail = SystemInformation.UserName+"@1ab.ru";
 		private Outlook.MailItem curMailItem;
 		private void RibbonOVA_Load(object sender, RibbonUIEventArgs e)
 		{
-			cbQuestionAnswer.Checked = Properties.Settings.Default.PrnQuestionAnswer;
-			cbQuestionForward.Checked = Properties.Settings.Default.prnQuestionForward;
-			cbQuestionNew.Checked = Properties.Settings.Default.PrnQuestionNew;
+			cbQuestionAnswer.Checked = Properties.Settings.Default.prmQuestionAnswer;
+			cbQuestionForward.Checked = Properties.Settings.Default.prmQuestionForward;
+			cbQuestionNew.Checked = Properties.Settings.Default.prmQuestionNew;
+			cbCreateZunFromMe.Checked = Properties.Settings.Default.prmCreateZunFromMe;
+
+			string currentuser = SystemInformation.UserName;
+			
+			if (OutlookAddInOVA.ThisAddIn.usersOVA.Contains(currentuser))
+			{
+				groupSettingOVA.Visible = true;
+				currentUserIsOVA = true;
+			}
 		}
 
 		private void cbQuestionNew_Click(object sender, RibbonControlEventArgs e)
 		{
-			Properties.Settings.Default.PrnQuestionNew = cbQuestionNew.Checked;
+			Properties.Settings.Default.prmQuestionNew = cbQuestionNew.Checked;
 			Properties.Settings.Default.Save();
 		}
 
 		private void cbQuestionAnswer_Click(object sender, RibbonControlEventArgs e)
 		{
-			Properties.Settings.Default.PrnQuestionNew = cbQuestionAnswer.Checked;
+			Properties.Settings.Default.prmQuestionNew = cbQuestionAnswer.Checked;
 			Properties.Settings.Default.Save();
 		}
 
 		private void cbQuestionForward_Click(object sender, RibbonControlEventArgs e)
 		{
-			Properties.Settings.Default.prnQuestionForward = cbQuestionForward.Checked;
+			Properties.Settings.Default.prmQuestionForward = cbQuestionForward.Checked;
 			Properties.Settings.Default.Save();
 		}
 
-
+		private void cbCreateZunFromMe_Click(object sender, RibbonControlEventArgs e)
+		{
+			Properties.Settings.Default.prmCreateZunFromMe = cbCreateZunFromMe.Checked;
+			Properties.Settings.Default.Save();
+		}
 		private void btnCreateZUnInABF_Click(object sender, RibbonControlEventArgs e)
 		{
 			try
@@ -59,7 +74,7 @@ namespace OutlookAddInOVA
 				//creatAtMsg = false;
 				if (workWorker)
 				{
-					MessageBox.Show("Идёт процес создания ЗУн.\n Попробуйте через минуту...", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					MessageBox.Show("Идёт процес создания ЗУн.\nПопробуйте через минуту...", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
 					return;
 
 				}
@@ -90,10 +105,7 @@ namespace OutlookAddInOVA
 						this.backgroundWorkerOVA.RunWorkerAsync();
 					}
 					instructionForm = null;
-
-
 				}
-				
 			}
 			catch (Exception eRror)
 			{
@@ -150,7 +162,6 @@ namespace OutlookAddInOVA
 		private string GetPathToSave(string extension)
 		{
 			string tempFolder = Path.GetTempPath();
-			//string tempFileName = Path.GetRandomFileName();
 			string tempFileName = SystemInformation.ComputerName + "_" + SystemInformation.UserName + "_" + DateTime.Now.ToString("dd.MM.yyyy_hhmmss") + "." + extension;
 
 			return tempFolder + tempFileName;
@@ -158,12 +169,11 @@ namespace OutlookAddInOVA
 
 		private void buttonCreateZunWithMsg_Click(object sender, RibbonControlEventArgs e)
 		{
-			//creatAtMsg = true;
+		
 			if (workWorker)
 			{
 				MessageBox.Show("Идёт процес создания ЗУн.\nПопробуйте через минуту...", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
-
 			}
 
 			if (((Microsoft.Office.Tools.Ribbon.OfficeRibbon)((Microsoft.Office.Tools.Ribbon.RibbonComponent)sender).Parent.Parent.Parent).Context is Outlook.Inspector)
@@ -180,6 +190,11 @@ namespace OutlookAddInOVA
 
 			}
 
+
+			if (currentUserIsOVA && !Properties.Settings.Default.prmCreateZunFromMe)
+			{
+				EMailFromCurrentMail = GetSmtpAddress(curMailItem);
+			}
 
 			string pathToFileMsg = SaveEmailToMsg(curMailItem);
 			if (pathToFileMsg == "")
@@ -202,67 +217,36 @@ namespace OutlookAddInOVA
 
 		}
 
+		
+		private void button1_Click(object sender, RibbonControlEventArgs e)
+		{
+			notifyIconOVA.Icon = SystemIcons.Error;
+			notifyIconOVA.BalloonTipIcon = ToolTipIcon.Error;
+			notifyIconOVA.BalloonTipText = "Заявка универсальная №УК12/12312 от 12.12.2017";
+			notifyIconOVA.BalloonTipTitle = "Создана Заявка ниверсальная";
+			notifyIconOVA.Text = "Двойной клик по иконке копировать данные в буфер";
+			notifyIconOVA.Visible = true;
 
-		//private void CurrentExplorer_Event()
-		//{
-		//	//Outlook.MAPIFolder selectedFolder =
-		//	//	this.Application.ActiveExplorer().CurrentFolder;
-		//	//String expMessage = "Your current folder is "
-		//	//	+ selectedFolder.Name + ".\n";
-		//	//String itemMessage = "Item is unknown.";
-		//	//try
-		//	//{
-		//	//	if (this.Application.ActiveExplorer().Selection.Count > 0)
-		//	//	{
-		//	//		Object selObject = this.Application.ActiveExplorer().Selection[1];
-		//	//		if (selObject is Outlook.MailItem)
-		//	//		{
-		//	//			Outlook.MailItem mailItem =
-		//	//				(selObject as Outlook.MailItem);
-		//	//			itemMessage = "The item is an e-mail message." +
-		//	//				" The subject is " + mailItem.Subject + ".";
-		//	//			mailItem.Display(false);
-		//	//		}
-		//	//		else if (selObject is Outlook.ContactItem)
-		//	//		{
-		//	//			Outlook.ContactItem contactItem =
-		//	//				(selObject as Outlook.ContactItem);
-		//	//			itemMessage = "The item is a contact." +
-		//	//				" The full name is " + contactItem.Subject + ".";
-		//	//			contactItem.Display(false);
-		//	//		}
-		//	//		else if (selObject is Outlook.AppointmentItem)
-		//	//		{
-		//	//			Outlook.AppointmentItem apptItem =
-		//	//				(selObject as Outlook.AppointmentItem);
-		//	//			itemMessage = "The item is an appointment." +
-		//	//				" The subject is " + apptItem.Subject + ".";
-		//	//		}
-		//	//		else if (selObject is Outlook.TaskItem)
-		//	//		{
-		//	//			Outlook.TaskItem taskItem =
-		//	//				(selObject as Outlook.TaskItem);
-		//	//			itemMessage = "The item is a task. The body is "
-		//	//				+ taskItem.Body + ".";
-		//	//		}
-		//	//		else if (selObject is Outlook.MeetingItem)
-		//	//		{
-		//	//			Outlook.MeetingItem meetingItem =
-		//	//				(selObject as Outlook.MeetingItem);
-		//	//			itemMessage = "The item is a meeting item. " +
-		//	//				 "The subject is " + meetingItem.Subject + ".";
-		//	//		}
-		//	//	}
-		//	//	expMessage = expMessage + itemMessage;
-		//	//}
-		//	//catch (Exception ex)
-		//	//{
-		//	//	expMessage = ex.Message;
-		//	//}
-		//	//MessageBox.Show(expMessage);
-		//}
+			var myContextMenu = new ContextMenuStrip();
+			var exit = new ToolStripMenuItem("Скопировать ЗУн в буфер");
+			myContextMenu.Items.Add(exit);
+			exit.Click += copyZUn_Click;
+			notifyIconOVA.ContextMenuStrip = myContextMenu;
+			notifyIconOVA.ShowBalloonTip(50000);
+		}
 
-		private void backgroundWorkerOVA_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+
+		private void copyZUn_Click(object sender, EventArgs e)
+		{
+			Clipboard.SetText(createZunResult);
+			notifyIconOVA.Visible = false; ;
+		}
+
+
+
+		
+
+		private void backgroundWorkerOVA_DoWork_1(object sender, System.ComponentModel.DoWorkEventArgs e)
 		{
 			dynamic result = null;
 			V83.COMConnector com1s = new V83.COMConnector();
@@ -277,10 +261,7 @@ namespace OutlookAddInOVA
 
 				string user = @"""Create_ZUn""";
 				string pas = @"""bF6k6mjbCEfEJayL""";
-				//string user = @"""glaal""";
-				//string pas = @"""Josefina1975""";
 				//string file = @"""G:\\ABF""";
-				//string file = "Srvr=""1ab-1cv81"";Ref=""pav-oper82""";
 				string Srvr = @"""1ab-1cv80""";
 				string Ref = @"""pav-oper82""";
 
@@ -295,27 +276,27 @@ namespace OutlookAddInOVA
 
 				result = com1s.Connect(connectString);
 				//createZunResult = result.ДляВнешнихСоединений.CreateZUN("glaal" + "@1ab.ru", pathToFile, preTextZun + textZun, errorCreateZun);
-				createZunResult = result.ДляВнешнихСоединений.CreateZUN(SystemInformation.UserName + "@1ab.ru", pathToFile, preTextZun + textZun, errorCreateZun);
+				createZunResult = result.ДляВнешнихСоединений.CreateZUN(EMailFromCurrentMail, pathToFile, preTextZun + textZun, errorCreateZun);
 
 
 				if (createZunResult == "")
 				{
 					e.Result = false;
 
-					return ;
+					return;
 				}
 				else
 				{
 					e.Result = true;
 
-					return ;
+					return;
 				}
 			}
 			catch (Exception err)
 			{
 				MessageBox.Show(err.ToString());
 
-				return ;
+				return;
 			}
 			finally
 			{
@@ -328,20 +309,14 @@ namespace OutlookAddInOVA
 				GC.WaitForPendingFinalizers();
 				GC.Collect();
 			}
-			
 		}
-
-		private void backgroundWorkerOVA_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+		
+		private void backgroundWorkerOVA_RunWorkerCompleted_1(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
 			if ((bool)e.Result)
 			{
 				//MessageBox.Show("Создана заявка универсальная в УК ОВА.\n" + createZunResult, "Заявка создана успешно", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				//if (creatAtMsg)
-				//{ 
-				//curMailItem.ReminderSet = true;
-				//curMailItem.ReminderTime = DateTime.Now;
-				//}
-
+				
 				//Outlook.MailItem mailItem = (Outlook.MailItem)
 				//OutlookAddInOVA.Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
 				//mailItem.Subject = "Создана заявка универсальная в УК ОВА";
@@ -351,21 +326,32 @@ namespace OutlookAddInOVA
 				////mailItem.Display(false);
 				//mailItem.Send();
 
-				//notifyIconOVA.BalloonTipIcon = ToolTipIcon.Info;
-				//notifyIconOVA.BalloonTipText=createZunResult;
-				//notifyIconOVA.BalloonTipTitle = "Создана Заявка ниверсальная";
-				//notifyIconOVA.ShowBalloonTip (10000);
-	
+				notifyIconOVA.Icon = SystemIcons.Information;
+				notifyIconOVA.BalloonTipIcon = ToolTipIcon.Info;
+				notifyIconOVA.BalloonTipText = createZunResult;
+				notifyIconOVA.BalloonTipTitle = "Создана Заявка универсальная";
+				notifyIconOVA.Text = "Через контекстное меню можно скопировать Дату и номер ЗУн";
+				var myContextMenu = new ContextMenuStrip();
+				var copyZUn = new ToolStripMenuItem("Скопировать ЗУн в буфер");
+				myContextMenu.Items.Add(copyZUn);
+				copyZUn.Click += copyZUn_Click;
+				notifyIconOVA.ContextMenuStrip = myContextMenu;
+				notifyIconOVA.Visible = true;
+				notifyIconOVA.ShowBalloonTip(60000);
+
 
 			}
 			else
 			{
 				//MessageBox.Show("При создании ЗУн возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + errorCreateZun, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-				//notifyIconOVA.BalloonTipIcon = ToolTipIcon.Info;
-				//notifyIconOVA.BalloonTipText = "В УК ОВА было отпралено письмо с ошибкой.";
-				//notifyIconOVA.BalloonTipTitle = "При создании ЗУн возникла ошибка";
-				//notifyIconOVA.ShowBalloonTip(10000);
+				notifyIconOVA.Icon = SystemIcons.Error;
+				notifyIconOVA.BalloonTipIcon = ToolTipIcon.Error;
+				notifyIconOVA.BalloonTipText = "В УК ОВА было отпралено письмо с ошибкой.";
+				notifyIconOVA.BalloonTipTitle = "При создании ЗУн возникла ошибка";
+				notifyIconOVA.Text = "";
+				notifyIconOVA.Visible = true;
+				notifyIconOVA.ShowBalloonTip(60000);
 
 
 				Outlook.MailItem mailItem = (Outlook.MailItem)
@@ -375,13 +361,31 @@ namespace OutlookAddInOVA
 				mailItem.Body = errorCreateZun;
 				mailItem.Importance = Outlook.OlImportance.olImportanceHigh;
 				//mailItem.Display(false);
-				
+
 				mailItem.Send();
 
 			}
 			workWorker = false;
 		}
 
-		
+		public string GetSmtpAddress(Outlook.MailItem oItem)
+		{
+			Outlook.Recipient recip;
+			Outlook.ExchangeUser exUser;
+			string sAddress;
+
+			if (oItem.SenderEmailType.ToLower() == "ex")
+			{
+				recip = Globals.ThisAddIn.Application.GetNamespace("MAPI").CreateRecipient(oItem.SenderEmailAddress);
+				exUser = recip.AddressEntry.GetExchangeUser();
+				sAddress = exUser.PrimarySmtpAddress;
+			}
+			else
+			{
+				sAddress = oItem.SenderEmailAddress.Replace("'", "");
+			}
+			return sAddress;
+		}
+
 	}
 }

@@ -2,13 +2,16 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="OutlookAddInOVA.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="prnQuestionForward" Type="System.Boolean" Scope="User">
+    <Setting Name="prmQuestionForward" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="PrnQuestionAnswer" Type="System.Boolean" Scope="User">
+    <Setting Name="prmQuestionAnswer" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="PrnQuestionNew" Type="System.Boolean" Scope="User">
+    <Setting Name="prmQuestionNew" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="prmCreateZunFromMe" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

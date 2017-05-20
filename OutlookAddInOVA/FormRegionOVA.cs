@@ -35,20 +35,7 @@ namespace OutlookAddInOVA
 			}
 
 
-			private string GetAllSMTPAddressForRecipients(Outlook.MailItem myMail)
-			{
-				string AllEmail = "";
-				const string PR_SMTP_ADDRESS =
-					"http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
-				Outlook.Recipients recips = myMail.Recipients;
-				foreach (Outlook.Recipient recip in recips)
-				{
-					Outlook.PropertyAccessor pa = recip.PropertyAccessor;
-					AllEmail +=
-						pa.GetProperty(PR_SMTP_ADDRESS).ToString();
-				}
-				return AllEmail;
-			}
+			
 		}
 
 		#endregion
@@ -67,7 +54,16 @@ namespace OutlookAddInOVA
 		{
 		}
 
-
-
+		private void cbApproval_CheckedChanged(object sender, EventArgs e)
+		{
+			if (cbApproval.Checked)
+			{
+				tabOVA.Visible = true;
+			}
+			else
+			{
+				tabOVA.Visible = false;
+			}
+		}
 	}
 }

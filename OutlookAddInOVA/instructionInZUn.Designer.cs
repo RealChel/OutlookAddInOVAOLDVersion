@@ -54,10 +54,10 @@
 			this.lblTextinstruction.ForeColor = System.Drawing.Color.Blue;
 			this.lblTextinstruction.Location = new System.Drawing.Point(10, 12);
 			this.lblTextinstruction.Name = "lblTextinstruction";
-			this.lblTextinstruction.Size = new System.Drawing.Size(609, 16);
+			this.lblTextinstruction.Size = new System.Drawing.Size(612, 16);
 			this.lblTextinstruction.TabIndex = 1;
-			this.lblTextinstruction.Text = "При необходимости введите текст поручения для Заявки универсальной либо нажмите О" +
-    "К.";
+			this.lblTextinstruction.Text = "При необходимости введите текст поручения для Заявки универсальной, либо нажмите " +
+    "ОК.";
 			// 
 			// btnOK
 			// 

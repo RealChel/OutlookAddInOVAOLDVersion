@@ -43,18 +43,30 @@
 			this.cbCreateZUn = new System.Windows.Forms.CheckBox();
 			this.cbImportant = new System.Windows.Forms.CheckBox();
 			this.toolTipRegionOVA = new System.Windows.Forms.ToolTip(this.components);
+			this.tabOVA = new System.Windows.Forms.TabControl();
+			this.tabPageMain = new System.Windows.Forms.TabPage();
+			this.tabPageApproval = new System.Windows.Forms.TabPage();
+			this.dataGVWapproval = new System.Windows.Forms.DataGridView();
+			this.EMail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Сотрудник = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Степень = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.cbApproval = new System.Windows.Forms.CheckBox();
+			this.tabOVA.SuspendLayout();
+			this.tabPageMain.SuspendLayout();
+			this.tabPageApproval.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGVWapproval)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// mcIspolnitK
 			// 
-			this.mcIspolnitK.Location = new System.Drawing.Point(9, 53);
+			this.mcIspolnitK.Location = new System.Drawing.Point(9, 34);
 			this.mcIspolnitK.Name = "mcIspolnitK";
 			this.mcIspolnitK.TabIndex = 0;
 			this.toolTipRegionOVA.SetToolTip(this.mcIspolnitK, "Указать желаемую дату выполнения Заявки универсальной");
 			// 
 			// tbTextZUn
 			// 
-			this.tbTextZUn.Location = new System.Drawing.Point(204, 53);
+			this.tbTextZUn.Location = new System.Drawing.Point(204, 34);
 			this.tbTextZUn.Multiline = true;
 			this.tbTextZUn.Name = "tbTextZUn";
 			this.tbTextZUn.Size = new System.Drawing.Size(528, 162);
@@ -65,7 +77,7 @@
 			// cbCreateZUn
 			// 
 			this.cbCreateZUn.AutoSize = true;
-			this.cbCreateZUn.Location = new System.Drawing.Point(9, 24);
+			this.cbCreateZUn.Location = new System.Drawing.Point(9, 5);
 			this.cbCreateZUn.Name = "cbCreateZUn";
 			this.cbCreateZUn.Size = new System.Drawing.Size(144, 17);
 			this.cbCreateZUn.TabIndex = 3;
@@ -77,7 +89,7 @@
 			// cbImportant
 			// 
 			this.cbImportant.AutoSize = true;
-			this.cbImportant.Location = new System.Drawing.Point(204, 24);
+			this.cbImportant.Location = new System.Drawing.Point(204, 5);
 			this.cbImportant.Name = "cbImportant";
 			this.cbImportant.Size = new System.Drawing.Size(62, 17);
 			this.cbImportant.TabIndex = 4;
@@ -85,23 +97,99 @@
 			this.toolTipRegionOVA.SetToolTip(this.cbImportant, "Указать Срочность заявки");
 			this.cbImportant.UseVisualStyleBackColor = true;
 			// 
+			// tabOVA
+			// 
+			this.tabOVA.Controls.Add(this.tabPageMain);
+			this.tabOVA.Controls.Add(this.tabPageApproval);
+			this.tabOVA.Location = new System.Drawing.Point(0, 0);
+			this.tabOVA.Name = "tabOVA";
+			this.tabOVA.SelectedIndex = 0;
+			this.tabOVA.Size = new System.Drawing.Size(814, 222);
+			this.tabOVA.TabIndex = 5;
+			this.tabOVA.Visible = false;
+			// 
+			// tabPageMain
+			// 
+			this.tabPageMain.Controls.Add(this.cbApproval);
+			this.tabPageMain.Controls.Add(this.tbTextZUn);
+			this.tabPageMain.Controls.Add(this.cbImportant);
+			this.tabPageMain.Controls.Add(this.mcIspolnitK);
+			this.tabPageMain.Controls.Add(this.cbCreateZUn);
+			this.tabPageMain.Location = new System.Drawing.Point(4, 22);
+			this.tabPageMain.Name = "tabPageMain";
+			this.tabPageMain.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageMain.Size = new System.Drawing.Size(806, 196);
+			this.tabPageMain.TabIndex = 0;
+			this.tabPageMain.Text = "Поручение";
+			this.tabPageMain.UseVisualStyleBackColor = true;
+			// 
+			// tabPageApproval
+			// 
+			this.tabPageApproval.Controls.Add(this.dataGVWapproval);
+			this.tabPageApproval.Location = new System.Drawing.Point(4, 22);
+			this.tabPageApproval.Name = "tabPageApproval";
+			this.tabPageApproval.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPageApproval.Size = new System.Drawing.Size(806, 196);
+			this.tabPageApproval.TabIndex = 1;
+			this.tabPageApproval.Text = "Согласование";
+			this.tabPageApproval.UseVisualStyleBackColor = true;
+			// 
+			// dataGVWapproval
+			// 
+			this.dataGVWapproval.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGVWapproval.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.EMail,
+            this.Сотрудник,
+            this.Степень});
+			this.dataGVWapproval.Location = new System.Drawing.Point(0, 27);
+			this.dataGVWapproval.Name = "dataGVWapproval";
+			this.dataGVWapproval.Size = new System.Drawing.Size(805, 168);
+			this.dataGVWapproval.TabIndex = 0;
+			// 
+			// EMail
+			// 
+			this.EMail.HeaderText = "E-Mail";
+			this.EMail.Name = "EMail";
+			// 
+			// Сотрудник
+			// 
+			this.Сотрудник.HeaderText = "Сотрудник";
+			this.Сотрудник.Name = "Сотрудник";
+			// 
+			// Степень
+			// 
+			this.Степень.HeaderText = "Степень";
+			this.Степень.Name = "Степень";
+			// 
+			// cbApproval
+			// 
+			this.cbApproval.AutoSize = true;
+			this.cbApproval.Location = new System.Drawing.Point(273, 7);
+			this.cbApproval.Name = "cbApproval";
+			this.cbApproval.Size = new System.Drawing.Size(98, 17);
+			this.cbApproval.TabIndex = 5;
+			this.cbApproval.Text = "Согласование";
+			this.cbApproval.UseVisualStyleBackColor = true;
+			this.cbApproval.CheckedChanged += new System.EventHandler(this.cbApproval_CheckedChanged);
+			// 
 			// FormRegionOVA
 			// 
 			this.AccessibleName = "";
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.cbImportant);
-			this.Controls.Add(this.cbCreateZUn);
-			this.Controls.Add(this.tbTextZUn);
-			this.Controls.Add(this.mcIspolnitK);
+			this.Controls.Add(this.tabOVA);
 			this.Name = "FormRegionOVA";
-			this.Size = new System.Drawing.Size(821, 227);
+			this.Size = new System.Drawing.Size(817, 222);
 			this.toolTipRegionOVA.SetToolTip(this, "В этой области вводятся дополнительные данные для создания Заявки универсальной в" +
         " УК ОВА");
 			this.FormRegionShowing += new System.EventHandler(this.FormRegionOVA_FormRegionShowing);
 			this.FormRegionClosed += new System.EventHandler(this.FormRegionOVA_FormRegionClosed);
+			this.tabOVA.ResumeLayout(false);
+			this.tabPageMain.ResumeLayout(false);
+			this.tabPageMain.PerformLayout();
+			this.tabPageApproval.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.dataGVWapproval)).EndInit();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
@@ -129,6 +217,14 @@
 		private System.Windows.Forms.CheckBox cbCreateZUn;
 		private System.Windows.Forms.CheckBox cbImportant;
 		private System.Windows.Forms.ToolTip toolTipRegionOVA;
+		private System.Windows.Forms.TabControl tabOVA;
+		private System.Windows.Forms.TabPage tabPageMain;
+		private System.Windows.Forms.CheckBox cbApproval;
+		private System.Windows.Forms.TabPage tabPageApproval;
+		private System.Windows.Forms.DataGridView dataGVWapproval;
+		private System.Windows.Forms.DataGridViewTextBoxColumn EMail;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Сотрудник;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Степень;
 
 		public partial class FormRegionOVAFactory : Microsoft.Office.Tools.Outlook.IFormRegionFactory
 		{

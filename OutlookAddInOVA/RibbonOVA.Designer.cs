@@ -34,6 +34,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonOVA));
 			this.tabOVA = this.Factory.CreateRibbonTab();
 			this.groupCreateErrorZUn = this.Factory.CreateRibbonGroup();
@@ -41,18 +42,23 @@
 			this.groupCreateZunWithMsg = this.Factory.CreateRibbonGroup();
 			this.buttonCreateZunWithMsg = this.Factory.CreateRibbonButton();
 			this.groupParametrsABF = this.Factory.CreateRibbonGroup();
+			this.button1 = this.Factory.CreateRibbonButton();
 			this.checPriStarteOutlook = this.Factory.CreateRibbonCheckBox();
 			this.checkPriCreateZUn = this.Factory.CreateRibbonCheckBox();
 			this.groupParametrsMail = this.Factory.CreateRibbonGroup();
 			this.cbQuestionNew = this.Factory.CreateRibbonCheckBox();
 			this.cbQuestionAnswer = this.Factory.CreateRibbonCheckBox();
 			this.cbQuestionForward = this.Factory.CreateRibbonCheckBox();
+			this.groupSettingOVA = this.Factory.CreateRibbonGroup();
+			this.cbCreateZunFromMe = this.Factory.CreateRibbonCheckBox();
 			this.backgroundWorkerOVA = new System.ComponentModel.BackgroundWorker();
+			this.notifyIconOVA = new System.Windows.Forms.NotifyIcon(this.components);
 			this.tabOVA.SuspendLayout();
 			this.groupCreateErrorZUn.SuspendLayout();
 			this.groupCreateZunWithMsg.SuspendLayout();
 			this.groupParametrsABF.SuspendLayout();
 			this.groupParametrsMail.SuspendLayout();
+			this.groupSettingOVA.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabOVA
@@ -62,6 +68,7 @@
 			this.tabOVA.Groups.Add(this.groupCreateZunWithMsg);
 			this.tabOVA.Groups.Add(this.groupParametrsABF);
 			this.tabOVA.Groups.Add(this.groupParametrsMail);
+			this.tabOVA.Groups.Add(this.groupSettingOVA);
 			this.tabOVA.Label = "УК ОВА";
 			this.tabOVA.Name = "tabOVA";
 			// 
@@ -97,11 +104,18 @@
 			// 
 			// groupParametrsABF
 			// 
+			this.groupParametrsABF.Items.Add(this.button1);
 			this.groupParametrsABF.Items.Add(this.checPriStarteOutlook);
 			this.groupParametrsABF.Items.Add(this.checkPriCreateZUn);
 			this.groupParametrsABF.Label = "Вариант подключения к АБФ";
 			this.groupParametrsABF.Name = "groupParametrsABF";
 			this.groupParametrsABF.Visible = false;
+			// 
+			// button1
+			// 
+			this.button1.Label = "button1";
+			this.button1.Name = "button1";
+			this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
 			// 
 			// checPriStarteOutlook
 			// 
@@ -145,6 +159,29 @@
 			this.cbQuestionForward.ScreenTip = "При пересылке письма с указанием сотрудника УК ОВА";
 			this.cbQuestionForward.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.cbQuestionForward_Click);
 			// 
+			// groupSettingOVA
+			// 
+			this.groupSettingOVA.Items.Add(this.cbCreateZunFromMe);
+			this.groupSettingOVA.Label = "Настройки ОВА";
+			this.groupSettingOVA.Name = "groupSettingOVA";
+			this.groupSettingOVA.Visible = false;
+			// 
+			// cbCreateZunFromMe
+			// 
+			this.cbCreateZunFromMe.Label = "Создать ЗУн от меня";
+			this.cbCreateZunFromMe.Name = "cbCreateZunFromMe";
+			this.cbCreateZunFromMe.SuperTip = "При включенном флаге ЗУн в АБФ  будут создаваться от моего имени";
+			this.cbCreateZunFromMe.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.cbCreateZunFromMe_Click);
+			// 
+			// backgroundWorkerOVA
+			// 
+			this.backgroundWorkerOVA.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerOVA_DoWork_1);
+			this.backgroundWorkerOVA.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerOVA_RunWorkerCompleted_1);
+			// 
+			// notifyIconOVA
+			// 
+			this.notifyIconOVA.Visible = true;
+			// 
 			// RibbonOVA
 			// 
 			this.Name = "RibbonOVA";
@@ -162,6 +199,8 @@
 			this.groupParametrsABF.PerformLayout();
 			this.groupParametrsMail.ResumeLayout(false);
 			this.groupParametrsMail.PerformLayout();
+			this.groupSettingOVA.ResumeLayout(false);
+			this.groupSettingOVA.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -181,6 +220,10 @@
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupCreateZunWithMsg;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonCreateZunWithMsg;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerOVA;
+		private System.Windows.Forms.NotifyIcon notifyIconOVA;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
+		internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupSettingOVA;
+		internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox cbCreateZunFromMe;
 	}
 
 	partial class ThisRibbonCollection

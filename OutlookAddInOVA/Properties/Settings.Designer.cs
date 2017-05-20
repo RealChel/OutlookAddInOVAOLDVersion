@@ -26,36 +26,48 @@ namespace OutlookAddInOVA.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool prnQuestionForward {
+        public bool prmQuestionForward {
             get {
-                return ((bool)(this["prnQuestionForward"]));
+                return ((bool)(this["prmQuestionForward"]));
             }
             set {
-                this["prnQuestionForward"] = value;
+                this["prmQuestionForward"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool PrnQuestionAnswer {
+        public bool prmQuestionAnswer {
             get {
-                return ((bool)(this["PrnQuestionAnswer"]));
+                return ((bool)(this["prmQuestionAnswer"]));
             }
             set {
-                this["PrnQuestionAnswer"] = value;
+                this["prmQuestionAnswer"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool PrnQuestionNew {
+        public bool prmQuestionNew {
             get {
-                return ((bool)(this["PrnQuestionNew"]));
+                return ((bool)(this["prmQuestionNew"]));
             }
             set {
-                this["PrnQuestionNew"] = value;
+                this["prmQuestionNew"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool prmCreateZunFromMe {
+            get {
+                return ((bool)(this["prmCreateZunFromMe"]));
+            }
+            set {
+                this["prmCreateZunFromMe"] = value;
             }
         }
     }
