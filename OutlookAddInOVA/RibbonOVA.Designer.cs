@@ -165,11 +165,11 @@
 			// btnCreateZUnInABF
 			// 
 			this.btnCreateZUnInABF.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			this.btnCreateZUnInABF.Image = global::OutlookAddInOVA.Properties.Resources._306;
+			this.btnCreateZUnInABF.Image = global::OutlookAddInOVA.Properties.Resources.screenshot;
 			this.btnCreateZUnInABF.Label = "Зарегестрировать ошибку в АБФ";
 			this.btnCreateZUnInABF.Name = "btnCreateZUnInABF";
 			this.btnCreateZUnInABF.ShowImage = true;
-			this.btnCreateZUnInABF.SuperTip = "Создать Заявку универсальную в  УК ОВА с добавлением скриншота из буфер";
+			this.btnCreateZUnInABF.SuperTip = "Создать Заявку универсальную в  УК ОВА с добавлением скриншота из буфера обмена";
 			this.btnCreateZUnInABF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateZUnInABF_Click);
 			// 
 			// buttonCreateZunWithMsg

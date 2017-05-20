@@ -71,7 +71,6 @@ namespace OutlookAddInOVA
 		{
 			try
 			{
-				//creatAtMsg = false;
 				if (workWorker)
 				{
 					MessageBox.Show("Идёт процес создания ЗУн.\nПопробуйте через минуту...", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -98,6 +97,7 @@ namespace OutlookAddInOVA
 					instructionInZUn instructionForm = new instructionInZUn();
 					pathToFile = screenshotName;
 					preTextZun = "Ошибка зарегестрирована из MS Outlook.\nПодробности в приложенном скриншоте.\n\n";
+					instructionForm.textZun = "При необходимости укажите подробности ошибки."+ Environment.NewLine +"Либо просто нажмите ОК(Ctr+Enter)";
 					instructionForm.ShowDialog();
 					textZun = instructionForm.textZun;
 					if (instructionForm.clickBnOk)
@@ -207,6 +207,7 @@ namespace OutlookAddInOVA
 			instructionInZUn instructionForm = new instructionInZUn();
 			pathToFile = pathToFileMsg;
 			preTextZun = "Заявка создана автоматически из MS Outlook.\nПодробности в приложенном письме.\n\n";
+			instructionForm.textZun = "При необходимости укажите подробности для заявки." + Environment.NewLine + "Либо просто нажмите ОК(Ctr+Enter)";
 			instructionForm.ShowDialog();
 			textZun = instructionForm.textZun;
 			if (instructionForm.clickBnOk)
@@ -259,7 +260,8 @@ namespace OutlookAddInOVA
 			try
 			{
 
-				if (textZun.Contains("При необходимости укажите подробности ошибки."))
+				//По простому проверяю изменили текст или сразу нажали ОК
+				if (textZun.Contains("При необходимости укажите"))
 				{
 					textZun = "";
 				}

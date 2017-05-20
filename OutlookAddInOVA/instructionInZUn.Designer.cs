@@ -31,7 +31,6 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(instructionInZUn));
 			this.tbInstruction = new System.Windows.Forms.TextBox();
-			this.lblTextinstruction = new System.Windows.Forms.Label();
 			this.btnOK = new System.Windows.Forms.Button();
 			this.btnCancel = new System.Windows.Forms.Button();
 			this.toolTipInstruction = new System.Windows.Forms.ToolTip(this.components);
@@ -39,32 +38,23 @@
 			// 
 			// tbInstruction
 			// 
-			this.tbInstruction.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.tbInstruction.Location = new System.Drawing.Point(12, 41);
+			this.tbInstruction.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.tbInstruction.Location = new System.Drawing.Point(0, 0);
 			this.tbInstruction.Multiline = true;
 			this.tbInstruction.Name = "tbInstruction";
-			this.tbInstruction.Size = new System.Drawing.Size(623, 183);
+			this.tbInstruction.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.tbInstruction.Size = new System.Drawing.Size(683, 198);
 			this.tbInstruction.TabIndex = 0;
-			this.toolTipInstruction.SetToolTip(this.tbInstruction, "При необходимости укажите подробности ошибки.\r\nЛибо просто нажмите ОК");
-			// 
-			// lblTextinstruction
-			// 
-			this.lblTextinstruction.AutoSize = true;
-			this.lblTextinstruction.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.lblTextinstruction.ForeColor = System.Drawing.Color.Blue;
-			this.lblTextinstruction.Location = new System.Drawing.Point(10, 12);
-			this.lblTextinstruction.Name = "lblTextinstruction";
-			this.lblTextinstruction.Size = new System.Drawing.Size(612, 16);
-			this.lblTextinstruction.TabIndex = 1;
-			this.lblTextinstruction.Text = "При необходимости введите текст поручения для Заявки универсальной, либо нажмите " +
-    "ОК.";
+			this.toolTipInstruction.SetToolTip(this.tbInstruction, "В этом поле можно указать дополнительную информацию о возникшей ситуации,\r\nэтот т" +
+        "екст будет добавлен в текст поручения Заявки универсальной.");
+			this.tbInstruction.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbInstruction_KeyDown);
 			// 
 			// btnOK
 			// 
-			this.btnOK.Location = new System.Drawing.Point(454, 230);
+			this.btnOK.Location = new System.Drawing.Point(504, 174);
 			this.btnOK.Name = "btnOK";
 			this.btnOK.Size = new System.Drawing.Size(75, 23);
-			this.btnOK.TabIndex = 2;
+			this.btnOK.TabIndex = 1;
 			this.btnOK.Text = "ОК";
 			this.toolTipInstruction.SetToolTip(this.btnOK, "Создать заявку в УК ОВА");
 			this.btnOK.UseVisualStyleBackColor = true;
@@ -72,10 +62,11 @@
 			// 
 			// btnCancel
 			// 
-			this.btnCancel.Location = new System.Drawing.Point(560, 230);
+			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnCancel.Location = new System.Drawing.Point(585, 174);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
-			this.btnCancel.TabIndex = 3;
+			this.btnCancel.TabIndex = 2;
 			this.btnCancel.Text = "Отмена";
 			this.btnCancel.UseVisualStyleBackColor = true;
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -84,14 +75,18 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(647, 261);
+			this.CancelButton = this.btnCancel;
+			this.ClientSize = new System.Drawing.Size(683, 199);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnOK);
-			this.Controls.Add(this.lblTextinstruction);
 			this.Controls.Add(this.tbInstruction);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "instructionInZUn";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Текст поручения для ЗУн";
+			this.Shown += new System.EventHandler(this.instructionInZUn_Shown);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -100,7 +95,6 @@
 		#endregion
 
 		private System.Windows.Forms.TextBox tbInstruction;
-		private System.Windows.Forms.Label lblTextinstruction;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Button btnCancel;
 		private System.Windows.Forms.ToolTip toolTipInstruction;

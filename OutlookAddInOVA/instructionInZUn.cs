@@ -32,22 +32,16 @@ namespace OutlookAddInOVA
 		public instructionInZUn()
 		{
 			InitializeComponent();
-			//tbInstruction.ForeColor = Color.Silver;
+		
 			
 			
 		}
-		//private void tbInstruction_KeyDown(object sender, KeyEventArgs e)
-		//{
-		//	tbInstruction.ForeColor = Color.Black;
-			
-		//	tbInstruction.Text = "";
-		//}
+
+		private bool doEntertext = false;
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
-			clickBnOk = true;
-			textZun = tbInstruction.Text;
-			this.Hide();
+			CloseFormOnOK();
 		}
 
 		private void btnCancel_Click(object sender, EventArgs e)
@@ -57,5 +51,35 @@ namespace OutlookAddInOVA
 			this.Hide();
 		}
 
+	
+
+		private void CloseFormOnOK()
+		{
+			clickBnOk = true;
+			textZun = tbInstruction.Text;
+			this.Hide();
+		}
+
+		private void tbInstruction_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (!doEntertext)
+			{
+				tbInstruction.ForeColor = Color.Black;
+				tbInstruction.Font = new Font(tbInstruction.Font.FontFamily,(float)10);
+				tbInstruction.Text = "";
+				doEntertext = true;
+			}
+			if (e.KeyCode == Keys.Return && e.Modifiers == Keys.Control)
+			{
+				CloseFormOnOK();
+			}
+		}
+
+		private void instructionInZUn_Shown(object sender, EventArgs e)
+		{
+			tbInstruction.Text = textZun;
+			tbInstruction.ForeColor = Color.Silver;
+			tbInstruction.SelectionStart = 0;
+		}
 	}
 }
