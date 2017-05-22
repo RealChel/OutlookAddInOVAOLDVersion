@@ -35,7 +35,7 @@
     <PublishUrl>publish/</PublishUrl>
     <InstallUrl />
     <TargetCulture>ru</TargetCulture>
-    <ApplicationVersion>1.5.1.8</ApplicationVersion>
+    <ApplicationVersion>1.5.1.9</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
