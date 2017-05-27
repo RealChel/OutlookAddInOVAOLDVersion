@@ -35,93 +35,66 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonOVA));
 			this.tabOVA = this.Factory.CreateRibbonTab();
 			this.groupCreateZun = this.Factory.CreateRibbonGroup();
-			this.btnCreateZUnInABF = this.Factory.CreateRibbonButton();
-			this.buttonCreateZunWithMsg = this.Factory.CreateRibbonButton();
-			this.groupParametrsABF = this.Factory.CreateRibbonGroup();
-			this.button1 = this.Factory.CreateRibbonButton();
-			this.checPriStarteOutlook = this.Factory.CreateRibbonCheckBox();
-			this.checkPriCreateZUn = this.Factory.CreateRibbonCheckBox();
+			this.groupSmart = this.Factory.CreateRibbonGroup();
+			this.groupSettingOVA = this.Factory.CreateRibbonGroup();
+			this.cbCreateZunFromMe = this.Factory.CreateRibbonCheckBox();
 			this.groupParametrsMail = this.Factory.CreateRibbonGroup();
 			this.cbQuestionNew = this.Factory.CreateRibbonCheckBox();
 			this.cbQuestionAnswer = this.Factory.CreateRibbonCheckBox();
 			this.cbQuestionForward = this.Factory.CreateRibbonCheckBox();
-			this.groupSettingOVA = this.Factory.CreateRibbonGroup();
-			this.cbCreateZunFromMe = this.Factory.CreateRibbonCheckBox();
 			this.backgroundWorkerOVA = new System.ComponentModel.BackgroundWorker();
 			this.notifyIconOVA = new System.Windows.Forms.NotifyIcon(this.components);
+			this.backgroundWorkerOVASMART = new System.ComponentModel.BackgroundWorker();
+			this.btnCreateZUnInABF = this.Factory.CreateRibbonButton();
+			this.buttonCreateZunWithMsg = this.Factory.CreateRibbonButton();
+			this.buttonCreateSmartToMe = this.Factory.CreateRibbonButton();
+			this.buttonCreateSmartToExcevutor = this.Factory.CreateRibbonButton();
 			this.tabOVA.SuspendLayout();
 			this.groupCreateZun.SuspendLayout();
-			this.groupParametrsABF.SuspendLayout();
-			this.groupParametrsMail.SuspendLayout();
+			this.groupSmart.SuspendLayout();
 			this.groupSettingOVA.SuspendLayout();
+			this.groupParametrsMail.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabOVA
 			// 
 			this.tabOVA.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
 			this.tabOVA.Groups.Add(this.groupCreateZun);
-			this.tabOVA.Groups.Add(this.groupParametrsABF);
-			this.tabOVA.Groups.Add(this.groupParametrsMail);
+			this.tabOVA.Groups.Add(this.groupSmart);
 			this.tabOVA.Groups.Add(this.groupSettingOVA);
-			this.tabOVA.Label = "УК ОВА";
+			this.tabOVA.Groups.Add(this.groupParametrsMail);
+			this.tabOVA.Label = "АБФ";
 			this.tabOVA.Name = "tabOVA";
 			// 
 			// groupCreateZun
 			// 
 			this.groupCreateZun.Items.Add(this.btnCreateZUnInABF);
 			this.groupCreateZun.Items.Add(this.buttonCreateZunWithMsg);
-			this.groupCreateZun.Label = "ЗУн в ОВА";
+			this.groupCreateZun.Label = "Создать ЗУн в УК ОВА";
 			this.groupCreateZun.Name = "groupCreateZun";
 			// 
-			// btnCreateZUnInABF
+			// groupSmart
 			// 
-			this.btnCreateZUnInABF.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			this.btnCreateZUnInABF.Image = global::OutlookAddInOVA.Properties.Resources.screenshot;
-			this.btnCreateZUnInABF.Label = "Зарегестрировать ошибку в АБФ";
-			this.btnCreateZUnInABF.Name = "btnCreateZUnInABF";
-			this.btnCreateZUnInABF.ShowImage = true;
-			this.btnCreateZUnInABF.SuperTip = "Создать Заявку универсальную в  УК ОВА с добавлением скриншота из буфера обмена";
-			this.btnCreateZUnInABF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateZUnInABF_Click);
+			this.groupSmart.Items.Add(this.buttonCreateSmartToMe);
+			this.groupSmart.Items.Add(this.buttonCreateSmartToExcevutor);
+			this.groupSmart.Label = "Создание SMART";
+			this.groupSmart.Name = "groupSmart";
 			// 
-			// buttonCreateZunWithMsg
+			// groupSettingOVA
 			// 
-			this.buttonCreateZunWithMsg.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			this.buttonCreateZunWithMsg.Image = global::OutlookAddInOVA.Properties.Resources.forward;
-			this.buttonCreateZunWithMsg.Label = "Создать ЗУн из письма";
-			this.buttonCreateZunWithMsg.Name = "buttonCreateZunWithMsg";
-			this.buttonCreateZunWithMsg.ShowImage = true;
-			this.buttonCreateZunWithMsg.SuperTip = "Создать ЗУн в АБФ приложив текущее письмо";
-			this.buttonCreateZunWithMsg.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonCreateZunWithMsg_Click);
+			this.groupSettingOVA.Items.Add(this.cbCreateZunFromMe);
+			this.groupSettingOVA.Label = "Настройки ОВА";
+			this.groupSettingOVA.Name = "groupSettingOVA";
+			this.groupSettingOVA.Visible = false;
 			// 
-			// groupParametrsABF
+			// cbCreateZunFromMe
 			// 
-			this.groupParametrsABF.Items.Add(this.button1);
-			this.groupParametrsABF.Items.Add(this.checPriStarteOutlook);
-			this.groupParametrsABF.Items.Add(this.checkPriCreateZUn);
-			this.groupParametrsABF.Label = "Вариант подключения к АБФ";
-			this.groupParametrsABF.Name = "groupParametrsABF";
-			this.groupParametrsABF.Visible = false;
-			// 
-			// button1
-			// 
-			this.button1.Label = "button1";
-			this.button1.Name = "button1";
-			this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
-			// 
-			// checPriStarteOutlook
-			// 
-			this.checPriStarteOutlook.Label = "При запуске Outlook";
-			this.checPriStarteOutlook.Name = "checPriStarteOutlook";
-			this.checPriStarteOutlook.SuperTip = resources.GetString("checPriStarteOutlook.SuperTip");
-			// 
-			// checkPriCreateZUn
-			// 
-			this.checkPriCreateZUn.Label = "При создании ЗУн";
-			this.checkPriCreateZUn.Name = "checkPriCreateZUn";
-			this.checkPriCreateZUn.SuperTip = resources.GetString("checkPriCreateZUn.SuperTip");
+			this.cbCreateZunFromMe.Label = "Создать ЗУн от меня";
+			this.cbCreateZunFromMe.Name = "cbCreateZunFromMe";
+			this.cbCreateZunFromMe.SuperTip = "При включенном флаге ЗУн в АБФ  будут создаваться от моего имени";
+			this.cbCreateZunFromMe.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.cbCreateZunFromMe_Click);
 			// 
 			// groupParametrsMail
 			// 
@@ -153,20 +126,6 @@
 			this.cbQuestionForward.ScreenTip = "При пересылке письма с указанием сотрудника УК ОВА";
 			this.cbQuestionForward.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.cbQuestionForward_Click);
 			// 
-			// groupSettingOVA
-			// 
-			this.groupSettingOVA.Items.Add(this.cbCreateZunFromMe);
-			this.groupSettingOVA.Label = "Настройки ОВА";
-			this.groupSettingOVA.Name = "groupSettingOVA";
-			this.groupSettingOVA.Visible = false;
-			// 
-			// cbCreateZunFromMe
-			// 
-			this.cbCreateZunFromMe.Label = "Создать ЗУн от меня";
-			this.cbCreateZunFromMe.Name = "cbCreateZunFromMe";
-			this.cbCreateZunFromMe.SuperTip = "При включенном флаге ЗУн в АБФ  будут создаваться от моего имени";
-			this.cbCreateZunFromMe.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.cbCreateZunFromMe_Click);
-			// 
 			// backgroundWorkerOVA
 			// 
 			this.backgroundWorkerOVA.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerOVA_DoWork_1);
@@ -175,6 +134,52 @@
 			// notifyIconOVA
 			// 
 			this.notifyIconOVA.Visible = true;
+			// 
+			// backgroundWorkerOVASMART
+			// 
+			this.backgroundWorkerOVASMART.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerOVASMART_DoWork);
+			this.backgroundWorkerOVASMART.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerOVASMART_RunWorkerCompleted);
+			// 
+			// btnCreateZUnInABF
+			// 
+			this.btnCreateZUnInABF.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			this.btnCreateZUnInABF.Image = global::OutlookAddInOVA.Properties.Resources.screenshot;
+			this.btnCreateZUnInABF.Label = "Зарегестрировать ошибку в АБФ";
+			this.btnCreateZUnInABF.Name = "btnCreateZUnInABF";
+			this.btnCreateZUnInABF.ShowImage = true;
+			this.btnCreateZUnInABF.SuperTip = "Создать Заявку универсальную в  УК ОВА с добавлением скриншота из буфера обмена";
+			this.btnCreateZUnInABF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateZUnInABF_Click);
+			// 
+			// buttonCreateZunWithMsg
+			// 
+			this.buttonCreateZunWithMsg.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			this.buttonCreateZunWithMsg.Image = global::OutlookAddInOVA.Properties.Resources.forward;
+			this.buttonCreateZunWithMsg.Label = "Создать ЗУн из письма";
+			this.buttonCreateZunWithMsg.Name = "buttonCreateZunWithMsg";
+			this.buttonCreateZunWithMsg.ShowImage = true;
+			this.buttonCreateZunWithMsg.SuperTip = "Создать ЗУн в АБФ приложив текущее письмо";
+			this.buttonCreateZunWithMsg.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonCreateZunWithMsg_Click);
+			// 
+			// buttonCreateSmartToMe
+			// 
+			this.buttonCreateSmartToMe.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			this.buttonCreateSmartToMe.Image = global::OutlookAddInOVA.Properties.Resources.Smart;
+			this.buttonCreateSmartToMe.Label = "Создать SMART себе";
+			this.buttonCreateSmartToMe.Name = "buttonCreateSmartToMe";
+			this.buttonCreateSmartToMe.ShowImage = true;
+			this.buttonCreateSmartToMe.SuperTip = "Быстро создать СМАРТ задачу с приложением текущего письма.";
+			this.buttonCreateSmartToMe.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonCreateSmartToMe_Click);
+			// 
+			// buttonCreateSmartToExcevutor
+			// 
+			this.buttonCreateSmartToExcevutor.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			this.buttonCreateSmartToExcevutor.Image = global::OutlookAddInOVA.Properties.Resources.cel;
+			this.buttonCreateSmartToExcevutor.Label = "Создать SMART сотруднику";
+			this.buttonCreateSmartToExcevutor.Name = "buttonCreateSmartToExcevutor";
+			this.buttonCreateSmartToExcevutor.ShowImage = true;
+			this.buttonCreateSmartToExcevutor.SuperTip = "Позволяет создавать СМАРТ  задачу себе либо своим подчиненным, с вводом дополните" +
+    "льных параметров.";
+			this.buttonCreateSmartToExcevutor.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonCreateSmartToExcevutor_Click);
 			// 
 			// RibbonOVA
 			// 
@@ -187,34 +192,33 @@
 			this.tabOVA.PerformLayout();
 			this.groupCreateZun.ResumeLayout(false);
 			this.groupCreateZun.PerformLayout();
-			this.groupParametrsABF.ResumeLayout(false);
-			this.groupParametrsABF.PerformLayout();
-			this.groupParametrsMail.ResumeLayout(false);
-			this.groupParametrsMail.PerformLayout();
+			this.groupSmart.ResumeLayout(false);
+			this.groupSmart.PerformLayout();
 			this.groupSettingOVA.ResumeLayout(false);
 			this.groupSettingOVA.PerformLayout();
+			this.groupParametrsMail.ResumeLayout(false);
+			this.groupParametrsMail.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
-
-		internal Microsoft.Office.Tools.Ribbon.RibbonTab tabOVA;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupCreateZun;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCreateZUnInABF;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupParametrsMail;
 		internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox cbQuestionNew;
 		internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox cbQuestionAnswer;
 		internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox cbQuestionForward;
-		internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupParametrsABF;
-		internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checPriStarteOutlook;
-		internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkPriCreateZUn;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonCreateZunWithMsg;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerOVA;
 		private System.Windows.Forms.NotifyIcon notifyIconOVA;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupSettingOVA;
 		internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox cbCreateZunFromMe;
+		internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupSmart;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonCreateSmartToMe;
+		public Microsoft.Office.Tools.Ribbon.RibbonTab tabOVA;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonCreateSmartToExcevutor;
+		private System.ComponentModel.BackgroundWorker backgroundWorkerOVASMART;
 	}
 
 	partial class ThisRibbonCollection

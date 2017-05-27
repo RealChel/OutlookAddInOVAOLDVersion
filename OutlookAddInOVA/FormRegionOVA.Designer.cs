@@ -45,14 +45,16 @@
 			this.toolTipRegionOVA = new System.Windows.Forms.ToolTip(this.components);
 			this.tabOVA = new System.Windows.Forms.TabControl();
 			this.tabPageMain = new System.Windows.Forms.TabPage();
+			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.cbApproval = new System.Windows.Forms.CheckBox();
 			this.tabPageApproval = new System.Windows.Forms.TabPage();
 			this.dataGVWapproval = new System.Windows.Forms.DataGridView();
 			this.EMail = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Сотрудник = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Степень = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.cbApproval = new System.Windows.Forms.CheckBox();
 			this.tabOVA.SuspendLayout();
 			this.tabPageMain.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.tabPageApproval.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGVWapproval)).BeginInit();
 			this.SuspendLayout();
@@ -69,7 +71,7 @@
 			this.tbTextZUn.Location = new System.Drawing.Point(204, 34);
 			this.tbTextZUn.Multiline = true;
 			this.tbTextZUn.Name = "tbTextZUn";
-			this.tbTextZUn.Size = new System.Drawing.Size(528, 162);
+			this.tbTextZUn.Size = new System.Drawing.Size(24, 162);
 			this.tbTextZUn.TabIndex = 2;
 			this.toolTipRegionOVA.SetToolTip(this.tbTextZUn, "Если ввести в этом поле текст, то только он будет указан в Поручении Заявки униве" +
         "рсальной.\r\nПри этом всё письмо будет прикрепленно к ЗУн");
@@ -106,10 +108,10 @@
 			this.tabOVA.SelectedIndex = 0;
 			this.tabOVA.Size = new System.Drawing.Size(814, 222);
 			this.tabOVA.TabIndex = 5;
-			this.tabOVA.Visible = false;
 			// 
 			// tabPageMain
 			// 
+			this.tabPageMain.Controls.Add(this.dataGridView1);
 			this.tabPageMain.Controls.Add(this.cbApproval);
 			this.tabPageMain.Controls.Add(this.tbTextZUn);
 			this.tabPageMain.Controls.Add(this.cbImportant);
@@ -122,6 +124,25 @@
 			this.tabPageMain.TabIndex = 0;
 			this.tabPageMain.Text = "Поручение";
 			this.tabPageMain.UseVisualStyleBackColor = true;
+			// 
+			// dataGridView1
+			// 
+			this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+			this.dataGridView1.Location = new System.Drawing.Point(248, 36);
+			this.dataGridView1.Name = "dataGridView1";
+			this.dataGridView1.Size = new System.Drawing.Size(539, 143);
+			this.dataGridView1.TabIndex = 6;
+			// 
+			// cbApproval
+			// 
+			this.cbApproval.AutoSize = true;
+			this.cbApproval.Location = new System.Drawing.Point(273, 7);
+			this.cbApproval.Name = "cbApproval";
+			this.cbApproval.Size = new System.Drawing.Size(98, 17);
+			this.cbApproval.TabIndex = 5;
+			this.cbApproval.Text = "Согласование";
+			this.cbApproval.UseVisualStyleBackColor = true;
+			this.cbApproval.CheckedChanged += new System.EventHandler(this.cbApproval_CheckedChanged);
 			// 
 			// tabPageApproval
 			// 
@@ -161,17 +182,6 @@
 			this.Степень.HeaderText = "Степень";
 			this.Степень.Name = "Степень";
 			// 
-			// cbApproval
-			// 
-			this.cbApproval.AutoSize = true;
-			this.cbApproval.Location = new System.Drawing.Point(273, 7);
-			this.cbApproval.Name = "cbApproval";
-			this.cbApproval.Size = new System.Drawing.Size(98, 17);
-			this.cbApproval.TabIndex = 5;
-			this.cbApproval.Text = "Согласование";
-			this.cbApproval.UseVisualStyleBackColor = true;
-			this.cbApproval.CheckedChanged += new System.EventHandler(this.cbApproval_CheckedChanged);
-			// 
 			// FormRegionOVA
 			// 
 			this.AccessibleName = "";
@@ -187,6 +197,7 @@
 			this.tabOVA.ResumeLayout(false);
 			this.tabPageMain.ResumeLayout(false);
 			this.tabPageMain.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
 			this.tabPageApproval.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dataGVWapproval)).EndInit();
 			this.ResumeLayout(false);
@@ -225,6 +236,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn EMail;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Сотрудник;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Степень;
+		private System.Windows.Forms.DataGridView dataGridView1;
 
 		public partial class FormRegionOVAFactory : Microsoft.Office.Tools.Outlook.IFormRegionFactory
 		{

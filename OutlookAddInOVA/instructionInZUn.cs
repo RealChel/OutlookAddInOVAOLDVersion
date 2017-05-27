@@ -50,9 +50,6 @@ namespace OutlookAddInOVA
 			textZun = "";
 			this.Hide();
 		}
-
-	
-
 		private void CloseFormOnOK()
 		{
 			clickBnOk = true;

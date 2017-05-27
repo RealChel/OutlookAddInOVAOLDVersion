@@ -24,20 +24,32 @@ namespace OutlookAddInOVA
 		private string textZun;
 		private string errorCreateZun="";
 		private bool workWorker=false;
+		private bool workWorkerSMART = false;
 		private string createZunResult;
 		private bool currentUserIsOVA = false;
-		private string EMailFromCurrentMail = SystemInformation.UserName+"@1ab.ru";
-		private Outlook.MailItem curMailItem;
+		private string EMailFromCurrentMail;
+		private Outlook.MailItem curItem;
+		private string executorSMART;
+		private string textFormulirovka;
+		private string textKriterii;
+		private string textComment;
+		private int vesSmart;
+		private string DoDate;
+		
+
+
 		private void RibbonOVA_Load(object sender, RibbonUIEventArgs e)
 		{
 			cbQuestionAnswer.Checked = Properties.Settings.Default.prmQuestionAnswer;
 			cbQuestionForward.Checked = Properties.Settings.Default.prmQuestionForward;
 			cbQuestionNew.Checked = Properties.Settings.Default.prmQuestionNew;
 			cbCreateZunFromMe.Checked = Properties.Settings.Default.prmCreateZunFromMe;
-
-			string currentuser = SystemInformation.UserName;
 			
-			if (OutlookAddInOVA.ThisAddIn.usersOVA.Contains(currentuser))
+
+			EMailFromCurrentMail = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
+			
+
+			if (OutlookAddInOVA.Globals.ThisAddIn.usersOVA.Contains(OutlookAddInOVA.Globals.ThisAddIn.currentuser))
 			{
 				groupSettingOVA.Visible = true;
 				currentUserIsOVA = true;
@@ -67,6 +79,8 @@ namespace OutlookAddInOVA
 			Properties.Settings.Default.prmCreateZunFromMe = cbCreateZunFromMe.Checked;
 			Properties.Settings.Default.Save();
 		}
+
+		
 		private void btnCreateZUnInABF_Click(object sender, RibbonControlEventArgs e)
 		{
 			try
@@ -77,44 +91,98 @@ namespace OutlookAddInOVA
 					return;
 
 				}
-				notifyIconOVA.Visible = false;
-				string screenshotName = SaveClipBoardToPicture();
-				if (screenshotName == "")
-				{
-					if (lastError == "Буфер не содержит картинку")
-					{
-						MessageBox.Show("Буфер обмена не содержит картинку.\nСкопируйте в буфер картинку или сделайте скриншот.\nПовторите операцию.", "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Information);
-						return;
-					}
-					else
-					{
-						MessageBox.Show("При сохранении скриншота возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + lastError, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);
-						return;
-					}
-				}
-				else
-				{
-					instructionInZUn instructionForm = new instructionInZUn();
-					pathToFile = screenshotName;
-					preTextZun = "Ошибка зарегестрирована из MS Outlook.\nПодробности в приложенном скриншоте.\n\n";
-					instructionForm.textZun = "При необходимости укажите подробности ошибки."+ Environment.NewLine +"Либо просто нажмите ОК(Ctr+Enter)";
-					instructionForm.ShowDialog();
-					textZun = instructionForm.textZun;
-					if (instructionForm.clickBnOk)
-					{
-						workWorker = true;
-						this.backgroundWorkerOVA.RunWorkerAsync();
-					}
-					instructionForm = null;
-				}
+				CreatZunFromScreenshot();
 			}
-			catch (Exception eRror)
+			catch (Exception err)
 			{
-				MessageBox.Show(eRror.ToString());
+				String sError = err.ToString();
+				OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(sError);
+				MessageBox.Show(sError);
+				
 			}
 		}
 
+		private void CreatZunFromScreenshot()
+		{
+			notifyIconOVA.Visible = false;
+			string screenshotName = SaveClipBoardToPicture();
+			if (screenshotName == "")
+			{
+				if (lastError == "Буфер не содержит картинку")
+				{
+					MessageBox.Show("Буфер обмена не содержит картинку.\nСкопируйте в буфер картинку или сделайте скриншот.\nПовторите операцию.", "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					return;
+				}
+				else
+				{
+					MessageBox.Show("При сохранении скриншота возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + lastError, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+			}
+			else
+			{
+				instructionInZUn instructionForm = new instructionInZUn();
+				pathToFile = screenshotName;
+				preTextZun = "Ошибка зарегестрирована из MS Outlook.\nПодробности в приложенном скриншоте.";
+				instructionForm.textZun = "При необходимости укажите подробности ошибки." + Environment.NewLine + "Либо просто нажмите ОК(Ctr+Enter)";
+				instructionForm.ShowDialog();
+				textZun = instructionForm.textZun;
+				if (instructionForm.clickBnOk)
+				{
+					workWorker = true;
+					this.backgroundWorkerOVA.RunWorkerAsync();
+				}
+				instructionForm = null;
+			}
+		}
+		private void CreateZunFromMail()
+		{
+			if (currentUserIsOVA && !Properties.Settings.Default.prmCreateZunFromMe)
+			{
+				EMailFromCurrentMail = GetSmtpAddress(curItem);
+			}
 
+			string pathToFileMsg = SaveEmailToMsg(curItem);
+			if (pathToFileMsg == "")
+			{
+				MessageBox.Show("При сохранении письма в файл возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + lastError, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
+			instructionInZUn instructionForm = new instructionInZUn();
+			pathToFile = pathToFileMsg;
+			preTextZun = "Заявка создана автоматически из MS Outlook.\nПодробности в приложенном письме.";
+			instructionForm.textZun = "При необходимости укажите подробности для заявки." + Environment.NewLine + "Либо просто нажмите ОК(Ctr+Enter)";
+			instructionForm.ShowDialog();
+			textZun = instructionForm.textZun;
+			if (instructionForm.clickBnOk)
+			{
+				workWorker = true;
+				this.backgroundWorkerOVA.RunWorkerAsync();
+			}
+			instructionForm = null;
+		}
+
+		private bool SetCurrenEmail(object selectedItem)
+		{
+			if (((Microsoft.Office.Tools.Ribbon.OfficeRibbon)((Microsoft.Office.Tools.Ribbon.RibbonComponent)selectedItem).Parent.Parent.Parent).Context is Outlook.Inspector)
+			{
+				Outlook.Inspector item = ((Microsoft.Office.Tools.Ribbon.OfficeRibbon)((Microsoft.Office.Tools.Ribbon.RibbonComponent)selectedItem).Parent.Parent.Parent).Context as Outlook.Inspector;
+				curItem = item.CurrentItem;
+				return true;
+			}
+			else if (((Microsoft.Office.Tools.Ribbon.OfficeRibbon)((Microsoft.Office.Tools.Ribbon.RibbonComponent)selectedItem).Parent.Parent.Parent).Context is Outlook.Explorer)
+			{
+				Outlook.Explorer item = ((Microsoft.Office.Tools.Ribbon.OfficeRibbon)((Microsoft.Office.Tools.Ribbon.RibbonComponent)selectedItem).Parent.Parent.Parent).Context as Outlook.Explorer;
+				curItem = item.Selection[1];
+				return true;
+			}
+			else
+			{
+				MessageBox.Show("Не удается идентифицировать текущий объект как письмо.\nСоздать ЗУн можено только на основании письма.", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return false;
+			}
+		}
 
 		public string SaveClipBoardToPicture()
 		{
@@ -133,6 +201,7 @@ namespace OutlookAddInOVA
 			catch (Exception e)
 			{
 				lastError = e.ToString();
+				OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(lastError);
 				return "";
 			}
 		}
@@ -157,6 +226,7 @@ namespace OutlookAddInOVA
 			catch (Exception e)
 			{
 				lastError = e.ToString();
+				OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(lastError);
 				return "";
 			}
 		}
@@ -170,52 +240,30 @@ namespace OutlookAddInOVA
 
 		private void buttonCreateZunWithMsg_Click(object sender, RibbonControlEventArgs e)
 		{
-		
-			if (workWorker)
-			{
-				MessageBox.Show("Идёт процес создания ЗУн.\nПопробуйте через минуту...", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
-			notifyIconOVA.Visible = false;
-			if (((Microsoft.Office.Tools.Ribbon.OfficeRibbon)((Microsoft.Office.Tools.Ribbon.RibbonComponent)sender).Parent.Parent.Parent).Context is Outlook.Inspector)
-			{
 
-				Outlook.Inspector item = ((Microsoft.Office.Tools.Ribbon.OfficeRibbon)((Microsoft.Office.Tools.Ribbon.RibbonComponent)sender).Parent.Parent.Parent).Context as Outlook.Inspector;
-				curMailItem = item.CurrentItem as Outlook.MailItem;
-			}
-			else
-			{
-				Outlook.Explorer item = ((Microsoft.Office.Tools.Ribbon.OfficeRibbon)((Microsoft.Office.Tools.Ribbon.RibbonComponent)sender).Parent.Parent.Parent).Context as Outlook.Explorer;
-				curMailItem = item.Selection[1];
-
+			try
+			{ 
+				if (workWorker)
+				{
+					MessageBox.Show("Идёт процес создания ЗУн.\nПопробуйте через минуту...", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					return;
+				}
+				notifyIconOVA.Visible = false;
+				if (!SetCurrenEmail(sender))
+				{
+					return;
+				}
 
 			}
-
-
-			if (currentUserIsOVA && !Properties.Settings.Default.prmCreateZunFromMe)
+			catch (Exception err)
 			{
-				EMailFromCurrentMail = GetSmtpAddress(curMailItem);
-			}
-
-			string pathToFileMsg = SaveEmailToMsg(curMailItem);
-			if (pathToFileMsg == "")
-			{
-				MessageBox.Show("При сохранении письма в файл возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + lastError, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				string sError = err.ToString();
+				OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(sError);
+				MessageBox.Show("Не удается идентифицировать текущий объект как письмо.\nСоздать ЗУн можено только на основании письма.", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 
-			instructionInZUn instructionForm = new instructionInZUn();
-			pathToFile = pathToFileMsg;
-			preTextZun = "Заявка создана автоматически из MS Outlook.\nПодробности в приложенном письме.\n\n";
-			instructionForm.textZun = "При необходимости укажите подробности для заявки." + Environment.NewLine + "Либо просто нажмите ОК(Ctr+Enter)";
-			instructionForm.ShowDialog();
-			textZun = instructionForm.textZun;
-			if (instructionForm.clickBnOk)
-			{
-				workWorker = true;
-				this.backgroundWorkerOVA.RunWorkerAsync();
-			}
-			instructionForm = null;
+			CreateZunFromMail();
 
 		}
 
@@ -248,11 +296,6 @@ namespace OutlookAddInOVA
 			Clipboard.SetText(createZunResult);
 			notifyIconOVA.Visible = false; ;
 		}
-
-
-
-		
-
 		private void backgroundWorkerOVA_DoWork_1(object sender, System.ComponentModel.DoWorkEventArgs e)
 		{
 			dynamic result = null;
@@ -285,11 +328,15 @@ namespace OutlookAddInOVA
 #endif
 				result = com1s.Connect(connectString);
 
+				if (!String.IsNullOrEmpty(textZun))
+				{
+					textZun += "/n/n";
+				}
 #if DEBUG
-				createZunResult = result.ДляВнешнихСоединений.CreateZUN("glaal@1ab.ru", pathToFile, preTextZun + textZun, ref errorCreateZun);
+				createZunResult = result.ДляВнешнихСоединений.CreateZUN("glaal@1ab.ru", pathToFile, textZun + preTextZun, ref errorCreateZun);
 				//createZunResult = result.ДляВнешнихСоединений.CreateZUN("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun);
 #else
-				createZunResult = result.ДляВнешнихСоединений.CreateZUN(EMailFromCurrentMail, pathToFile, preTextZun + textZun, ref errorCreateZun);
+				createZunResult = result.ДляВнешнихСоединений.CreateZUN(EMailFromCurrentMail, pathToFile, textZun + preTextZun, ref errorCreateZun);
 #endif
 				if (createZunResult == "")
 				{
@@ -351,13 +398,8 @@ namespace OutlookAddInOVA
 				notifyIconOVA.Visible = true;
 				notifyIconOVA.ShowBalloonTip(60000);
 
-				Outlook.MailItem mailItem = (Outlook.MailItem)
-				OutlookAddInOVA.Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
-				mailItem.Subject = "При создании ЗУн возникла ошибка.";
-				mailItem.To = "glaal@1ab.ru";
-				mailItem.Body = errorCreateZun;
-				mailItem.Importance = Outlook.OlImportance.olImportanceHigh;
-				mailItem.Send();
+				OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(errorCreateZun);
+				
 			}
 			workWorker = false;
 		}
@@ -381,5 +423,216 @@ namespace OutlookAddInOVA
 			return sAddress;
 		}
 
+		private void buttonCreateSmartToMe_Click(object sender, RibbonControlEventArgs e)
+		{
+				try
+				{
+				
+				if (workWorkerSMART)
+					{
+						MessageBox.Show("Идёт процес создания СМАРТ.\nПопробуйте через минуту...", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						return;
+					}
+					notifyIconOVA.Visible = false;
+					if (!SetCurrenEmail(sender))
+					{
+						return;
+					}
+					CreatSMARTToMe();
+				}
+				catch (Exception err)
+				{
+					string sError = err.ToString();
+					OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(sError);
+					MessageBox.Show("Не удается идентифицировать текущий объект как письмо.\nСоздать ЗУн можено только на основании письма.", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					return;
+				}
+				finally
+				{
+				notifyIconOVA.Visible = false;
+				}
+			
+		}
+
+		private void CreatSMARTToMe(bool showForm=false)
+		{
+			string pathToFileMsg = SaveEmailToMsg(curItem);
+			if (pathToFileMsg == "")
+			{
+				MessageBox.Show("При сохранении письма в файл возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + lastError, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			workWorkerSMART = true;
+			bool clickOk = false;
+			FormSMART formSmart = new FormSMART();
+			if (showForm)
+			{
+				formSmart.ShowDialog();
+				clickOk = formSmart.clickBnOk;
+			}
+			else
+			{
+				notifyIconOVA.Icon = Properties.Resources.ico_1ab;
+				notifyIconOVA.BalloonTipIcon = ToolTipIcon.Info;
+				notifyIconOVA.BalloonTipText = "Создание СМАРТ";
+				notifyIconOVA.BalloonTipTitle = "Началось создание СМАРТ в АБФ";
+				notifyIconOVA.Text = "";
+				notifyIconOVA.Visible = true;
+				notifyIconOVA.ShowBalloonTip(5000);
+			}
+			if (clickOk)
+			{
+				executorSMART = formSmart.executor;
+				textFormulirovka = formSmart.textFormulirovka;
+				textKriterii = formSmart.textKriterii;
+				textComment = "";
+				vesSmart = formSmart.VesSmart;
+				DoDate = formSmart.DoDate.ToString("yyyyMMdd");
+
+			}
+			else
+			{
+				notifyIconOVA.Visible = false;
+				executorSMART = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
+				textFormulirovka = "Задача созданна автоматически из MS Outlook.\nПодробности в приложенном письме.";
+				textKriterii = "Задача выполнена, сдана руководителю на проверку.";
+				textComment = "";
+				vesSmart = 1;
+				DoDate = DateTime.Now.ToString("yyyyMMdd");
+			}
+			formSmart = null;
+			pathToFile = pathToFileMsg;
+			workWorkerSMART = true;
+			this.backgroundWorkerOVASMART.RunWorkerAsync();
+		}
+			
+
+		private void backgroundWorkerOVASMART_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+		{
+			dynamic result = null;
+			V83.COMConnector com1s = new V83.COMConnector();
+			try
+			{
+
+				string user = @"""Create_ZUn""";
+				string pas = @"""bF6k6mjbCEfEJayL""";
+#if DEBUG
+				string file = @"""G:\\ABF""";
+#else
+				string Srvr = @"""1ab-1cv80""";
+				string Ref = @"""pav-oper82""";
+#endif
+				com1s.PoolCapacity = 1;
+				com1s.PoolTimeout = 1;
+				com1s.MaxConnections = 1;
+#if DEBUG
+				string connectString = "File=" + file + ";Usr=" + user + ";Pwd=" + pas + ";";
+#else
+				string connectString = "Srvr=" + Srvr + ";Ref=" + Ref + ";Usr=" + user + ";Pwd=" + pas + ";";
+#endif
+				result = com1s.Connect(connectString);
+				
+				
+#if DEBUG
+				createZunResult = result.ДляВнешнихСоединений.Create_SMART("glaal@1ab.ru" , executorSMART, textFormulirovka,textKriterii, pathToFile,vesSmart,DoDate,textComment, ref errorCreateZun);
+				//createZunResult = result.ДляВнешнихСоединений.Create_SMART("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun);
+#else
+				createZunResult = result.ДляВнешнихСоединений.Create_SMART(OutlookAddInOVA.Globals.ThisAddIn.currentusermail, executorSMART,textFormulirovka,textKriterii, pathToFile,vesSmart,DoDate,textComment, ref errorCreateZun);
+#endif
+				if (createZunResult == "")
+				{
+					e.Result = false;
+					return;
+				}
+				else
+				{
+					e.Result = true;
+					return;
+				}
+			}
+			catch (Exception err)
+			{
+				string sError = err.ToString();
+				OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(sError);
+				MessageBox.Show(sError);
+				return;
+			}
+			finally
+			{
+				Marshal.ReleaseComObject(result);
+				result = null;
+
+				Marshal.ReleaseComObject(com1s);
+				com1s = null;
+				GC.Collect();
+				GC.WaitForPendingFinalizers();
+				GC.Collect();
+			}
+		}
+
+		private void backgroundWorkerOVASMART_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+		{
+			if ((bool)e.Result)
+			{
+				//MessageBox.Show("Создана заявка универсальная в УК ОВА.\n" + createZunResult, "Заявка создана успешно", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				notifyIconOVA.Icon = Properties.Resources.ico_1ab;
+				notifyIconOVA.BalloonTipIcon = ToolTipIcon.Info;
+				notifyIconOVA.BalloonTipText = createZunResult;
+				notifyIconOVA.BalloonTipTitle = "Создана СМАРТ задача";
+				notifyIconOVA.Text = "Через контекстное меню можно скопировать Дату и номер СМАРТ";
+				var myContextMenu = new ContextMenuStrip();
+				var copyZUn = new ToolStripMenuItem("Скопировать СМАРТ в буфер");
+				myContextMenu.Items.Add(copyZUn);
+				copyZUn.Click += copyZUn_Click;
+				notifyIconOVA.ContextMenuStrip = myContextMenu;
+				notifyIconOVA.Visible = true;
+				notifyIconOVA.ShowBalloonTip(60000);
+			}
+			else
+			{
+				//MessageBox.Show("При создании ЗУн возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + errorCreateZun, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				notifyIconOVA.Icon = Properties.Resources.ico_1ab;
+				notifyIconOVA.BalloonTipIcon = ToolTipIcon.Error;
+				notifyIconOVA.BalloonTipText = "В УК ОВА было отпралено письмо с ошибкой.";
+				notifyIconOVA.BalloonTipTitle = "При создании СМАРТ возникла ошибка";
+				notifyIconOVA.Text = "";
+				notifyIconOVA.Visible = true;
+				notifyIconOVA.ShowBalloonTip(60000);
+
+				OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(errorCreateZun);
+
+			}
+			workWorkerSMART = false;
+		}
+
+		private void buttonCreateSmartToExcevutor_Click(object sender, RibbonControlEventArgs e)
+		{
+			try
+			{
+
+				if (workWorkerSMART)
+				{
+					MessageBox.Show("Идёт процес создания СМАРТ.\nПопробуйте через минуту...", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					return;
+				}
+				notifyIconOVA.Visible = false;
+				if (!SetCurrenEmail(sender))
+				{
+					return;
+				}
+				CreatSMARTToMe(true);
+			}
+			catch (Exception err)
+			{
+				string sError = err.ToString();
+				OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(sError);
+				MessageBox.Show("Не удается идентифицировать текущий объект как письмо.\nСоздать ЗУн можено только на основании письма.", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+			finally
+			{
+				notifyIconOVA.Visible = false;
+			}
+		}
 	}
 }
