@@ -475,7 +475,6 @@ namespace OutlookAddInOVA
 			}
 			if (showForm)
 			{
-				
 				formSmart.ShowDialog();
 				clickOk = formSmart.clickBnOk;
 				executorSMART = formSmart.executor;
@@ -506,6 +505,39 @@ namespace OutlookAddInOVA
 					notifyIconOVA.Text = "";
 					notifyIconOVA.Visible = true;
 					notifyIconOVA.ShowBalloonTip(5000);
+				}
+				
+				//Пустые параметры заполним по умолчанию
+				if (fastSmart)
+				{
+					if (textFormulirovka == "")
+					{
+						textFormulirovka = Properties.Settings.Default.prmSmartFastFormulirovka;
+					}
+					if (textKriterii=="")
+					{
+						textKriterii = Properties.Settings.Default.prmSmartFastKriterii;
+					}
+				}
+				else
+				{
+					if (textFormulirovka == "")
+					{
+						textFormulirovka = Properties.Settings.Default.prmSmartExecutorFormulirovka;
+					}
+					if (textKriterii == "")
+					{
+						textKriterii = Properties.Settings.Default.prmSmartExecutorKriterii;
+					}
+
+				}
+				if (executorSMART == "")
+				{
+					executorSMART = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
+				}
+				if (vesSmart == 0)
+				{
+					vesSmart = 1;
 				}
 
 				formSmart = null;

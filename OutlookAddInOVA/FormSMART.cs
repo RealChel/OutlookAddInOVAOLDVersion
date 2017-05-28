@@ -93,6 +93,9 @@ namespace OutlookAddInOVA
 			clickBnOk = false;
 			tbFormulirovka.Text = textFormulirovka;
 			tbKriterii.Text = textKriterii;
+			dTPDoDate.MinDate = DateTime.Now;
 		}
+
+		
 	}
 }

@@ -230,7 +230,7 @@
 			this.MinimizeBox = false;
 			this.Name = "FormSMART";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-			this.Text = "Создание Смарт задачи";
+			this.Text = "Создание СМАРТ задачи";
 			this.Shown += new System.EventHandler(this.FormSMART_Shown);
 			((System.ComponentModel.ISupportInitialize)(this.nUDVes)).EndInit();
 			this.splitContainerText.Panel1.ResumeLayout(false);
