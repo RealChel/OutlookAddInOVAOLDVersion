@@ -70,5 +70,53 @@ namespace OutlookAddInOVA.Properties {
                 this["prmCreateZunFromMe"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string prmSmartFastFormulirovka {
+            get {
+                return ((string)(this["prmSmartFastFormulirovka"]));
+            }
+            set {
+                this["prmSmartFastFormulirovka"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string prmSmartFastKriterii {
+            get {
+                return ((string)(this["prmSmartFastKriterii"]));
+            }
+            set {
+                this["prmSmartFastKriterii"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string prmSmartExecutorFormulirovka {
+            get {
+                return ((string)(this["prmSmartExecutorFormulirovka"]));
+            }
+            set {
+                this["prmSmartExecutorFormulirovka"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string prmSmartExecutorKriterii {
+            get {
+                return ((string)(this["prmSmartExecutorKriterii"]));
+            }
+            set {
+                this["prmSmartExecutorKriterii"] = value;
+            }
+        }
     }
 }

@@ -57,11 +57,6 @@ namespace OutlookAddInOVA
 		public FormSMART()
 		{
 			InitializeComponent();
-			dTPDoDate.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
-			comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
-			tbFormulirovka.Text= "Задача созданна автоматически из MS Outlook." + Environment.NewLine + "Подробности в приложенном письме.";
-			tbKriterii.Text = "Задача выполнена, сдана руководителю на проверку.";
-
 		}
 
 		private void btnOk_Click(object sender, EventArgs e)
@@ -89,6 +84,15 @@ namespace OutlookAddInOVA
 			executor = comboBoxExecutor.SelectedValue.ToString() ;
 			DoDate = dTPDoDate.Value;
 			this.Hide();
+		}
+
+		private void FormSMART_Shown(object sender, EventArgs e)
+		{
+			dTPDoDate.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
+			comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
+			clickBnOk = false;
+			tbFormulirovka.Text = textFormulirovka;
+			tbKriterii.Text = textKriterii;
 		}
 	}
 }

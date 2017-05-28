@@ -32,6 +32,9 @@ namespace OutlookAddInOVA
 		public instructionInZUn()
 		{
 			InitializeComponent();
+		
+			
+			
 		}
 
 		private bool doEntertext = false;
@@ -74,7 +77,6 @@ namespace OutlookAddInOVA
 			tbInstruction.Text = textZun;
 			tbInstruction.ForeColor = Color.Silver;
 			tbInstruction.SelectionStart = 0;
-			clickBnOk = false;
 		}
 	}
 }

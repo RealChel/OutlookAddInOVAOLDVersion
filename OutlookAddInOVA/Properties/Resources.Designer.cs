@@ -63,9 +63,9 @@ namespace OutlookAddInOVA.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap cel {
+        internal static System.Drawing.Bitmap celi {
             get {
-                object obj = ResourceManager.GetObject("cel", resourceCulture);
+                object obj = ResourceManager.GetObject("celi", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,6 +93,26 @@ namespace OutlookAddInOVA.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_settings_setting_set {
+            get {
+                object obj = ResourceManager.GetObject("icon-settings-setting-set", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap logo_v99 {
+            get {
+                object obj = ResourceManager.GetObject("logo_v99", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap screenshot {
             get {
                 object obj = ResourceManager.GetObject("screenshot", resourceCulture);
@@ -103,9 +123,9 @@ namespace OutlookAddInOVA.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Smart {
+        internal static System.Drawing.Bitmap target_32 {
             get {
-                object obj = ResourceManager.GetObject("Smart", resourceCulture);
+                object obj = ResourceManager.GetObject("target-32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -159,10 +159,12 @@ namespace OutlookAddInOVA
 
 		private void prepareData()
 		{
-			System.Data.DataRow[] listCoWorkerUkOva;
+			//Заполним параметры при необходимости
+			FillParametrs();
 			//Заполним таблицу сотрудниками из Excel
 			listAllCoWorker = GetListCoWorker();
 			//Выберим только с подразделением УК ОВА
+			System.Data.DataRow[] listCoWorkerUkOva;
 			listCoWorkerUkOva = listAllCoWorker.Select("Podrazd='УК ОВА'");
 			if (listCoWorkerUkOva.Count()>0)
 			{
@@ -201,6 +203,26 @@ namespace OutlookAddInOVA
 			{
 				row = dr.ItemArray;
 				listMyCoWorker.Rows.Add(row);
+			}
+		}
+
+		private void FillParametrs()
+		{
+			if (Properties.Settings.Default.prmSmartExecutorFormulirovka=="")
+			{
+				Properties.Settings.Default.prmSmartExecutorFormulirovka="Задача созданна автоматически из MS Outlook." + Environment.NewLine + "Подробности в приложенном письме.";
+			}
+			if (Properties.Settings.Default.prmSmartExecutorKriterii == "")
+			{
+				Properties.Settings.Default.prmSmartExecutorKriterii = "Задача выполнена, сдана руководителю на проверку.";
+			}
+			if (Properties.Settings.Default.prmSmartFastFormulirovka == "")
+			{
+				Properties.Settings.Default.prmSmartFastFormulirovka = "Задача созданна автоматически из MS Outlook." + Environment.NewLine + "Подробности в приложенном письме.";
+			}
+			if (Properties.Settings.Default.prmSmartFastKriterii == "")
+			{
+				Properties.Settings.Default.prmSmartFastKriterii = "Задача выполнена, сдана руководителю на проверку.";
 			}
 		}
 

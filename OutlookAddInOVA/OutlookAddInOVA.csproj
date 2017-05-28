@@ -35,8 +35,8 @@
     <PublishUrl>publish/</PublishUrl>
     <InstallUrl />
     <TargetCulture>ru</TargetCulture>
-    <ApplicationVersion>1.5.1.9</ApplicationVersion>
-    <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
+    <ApplicationVersion>2.0.0.0</ApplicationVersion>
+    <AutoIncrementApplicationRevision>false</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
@@ -44,7 +44,8 @@
     <PublisherName>Главизнин Алексей</PublisherName>
     <SupportUrl>https://firm.1ab.ru/company/personal/user/1617/</SupportUrl>
     <FriendlyName>OutlookAddInOVA</FriendlyName>
-    <OfficeApplicationDescription>Надстройка позволяющая создавать заявки в базе данных 1С АБФ%28для внутреннего использования в компании 1С-Архитектор бизнеса%29</OfficeApplicationDescription>
+    <OfficeApplicationDescription>Надстройка позволяющая создавать заявки в базе данных 1С АБФ%28для внутреннего использования в компании 1С-Архитектор бизнеса%29
+Главизнин Алексей %28с%29 2017 %28aleks%40glaviznin.ru%29</OfficeApplicationDescription>
     <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>
   <ItemGroup>
@@ -179,11 +180,23 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="FormAboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAboutBox.Designer.cs">
+      <DependentUpon>FormAboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormRegionOVA.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="FormRegionOVA.Designer.cs">
       <DependentUpon>FormRegionOVA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSettings.Designer.cs">
+      <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="FormSMART.cs">
       <SubType>Form</SubType>
@@ -200,8 +213,14 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <EmbeddedResource Include="FormAboutBox.resx">
+      <DependentUpon>FormAboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormRegionOVA.resx">
       <DependentUpon>FormRegionOVA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSettings.resx">
+      <DependentUpon>FormSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSMART.resx">
       <DependentUpon>FormSMART.cs</DependentUpon>
@@ -211,14 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="RibbonOVA.resx">
       <DependentUpon>RibbonOVA.cs</DependentUpon>
     </EmbeddedResource>
@@ -230,6 +244,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -270,13 +289,19 @@
     <None Include="Resources\1ab_ico.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\screenshot-512_red.png" />
+    <None Include="Resources\logo_v99.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Smart.png" />
+    <None Include="Resources\icon-settings-setting-set.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\cel.png" />
+    <None Include="Resources\screenshot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\target-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\celi.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

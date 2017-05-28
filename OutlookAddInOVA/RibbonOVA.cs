@@ -44,10 +44,8 @@ namespace OutlookAddInOVA
 			cbQuestionForward.Checked = Properties.Settings.Default.prmQuestionForward;
 			cbQuestionNew.Checked = Properties.Settings.Default.prmQuestionNew;
 			cbCreateZunFromMe.Checked = Properties.Settings.Default.prmCreateZunFromMe;
-			
-
 			EMailFromCurrentMail = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
-			
+		
 
 			if (OutlookAddInOVA.Globals.ThisAddIn.usersOVA.Contains(OutlookAddInOVA.Globals.ThisAddIn.currentuser))
 			{
@@ -438,7 +436,7 @@ namespace OutlookAddInOVA
 					{
 						return;
 					}
-					CreatSMARTToMe();
+					CreatSMART();
 				}
 				catch (Exception err)
 				{
@@ -454,7 +452,7 @@ namespace OutlookAddInOVA
 			
 		}
 
-		private void CreatSMARTToMe(bool showForm=false)
+		private void CreatSMART(bool fastSmart=true,bool showForm=false)
 		{
 			string pathToFileMsg = SaveEmailToMsg(curItem);
 			if (pathToFileMsg == "")
@@ -462,26 +460,24 @@ namespace OutlookAddInOVA
 				MessageBox.Show("При сохранении письма в файл возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + lastError, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			workWorkerSMART = true;
 			bool clickOk = false;
 			FormSMART formSmart = new FormSMART();
-			if (showForm)
+			if (fastSmart)
 			{
-				formSmart.ShowDialog();
-				clickOk = formSmart.clickBnOk;
+				formSmart.textFormulirovka = Properties.Settings.Default.prmSmartFastFormulirovka;
+				formSmart.textKriterii = Properties.Settings.Default.prmSmartFastKriterii;
+				clickOk = true;
 			}
 			else
 			{
-				notifyIconOVA.Icon = Properties.Resources.ico_1ab;
-				notifyIconOVA.BalloonTipIcon = ToolTipIcon.Info;
-				notifyIconOVA.BalloonTipText = "Создание СМАРТ";
-				notifyIconOVA.BalloonTipTitle = "Началось создание СМАРТ в АБФ";
-				notifyIconOVA.Text = "";
-				notifyIconOVA.Visible = true;
-				notifyIconOVA.ShowBalloonTip(5000);
+				formSmart.textFormulirovka = Properties.Settings.Default.prmSmartExecutorFormulirovka;
+				formSmart.textKriterii = Properties.Settings.Default.prmSmartExecutorKriterii;
 			}
-			if (clickOk)
+			if (showForm)
 			{
+				
+				formSmart.ShowDialog();
+				clickOk = formSmart.clickBnOk;
 				executorSMART = formSmart.executor;
 				textFormulirovka = formSmart.textFormulirovka;
 				textKriterii = formSmart.textKriterii;
@@ -492,18 +488,31 @@ namespace OutlookAddInOVA
 			}
 			else
 			{
-				notifyIconOVA.Visible = false;
 				executorSMART = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
-				textFormulirovka = "Задача созданна автоматически из MS Outlook.\nПодробности в приложенном письме.";
-				textKriterii = "Задача выполнена, сдана руководителю на проверку.";
+				textFormulirovka = Properties.Settings.Default.prmSmartFastFormulirovka;
+				textKriterii = Properties.Settings.Default.prmSmartFastKriterii;
 				textComment = "";
 				vesSmart = 1;
-				DoDate = DateTime.Now.ToString("yyyyMMdd");
+				DoDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)).ToString("yyyyMMdd");
 			}
-			formSmart = null;
-			pathToFile = pathToFileMsg;
-			workWorkerSMART = true;
-			this.backgroundWorkerOVASMART.RunWorkerAsync();
+			if (clickOk)
+			{
+				if (fastSmart)
+				{
+					notifyIconOVA.Icon = Properties.Resources.ico_1ab;
+					notifyIconOVA.BalloonTipIcon = ToolTipIcon.Info;
+					notifyIconOVA.BalloonTipText = "Создание СМАРТ";
+					notifyIconOVA.BalloonTipTitle = "Началось создание СМАРТ в АБФ";
+					notifyIconOVA.Text = "";
+					notifyIconOVA.Visible = true;
+					notifyIconOVA.ShowBalloonTip(5000);
+				}
+
+				formSmart = null;
+				pathToFile = pathToFileMsg;
+				workWorkerSMART = true;
+				this.backgroundWorkerOVASMART.RunWorkerAsync();
+			}
 		}
 			
 
@@ -620,7 +629,7 @@ namespace OutlookAddInOVA
 				{
 					return;
 				}
-				CreatSMARTToMe(true);
+				CreatSMART(false,true);
 			}
 			catch (Exception err)
 			{
@@ -633,6 +642,18 @@ namespace OutlookAddInOVA
 			{
 				notifyIconOVA.Visible = false;
 			}
+		}
+
+		private void buttonSettingSMART_Click(object sender, RibbonControlEventArgs e)
+		{
+			FormSettings formSettings = new FormSettings();
+			formSettings.ShowDialog();
+		}
+
+		private void btnAboutProg_Click(object sender, RibbonControlEventArgs e)
+		{
+			FormAboutBox formAbout = new FormAboutBox();
+			formAbout.ShowDialog();
 		}
 	}
 }
