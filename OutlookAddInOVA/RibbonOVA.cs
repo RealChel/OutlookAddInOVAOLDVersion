@@ -328,7 +328,7 @@ namespace OutlookAddInOVA
 
 				if (!String.IsNullOrEmpty(textZun))
 				{
-					textZun += "/n/n";
+					textZun += "\n\n";
 				}
 #if DEBUG
 				createZunResult = result.ДляВнешнихСоединений.CreateZUN("glaal@1ab.ru", pathToFile, textZun + preTextZun, ref errorCreateZun);
