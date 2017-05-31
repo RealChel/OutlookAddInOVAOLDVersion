@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Office = Microsoft.Office.Core;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace OutlookAddInOVA
 {
 	partial class FormRegionOVA
 	{
-		#region Фабрика областей формы 
+		#region Фабрика областей формы
 
 		[Microsoft.Office.Tools.Outlook.FormRegionMessageClass(Microsoft.Office.Tools.Outlook.FormRegionMessageClassAttribute.Note)]
 		[Microsoft.Office.Tools.Outlook.FormRegionName("OutlookAddInOVA.FormRegionOVA")]
 		public partial class FormRegionOVAFactory
 		{
-			
 			// Возникает перед инициализацией области формы.
 			// Чтобы исключить появление области формы, задайте для параметра e.Cancel значение true.
 			// Используйте e.OutlookItem для получения ссылки на текущий элемент Outlook.
 			private void FormRegionOVAFactory_FormRegionInitializing(object sender, Microsoft.Office.Tools.Outlook.FormRegionInitializingEventArgs e)
 			{
 				e.Cancel = true;
-				
+
 				//Outlook.MailItem myItem = (Outlook.MailItem)e.OutlookItem;
 
 				//if (myItem != null)
@@ -35,12 +30,9 @@ namespace OutlookAddInOVA
 				//}
 				//return;
 			}
-
-
-			
 		}
 
-		#endregion
+		#endregion Фабрика областей формы
 
 		// Возникает перед отображением области формы.
 		// Используйте this.OutlookItem для получения ссылки на текущий элемент Outlook.

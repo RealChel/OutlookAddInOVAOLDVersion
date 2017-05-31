@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace OutlookAddInOVA
@@ -100,13 +95,13 @@ namespace OutlookAddInOVA
 				return ((AssemblyCompanyAttribute)attributes[0]).Company;
 			}
 		}
-		#endregion
+
+		#endregion Методы доступа к атрибутам сборки
 
 		private void labelCopyright_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			this.Hide();
 			System.Diagnostics.Process.Start("mailto:aleks@glaviznin.ru");
-
 		}
 	}
 }

@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using System.Windows.Forms;
-using Outlook = Microsoft.Office.Interop.Outlook;
-using Office = Microsoft.Office.Core;
-using Excel = Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
-
-
+using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace OutlookAddInOVA
 {
@@ -24,13 +18,12 @@ namespace OutlookAddInOVA
 		private const string pathToListCOWorker = "J:\\ABFant80\\ExtProjectABF\\OutlookAddInOVA\\Сотрудники1АБ.xlsx";
 		internal string usersOVA = "glaal;vasta;rogva;lihyu;provi;chest";
 		internal string currentuser = SystemInformation.UserName;
-		internal string currentusermail = SystemInformation.UserName+"@1ab.ru";
+		internal string currentusermail = SystemInformation.UserName + "@1ab.ru";
 #endif
 		private const string strcolName = "FIO;Family;Name;Otchest;Podrazd;Office;Email;GUIDCoWorker;GUIDChief";
-		internal string[] colName =strcolName.Split(';');
-		Outlook.Inspectors inspectors;
+		internal string[] colName = strcolName.Split(';');
+		private Outlook.Inspectors inspectors;
 		internal Outlook.Explorer currentExplorer = null;
-		
 
 		public System.Data.DataTable listAllCoWorker;
 		public System.Data.DataTable listMyCoWorker;
@@ -50,19 +43,18 @@ namespace OutlookAddInOVA
 				CreateZunWithError(err.ToString());
 				listAllCoWorker = new System.Data.DataTable();
 			}
-
 		}
 
 		private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
 		{
-			// Примечание. Outlook больше не выдает это событие. Если имеется код, который 
+			// Примечание. Outlook больше не выдает это событие. Если имеется код, который
 			//    должно выполняться при завершении работы Outlook, см. статью на странице https://go.microsoft.com/fwlink/?LinkId=506785
 		}
 
-#region Код, автоматически созданный VSTO
+		#region Код, автоматически созданный VSTO
 
 		/// <summary>
-		/// Требуемый метод для поддержки конструктора — не изменяйте 
+		/// Требуемый метод для поддержки конструктора — не изменяйте
 		/// содержимое этого метода с помощью редактора кода.
 		/// </summary>
 		private void InternalStartup()
@@ -71,7 +63,7 @@ namespace OutlookAddInOVA
 			this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
 		}
 
-#endregion
+		#endregion Код, автоматически созданный VSTO
 
 		//void Inspectors_NewInspector(Microsoft.Office.Interop.Outlook.Inspector Inspector)
 		//{
@@ -112,13 +104,14 @@ namespace OutlookAddInOVA
 			mailItem.Importance = Outlook.OlImportance.olImportanceHigh;
 			mailItem.Send();
 		}
+
 		private System.Data.DataTable GetListCoWorker()
 		{
 			System.Data.DataTable dt = new System.Data.DataTable();
 			dt.Clear();
 			Excel.Application appExcel = new Excel.Application();
 			appExcel.Visible = false;
-			Excel.Workbook workbook = appExcel.Workbooks.Open(pathToListCOWorker,Type.Missing,Type.Missing,Type.Missing, "n2mZ8ihQ");
+			Excel.Workbook workbook = appExcel.Workbooks.Open(pathToListCOWorker, Type.Missing, Type.Missing, Type.Missing, "n2mZ8ihQ");
 			Excel.Worksheet worksheet = workbook.Sheets[1];
 			Excel.Range range = worksheet.UsedRange;
 
@@ -128,7 +121,7 @@ namespace OutlookAddInOVA
 
 			int row;
 			int col;
-				
+
 			for (col = 1; col <= cCnt; col++)
 			{
 				dt.Columns.Add(colName[col - 1], typeof(string));
@@ -153,7 +146,7 @@ namespace OutlookAddInOVA
 			Marshal.ReleaseComObject(appExcel);
 			appExcel = null;
 			GC.Collect();
-						
+
 			return dt;
 		}
 
@@ -166,40 +159,39 @@ namespace OutlookAddInOVA
 			//Выберим только с подразделением УК ОВА
 			System.Data.DataRow[] listCoWorkerUkOva;
 			listCoWorkerUkOva = listAllCoWorker.Select("Podrazd='УК ОВА'");
-			if (listCoWorkerUkOva.Count()>0)
+			if (listCoWorkerUkOva.Count() > 0)
 			{
-
 #if DEBUG
 				usersOVA = "aleks;";
 #else
 				usersOVA = "";
 #endif
 				foreach (System.Data.DataRow rowCoWorker in listCoWorkerUkOva)
-					{
-						usersOVA+=rowCoWorker["EMail"]+";";
-					}
+				{
+					usersOVA += rowCoWorker["EMail"] + ";";
+				}
 			}
 			//Выберим тех где текущий пользователь Руководитель
 			//Найдем GUID Руководителя
 			System.Data.DataRow[] GUIDChief;
-			GUIDChief = listAllCoWorker.Select("Email='" + currentusermail+"'");
-			string guidchief="";
-			if (GUIDChief.Count()>0)
+			GUIDChief = listAllCoWorker.Select("Email='" + currentusermail + "'");
+			string guidchief = "";
+			if (GUIDChief.Count() > 0)
 			{
 				guidchief = GUIDChief[0]["GUIDCoWorker"].ToString();
 			}
-			if (guidchief=="")
+			if (guidchief == "")
 			{
 				return;
 			}
 			System.Data.DataRow[] listRowsMyCoWorker;
-			listRowsMyCoWorker = listAllCoWorker.Select("GUIDChief='"+ guidchief+"'");
+			listRowsMyCoWorker = listAllCoWorker.Select("GUIDChief='" + guidchief + "'");
 			listMyCoWorker = listAllCoWorker.Clone();
 			//Добавлю руководителя
 			object[] row = GUIDChief[0].ItemArray;
 			listMyCoWorker.Rows.Add(row);
 			//listMyCoWorker.LoadDataRow(listRowsMyCoWorker, true);
-			foreach (System.Data.DataRow  dr in listRowsMyCoWorker)
+			foreach (System.Data.DataRow dr in listRowsMyCoWorker)
 			{
 				row = dr.ItemArray;
 				listMyCoWorker.Rows.Add(row);
@@ -208,9 +200,9 @@ namespace OutlookAddInOVA
 
 		private void FillParametrs()
 		{
-			if (Properties.Settings.Default.prmSmartExecutorFormulirovka=="")
+			if (Properties.Settings.Default.prmSmartExecutorFormulirovka == "")
 			{
-				Properties.Settings.Default.prmSmartExecutorFormulirovka="Задача созданна автоматически из MS Outlook." + Environment.NewLine + "Подробности в приложенном письме.";
+				Properties.Settings.Default.prmSmartExecutorFormulirovka = "Задача созданна автоматически из MS Outlook." + Environment.NewLine + "Подробности в приложенном письме.";
 			}
 			if (Properties.Settings.Default.prmSmartExecutorKriterii == "")
 			{
@@ -225,6 +217,5 @@ namespace OutlookAddInOVA
 				Properties.Settings.Default.prmSmartFastKriterii = "Задача выполнена, сдана руководителю на проверку.";
 			}
 		}
-
 	}
 }

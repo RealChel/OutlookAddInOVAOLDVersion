@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace OutlookAddInOVA
 {
 	public partial class FormSMART : Form
 	{
+		#region Parametrs
 		private bool clickBnOkVal;
 		private string textFormulirovkaVal;
 		private string textKriteriiVal;
@@ -19,46 +13,37 @@ namespace OutlookAddInOVA
 		private int vesSmartVal;
 		private string executorVal;
 
-		public string executor
-		{
-			get { return executorVal; }
-			set { executorVal = value; }
-		}
+		public string executor { get { return executorVal; } set { executorVal = value; } }
 
-		public int VesSmart
-		{
-			get { return vesSmartVal; }
-			set { vesSmartVal = value; }
-		}
+		public int VesSmart { get { return vesSmartVal; } set { vesSmartVal = value; } }
 
-		public DateTime DoDate
-		{
-			get { return DoDateVal; }
-			set { DoDateVal = value; }
-		}
+		public DateTime DoDate { get { return DoDateVal; } set { DoDateVal = value; } }
 
-		public string textKriterii
-		{
-			get { return textKriteriiVal; }
-			set { textKriteriiVal = value; }
-		}
-		public string textFormulirovka
-		{
-			get { return textFormulirovkaVal; }
-			set { textFormulirovkaVal = value; }
-		}
+		public string textKriterii { get { return textKriteriiVal; } set { textKriteriiVal = value; } }
 
-		public bool clickBnOk
-		{
-			get { return clickBnOkVal; }
-			set { clickBnOkVal = value; }
-		}
+		public string textFormulirovka { get { return textFormulirovkaVal; } set { textFormulirovkaVal = value; } }
 
+		public bool clickBnOk { get { return clickBnOkVal; } set { clickBnOkVal = value; } }
+		#endregion
+
+		#region Запуск формы
 		public FormSMART()
 		{
 			InitializeComponent();
 		}
 
+		private void FormSMART_Shown(object sender, EventArgs e)
+		{
+			dTPDoDate.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
+			comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
+			clickBnOk = false;
+			tbFormulirovka.Text = textFormulirovka;
+			tbKriterii.Text = textKriterii;
+			dTPDoDate.MinDate = DateTime.Now;
+		}
+
+		#endregion
+		#region Кнопки
 		private void btnOk_Click(object sender, EventArgs e)
 		{
 			CloseFormOnOK();
@@ -73,7 +58,8 @@ namespace OutlookAddInOVA
 			executor = "";
 			DoDate = DateTime.Now;
 			this.Hide();
-		}
+		} 
+		#endregion
 
 		private void CloseFormOnOK()
 		{
@@ -81,21 +67,9 @@ namespace OutlookAddInOVA
 			textFormulirovka = tbFormulirovka.Text;
 			textKriterii = tbKriterii.Text;
 			VesSmart = (int)nUDVes.Value;
-			executor = comboBoxExecutor.SelectedValue.ToString() ;
+			executor = comboBoxExecutor.SelectedValue.ToString();
 			DoDate = dTPDoDate.Value;
 			this.Hide();
 		}
-
-		private void FormSMART_Shown(object sender, EventArgs e)
-		{
-			dTPDoDate.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
-			comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
-			clickBnOk = false;
-			tbFormulirovka.Text = textFormulirovka;
-			tbKriterii.Text = textKriterii;
-			dTPDoDate.MinDate = DateTime.Now;
-		}
-
-		
 	}
 }

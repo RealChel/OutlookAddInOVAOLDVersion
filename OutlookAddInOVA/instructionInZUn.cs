@@ -1,40 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 
 namespace OutlookAddInOVA
 {
 	public partial class instructionInZUn : Form
 	{
+		private bool doEntertext = false;
+
+		#region Параметры
+
 		private bool clickBnOkVal;
 		private string textZunVal;
-		
 
-		public string textZun
-		{
-			get { return textZunVal; }
-			set { textZunVal = value; }
-		}
+		public string textZun { get { return textZunVal; } set { textZunVal = value; } }
 
-		public bool clickBnOk
-		{
-			get { return clickBnOkVal; }
-			set { clickBnOkVal = value; }
-		}
-				
+		public bool clickBnOk { get { return clickBnOkVal; } set { clickBnOkVal = value; } }
+
+		#endregion Параметры
+
+		#region Старт формы
+
 		public instructionInZUn()
 		{
 			InitializeComponent();
 		}
 
-		private bool doEntertext = false;
+		private void instructionInZUn_Shown(object sender, EventArgs e)
+		{
+			tbInstruction.Text = textZun;
+			tbInstruction.ForeColor = Color.Silver;
+			tbInstruction.SelectionStart = 0;
+			clickBnOk = false;
+		}
+
+		#endregion Старт формы
+
+		#region Кнопки
 
 		private void btnOK_Click(object sender, EventArgs e)
 		{
@@ -47,19 +49,17 @@ namespace OutlookAddInOVA
 			textZun = "";
 			this.Hide();
 		}
-		private void CloseFormOnOK()
-		{
-			clickBnOk = true;
-			textZun = tbInstruction.Text;
-			this.Hide();
-		}
+
+		#endregion Кнопки
+
+		#region События
 
 		private void tbInstruction_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (!doEntertext)
 			{
 				tbInstruction.ForeColor = Color.Black;
-				tbInstruction.Font = new Font(tbInstruction.Font.FontFamily,(float)10);
+				tbInstruction.Font = new Font(tbInstruction.Font.FontFamily, (float)10);
 				tbInstruction.Text = "";
 				doEntertext = true;
 			}
@@ -69,12 +69,17 @@ namespace OutlookAddInOVA
 			}
 		}
 
-		private void instructionInZUn_Shown(object sender, EventArgs e)
+		#endregion События
+
+		#region Другие функции
+
+		private void CloseFormOnOK()
 		{
-			tbInstruction.Text = textZun;
-			tbInstruction.ForeColor = Color.Silver;
-			tbInstruction.SelectionStart = 0;
-			clickBnOk = false;
+			clickBnOk = true;
+			textZun = tbInstruction.Text;
+			this.Hide();
 		}
+
+		#endregion Другие функции
 	}
 }
