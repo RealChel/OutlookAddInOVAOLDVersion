@@ -523,15 +523,21 @@ namespace OutlookAddInOVA
 			try
 			{
 				string tempFolder = Path.GetTempPath();
-				string fileName = mailItem.Subject;
-
+				string fileName;
+				fileName = mailItem.Subject;
+				if (!string.IsNullOrEmpty(fileName))
+				{ 
 				char[] charInvalidFileChars = Path.GetInvalidFileNameChars();
 				foreach (char charInvalid in charInvalidFileChars)
 				{
 					fileName = fileName.Replace(charInvalid, ' ');
 				}
 				fileName = tempFolder + fileName + ".msg";
-
+				}
+				else
+				{
+					fileName = GetPathToSave("msg");
+				}
 				mailItem.SaveAs(fileName, Outlook.OlSaveAsType.olMSGUnicode);
 				return fileName;
 			}
