@@ -80,7 +80,7 @@ namespace OutlookAddInOVA
 
 		#region Кнопки на ленте
 		
-		private void btnCreateZUnInABF_Click(object sender, RibbonControlEventArgs e)
+		private void btnCreateZUnWithScreenShoot_Click(object sender, RibbonControlEventArgs e)
 		{
 			try
 			{
@@ -202,7 +202,7 @@ namespace OutlookAddInOVA
 #endregion New Region
 		#region Запуск фоновых обработчиков	
 
-		private void backgroundWorkerOVA_DoWork_1(object sender, System.ComponentModel.DoWorkEventArgs e)
+		private void backgroundWorkerOVAZUn_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
 		{
 			dynamic result = null;
 			V83.COMConnector com1s = new V83.COMConnector();
@@ -340,7 +340,7 @@ namespace OutlookAddInOVA
 
 		#region Обработка окончания работы фоновых обработчиков	
 
-		private void backgroundWorkerOVA_RunWorkerCompleted_1(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+		private void backgroundWorkerOVAZUn_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
 		{
 			if ((bool)e.Result)
 			{
@@ -441,7 +441,7 @@ namespace OutlookAddInOVA
 				if (instructionForm.clickBnOk)
 				{
 					workWorker = true;
-					this.backgroundWorkerOVA.RunWorkerAsync();
+					this.backgroundWorkerOVAZUn.RunWorkerAsync();
 				}
 				instructionForm = null;
 			}
@@ -453,6 +453,10 @@ namespace OutlookAddInOVA
 			{
 				EMailFromCurrentMail = GetSmtpAddress(curItem);
 			}
+            else
+            {
+                EMailFromCurrentMail = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
+            }
 
 			string pathToFileMsg = SaveEmailToMsg(curItem);
 			if (pathToFileMsg == "")
@@ -470,7 +474,7 @@ namespace OutlookAddInOVA
 			if (instructionForm.clickBnOk)
 			{
 				workWorker = true;
-				this.backgroundWorkerOVA.RunWorkerAsync();
+				this.backgroundWorkerOVAZUn.RunWorkerAsync();
 			}
 			instructionForm = null;
 		}
