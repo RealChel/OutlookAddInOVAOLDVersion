@@ -60,38 +60,5 @@ namespace OutlookAddInOVA
 				tabOVA.Visible = false;
 			}
 		}
-
-		private void textBox1_TextChanged(object sender, EventArgs e)
-		{
-			System.Windows.Forms.TextBox txtBoxName = (System.Windows.Forms.TextBox)sender;
-			Outlook.AppointmentItem appt = OutlookAddInOVA.Globals.ThisAddIn.Application.CreateItem(
-		Outlook.OlItemType.olAppointmentItem)
-		as Outlook.AppointmentItem;
-			appt.MeetingStatus = Outlook.OlMeetingStatus.olMeeting;
-			appt.Subject = "Team Morale Event";
-			//appt.Start = DateTime.Parse("5/17/2007 11:00 AM");
-			//appt.End = DateTime.Parse("5/17/2007 12:00 PM");
-			Outlook.SelectNamesDialog snd =
-				OutlookAddInOVA.Globals.ThisAddIn.Application.Session.GetSelectNamesDialog();
-			snd.SetDefaultDisplayMode(
-				Outlook.OlDefaultSelectNamesDisplayMode.olDefaultMeeting);
-			Outlook.Recipient confRoom =
-				snd.Recipients.Add("Conf Room 36/2739");
-			// Explicitly specify Recipient.Type.
-			confRoom.Type = (int)Outlook.OlMeetingRecipientType.olResource;
-			snd.Recipients.ResolveAll();
-			snd.Display();
-			// Add Recipients to meeting request.
-			Outlook.Recipients recips = snd.Recipients;
-			if (recips.Count > 0)
-			{
-				foreach (Outlook.Recipient recip in recips)
-				{
-					appt.Recipients.Add(recip.Name);
-				}
-			}
-			appt.Recipients.ResolveAll();
-			appt.Display(false);
-		}
 	}
 }
