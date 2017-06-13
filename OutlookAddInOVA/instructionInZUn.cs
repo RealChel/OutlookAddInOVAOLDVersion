@@ -4,82 +4,100 @@ using System.Windows.Forms;
 
 namespace OutlookAddInOVA
 {
-	public partial class instructionInZUn : Form
-	{
-		private bool doEntertext = false;
+    public partial class instructionInZUn : Form
+    {
+        private bool doEntertext = false;
 
-		#region Параметры
+        #region Параметры
 
-		private bool clickBnOkVal;
-		private string textZunVal;
+        private bool clickBnOkVal;
+        private string textZunVal;
+        private string executorVal;
 
-		public string textZun { get { return textZunVal; } set { textZunVal = value; } }
+        public string executor { get { return executorVal; } set { executorVal = value; } }
 
-		public bool clickBnOk { get { return clickBnOkVal; } set { clickBnOkVal = value; } }
+        public string textZun { get { return textZunVal; } set { textZunVal = value; } }
 
-		#endregion Параметры
+        public bool clickBnOk { get { return clickBnOkVal; } set { clickBnOkVal = value; } }
 
-		#region Старт формы
+        #endregion Параметры
 
-		public instructionInZUn()
-		{
-			InitializeComponent();
-		}
+        #region Старт формы
 
-		private void instructionInZUn_Shown(object sender, EventArgs e)
-		{
-			tbInstruction.Text = textZun;
-			tbInstruction.ForeColor = Color.Silver;
-			tbInstruction.SelectionStart = 0;
-			clickBnOk = false;
-		}
+        public instructionInZUn()
+        {
+            InitializeComponent();
+        }
 
-		#endregion Старт формы
+        private void instructionInZUn_Shown(object sender, EventArgs e)
+        {
+            tbInstruction.Text = textZun;
+            tbInstruction.ForeColor = Color.Silver;
+            tbInstruction.SelectionStart = 0;
+            clickBnOk = false;
+            comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
+            executor = "";
+            if (!OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA)
+            {
+                labelExecutor.Visible = false;
+                comboBoxExecutor.Visible = false;
+                tbInstruction.Location = new Point(0, 0);
+                tbInstruction.Height += 32;
+            }
+        }
 
-		#region Кнопки
+        #endregion Старт формы
 
-		private void btnOK_Click(object sender, EventArgs e)
-		{
-			CloseFormOnOK();
-		}
+        #region Кнопки
 
-		private void btnCancel_Click(object sender, EventArgs e)
-		{
-			clickBnOk = false;
-			textZun = "";
-			this.Hide();
-		}
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            CloseFormOnOK();
+        }
 
-		#endregion Кнопки
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            clickBnOk = false;
+            textZun = "";
+            executor = "";
+            this.Hide();
+        }
 
-		#region События
+        #endregion Кнопки
 
-		private void tbInstruction_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (!doEntertext)
-			{
-				tbInstruction.ForeColor = Color.Black;
-				tbInstruction.Font = new Font(tbInstruction.Font.FontFamily, (float)10);
-				tbInstruction.Text = "";
-				doEntertext = true;
-			}
-			if (e.KeyCode == Keys.Return && e.Modifiers == Keys.Control)
-			{
-				CloseFormOnOK();
-			}
-		}
+        #region События
 
-		#endregion События
+        private void tbInstruction_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!doEntertext)
+            {
+                tbInstruction.ForeColor = Color.Black;
+                tbInstruction.Font = new Font(tbInstruction.Font.FontFamily, (float)10);
+                tbInstruction.Text = "";
+                doEntertext = true;
+            }
+            if (e.KeyCode == Keys.Return && e.Modifiers == Keys.Control)
+            {
+                CloseFormOnOK();
+            }
+        }
 
-		#region Другие функции
+        private void comboBoxExecutor_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            executor = comboBoxExecutor.SelectedValue.ToString();
+        }
 
-		private void CloseFormOnOK()
-		{
-			clickBnOk = true;
-			textZun = tbInstruction.Text;
-			this.Hide();
-		}
+        #endregion События
 
-		#endregion Другие функции
-	}
+        #region Другие функции
+
+        private void CloseFormOnOK()
+        {
+            clickBnOk = true;
+            textZun = tbInstruction.Text;
+            this.Hide();
+        }
+
+        #endregion Другие функции
+    }
 }

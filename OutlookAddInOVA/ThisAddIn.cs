@@ -10,7 +10,7 @@ namespace OutlookAddInOVA
 	public partial class ThisAddIn
 	{
 #if DEBUG
-		private const string pathToListCOWorker = "D:\\temp\\Сотрудники1АБ.xlsx";
+        internal const string pathToListCOWorker = "D:\\temp\\Сотрудники1АБ.xlsx";
 		internal string usersOVA = "aleks;glaal;vasta;rogva;lihyu;provi;chest";
 		internal string currentuser = "aleks";
 		internal string currentusermail = "glaal@1ab.ru";
@@ -20,13 +20,14 @@ namespace OutlookAddInOVA
 		internal string currentuser = SystemInformation.UserName;
 		internal string currentusermail = SystemInformation.UserName + "@1ab.ru";
 #endif
-		private const string strcolName = "FIO;Family;Name;Otchest;Podrazd;Office;Email;GUIDCoWorker;GUIDChief";
+        internal const string strcolName = "FIO;Family;Name;Otchest;Podrazd;Office;Email;GUIDCoWorker;GUIDChief";
 		internal string[] colName = strcolName.Split(';');
-		private Outlook.Inspectors inspectors;
+        internal Outlook.Inspectors inspectors;
 		internal Outlook.Explorer currentExplorer = null;
+        internal bool currentUserIsOVA = false;
 
-		public System.Data.DataTable listAllCoWorker;
-		public System.Data.DataTable listMyCoWorker;
+        internal System.Data.DataTable listAllCoWorker;
+        internal System.Data.DataTable listMyCoWorker;
 
 		private void ThisAddIn_Startup(object sender, System.EventArgs e)
 		{
@@ -152,8 +153,12 @@ namespace OutlookAddInOVA
 
 		private void prepareData()
 		{
-			//Заполним параметры при необходимости
-			FillParametrs();
+
+
+            
+
+            //Заполним параметры при необходимости
+            FillParametrs();
 			//Заполним таблицу сотрудниками из Excel
 			listAllCoWorker = GetListCoWorker();
 			//Выберим только с подразделением УК ОВА
@@ -180,23 +185,29 @@ namespace OutlookAddInOVA
 			{
 				guidchief = GUIDChief[0]["GUIDCoWorker"].ToString();
 			}
-			if (guidchief == "")
+			if (guidchief != "")
 			{
-				return;
-			}
-			System.Data.DataRow[] listRowsMyCoWorker;
-			listRowsMyCoWorker = listAllCoWorker.Select("GUIDChief='" + guidchief + "'");
-			listMyCoWorker = listAllCoWorker.Clone();
-			//Добавлю руководителя
-			object[] row = GUIDChief[0].ItemArray;
-			listMyCoWorker.Rows.Add(row);
-			//listMyCoWorker.LoadDataRow(listRowsMyCoWorker, true);
-			foreach (System.Data.DataRow dr in listRowsMyCoWorker)
-			{
-				row = dr.ItemArray;
-				listMyCoWorker.Rows.Add(row);
-			}
-		}
+                System.Data.DataRow[] listRowsMyCoWorker;
+                listRowsMyCoWorker = listAllCoWorker.Select("GUIDChief='" + guidchief + "'");
+                listMyCoWorker = listAllCoWorker.Clone();
+                //Добавлю руководителя
+                object[] row = GUIDChief[0].ItemArray;
+                listMyCoWorker.Rows.Add(row);
+                //listMyCoWorker.LoadDataRow(listRowsMyCoWorker, true);
+                foreach (System.Data.DataRow dr in listRowsMyCoWorker)
+                {
+                    row = dr.ItemArray;
+                    listMyCoWorker.Rows.Add(row);
+                }
+            }
+			
+
+            if (usersOVA.Contains(currentuser))
+            {
+                currentUserIsOVA = true;
+            }
+
+        }
 
 		private void FillParametrs()
 		{
