@@ -42,6 +42,9 @@
             this.groupSmart = this.Factory.CreateRibbonGroup();
             this.buttonCreateSmartToMe = this.Factory.CreateRibbonButton();
             this.buttonCreateSmartToExcevutor = this.Factory.CreateRibbonButton();
+            this.groupMeeting = this.Factory.CreateRibbonGroup();
+            this.buttonCreateMeeting = this.Factory.CreateRibbonButton();
+            this.buttonAddToMeeting = this.Factory.CreateRibbonButton();
             this.groupSettingOVA = this.Factory.CreateRibbonGroup();
             this.cbCreateZunFromMe = this.Factory.CreateRibbonCheckBox();
             this.groupParametrsMail = this.Factory.CreateRibbonGroup();
@@ -53,15 +56,12 @@
             this.backgroundWorkerOVASMART = new System.ComponentModel.BackgroundWorker();
             this.buttonSetting = this.Factory.CreateRibbonButton();
             this.btnAboutProg = this.Factory.CreateRibbonButton();
-            this.groupMeeting = this.Factory.CreateRibbonGroup();
-            this.buttonCreateMeeting = this.Factory.CreateRibbonButton();
-            this.buttonAddToMeeting = this.Factory.CreateRibbonButton();
             this.tabOVA.SuspendLayout();
             this.groupCreateZun.SuspendLayout();
             this.groupSmart.SuspendLayout();
+            this.groupMeeting.SuspendLayout();
             this.groupSettingOVA.SuspendLayout();
             this.groupParametrsMail.SuspendLayout();
-            this.groupMeeting.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabOVA
@@ -129,6 +129,28 @@
             this.buttonCreateSmartToExcevutor.SuperTip = "Позволяет создавать СМАРТ  задачу себе либо своим подчиненным, с вводом дополните" +
     "льных параметров.";
             this.buttonCreateSmartToExcevutor.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonCreateSmartToExcevutor_Click);
+            // 
+            // groupMeeting
+            // 
+            this.groupMeeting.Items.Add(this.buttonCreateMeeting);
+            this.groupMeeting.Items.Add(this.buttonAddToMeeting);
+            this.groupMeeting.Label = "Собрания";
+            this.groupMeeting.Name = "groupMeeting";
+            // 
+            // buttonCreateMeeting
+            // 
+            this.buttonCreateMeeting.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.buttonCreateMeeting.Label = "Создать Собрание";
+            this.buttonCreateMeeting.Name = "buttonCreateMeeting";
+            this.buttonCreateMeeting.ShowImage = true;
+            // 
+            // buttonAddToMeeting
+            // 
+            this.buttonAddToMeeting.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.buttonAddToMeeting.Label = "Добавить к Собранию";
+            this.buttonAddToMeeting.Name = "buttonAddToMeeting";
+            this.buttonAddToMeeting.ShowImage = true;
+            this.buttonAddToMeeting.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonAddToMeeting_Click);
             // 
             // groupSettingOVA
             // 
@@ -206,27 +228,6 @@
             this.btnAboutProg.SuperTip = "Информация о надстройке OutlookAddinOVA";
             this.btnAboutProg.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnAboutProg_Click);
             // 
-            // groupMeeting
-            // 
-            this.groupMeeting.Items.Add(this.buttonCreateMeeting);
-            this.groupMeeting.Items.Add(this.buttonAddToMeeting);
-            this.groupMeeting.Label = "Собрания";
-            this.groupMeeting.Name = "groupMeeting";
-            // 
-            // buttonCreateMeeting
-            // 
-            this.buttonCreateMeeting.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.buttonCreateMeeting.Label = "Создать Собрание";
-            this.buttonCreateMeeting.Name = "buttonCreateMeeting";
-            this.buttonCreateMeeting.ShowImage = true;
-            // 
-            // buttonAddToMeeting
-            // 
-            this.buttonAddToMeeting.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.buttonAddToMeeting.Label = "Добавить к Собранию";
-            this.buttonAddToMeeting.Name = "buttonAddToMeeting";
-            this.buttonAddToMeeting.ShowImage = true;
-            // 
             // RibbonOVA
             // 
             this.Name = "RibbonOVA";
@@ -245,12 +246,12 @@
             this.groupCreateZun.PerformLayout();
             this.groupSmart.ResumeLayout(false);
             this.groupSmart.PerformLayout();
+            this.groupMeeting.ResumeLayout(false);
+            this.groupMeeting.PerformLayout();
             this.groupSettingOVA.ResumeLayout(false);
             this.groupSettingOVA.PerformLayout();
             this.groupParametrsMail.ResumeLayout(false);
             this.groupParametrsMail.PerformLayout();
-            this.groupMeeting.ResumeLayout(false);
-            this.groupMeeting.PerformLayout();
             this.ResumeLayout(false);
 
 		}

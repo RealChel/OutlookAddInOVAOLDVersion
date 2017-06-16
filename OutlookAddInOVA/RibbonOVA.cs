@@ -17,23 +17,23 @@ namespace OutlookAddInOVA
 	public partial class RibbonOVA
 	{
 		#region Закрытые переменные
-		private string lastError;
-		private string pathToFile;
-		private string preTextZun;
-		private string textZun;
+		private string lastError = "";
+		private string pathToFile = "";
+		private string preTextZun = "";
+		private string textZun = "";
 		private string errorCreateZun = "";
 		private bool workWorker = false;
 		private bool workWorkerSMART = false;
-		private string createZunResult;
+		private string createZunResult = "";
 		private bool currentUserIsOVA = false;
-		private string EMailFromCurrentMail;
+		private string EMailFromCurrentMail = "";
 		private Outlook.MailItem curItem;
-		private string executorSMART;
-		private string textFormulirovka;
-		private string textKriterii;
-		private string textComment;
-		private int vesSmart;
-		private string DoDate; 
+		private string executorSMART = "";
+		private string textFormulirovka = "";
+		private string textKriterii = "";
+		private string textComment = "";
+		private int vesSmart=1;
+		private string DoDate = ""; 
 		#endregion
 
 		private void RibbonOVA_Load(object sender, RibbonUIEventArgs e)
@@ -237,10 +237,10 @@ namespace OutlookAddInOVA
 					textZun += "\n\n";
 				}
 #if DEBUG
-				createZunResult = result.ДляВнешнихСоединений.CreateZUN("glaal@1ab.ru", pathToFile, textZun + preTextZun, ref errorCreateZun);
-				//createZunResult = result.ДляВнешнихСоединений.CreateZUN("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun);
+				createZunResult = result.ДляВнешнихСоединений.Create_ZUN("glaal@1ab.ru", pathToFile, textZun + preTextZun, ref errorCreateZun);
+				//createZunResult = result.ДляВнешнихСоединений.Create_ZUN("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun);
 #else
-				createZunResult = result.ДляВнешнихСоединений.CreateZUN(EMailFromCurrentMail, pathToFile, textZun + preTextZun, ref errorCreateZun);
+				createZunResult = result.ДляВнешнихСоединений.Create_ZUN(EMailFromCurrentMail, pathToFile, textZun + preTextZun, ref errorCreateZun);
 #endif
 				if (createZunResult == "")
 				{
@@ -700,6 +700,74 @@ namespace OutlookAddInOVA
 			}
 		}
 
-#endregion New Region
-	}
+        #endregion New Region
+
+        private void buttonAddToMeeting_Click(object sender, RibbonControlEventArgs e)
+        {
+            dynamic result = null;
+            dynamic resultquery = null;
+            System.Data.DataTable resultTable = null;
+           
+            V83.COMConnector com1s = new V83.COMConnector();
+            try
+            {
+                //По простому проверяю изменили текст или сразу нажали ОК
+                string user = @"""Create_ZUn""";
+                string pas = @"""bF6k6mjbCEfEJayL""";
+#if DEBUG
+                string file = @"""G:\\ABF""";
+#else
+				string Srvr = @"""1ab-1cv80""";
+				string Ref = @"""pav-oper82""";
+#endif
+                com1s.PoolCapacity = 1;
+                com1s.PoolTimeout = 1;
+                com1s.MaxConnections = 1;
+#if DEBUG
+                string connectString = "File=" + file + ";Usr=" + user + ";Pwd=" + pas + ";";
+#else
+				string connectString = "Srvr=" + Srvr + ";Ref=" + Ref + ";Usr=" + user + ";Pwd=" + pas + ";";
+#endif
+                result = com1s.Connect(connectString);
+
+                string textQuery= @"ВЫБРАТЬ УР_Собрание.Ссылка, УР_Собрание.Дата,УР_Собрание.Номер,УР_Собрание.Председатель,УР_Собрание.Организатор ИЗ Документ.УР_Собрание КАК УР_Собрание ГДЕ УР_Собрание.Организатор.Наименование = ""Главизнин Алексей""";
+#if DEBUG
+                resultquery = result.ДляВнешнихСоединений.GetResultQuery(textQuery, ref errorCreateZun);
+                //createZunResult = result.ДляВнешнихСоединений.CreateZUN("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun);
+#else
+				createZunResult = result.ДляВнешнихСоединений.CreateZUN(EMailFromCurrentMail, pathToFile, textZun + preTextZun, ref errorCreateZun);
+#endif
+                resultTable = (System.Data.DataTable)resultquery;
+                if (createZunResult == "")
+                {
+                   
+
+                    return;
+                }
+                else
+                {
+                 
+
+                    return;
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.ToString());
+
+                return;
+            }
+            finally
+            {
+                Marshal.ReleaseComObject(result);
+                result = null;
+
+                Marshal.ReleaseComObject(com1s);
+                com1s = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+            }
+        }
+    }
 }
