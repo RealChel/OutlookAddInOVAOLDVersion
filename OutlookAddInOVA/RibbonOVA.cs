@@ -179,6 +179,11 @@ namespace OutlookAddInOVA
             }
         }
 
+        private void buttonToDeveloper_Click(object sender, RibbonControlEventArgs e)
+        {
+            System.Diagnostics.Process.Start("mailto:glaal@1ab.ru");
+        }
+
         #endregion Кнопки на ленте
 
 
@@ -418,8 +423,6 @@ namespace OutlookAddInOVA
         }
 
         #endregion Обработка окончания работы фоновых обработчиков
-
-        //test
 
         #region Другие функции
 
@@ -714,10 +717,5 @@ namespace OutlookAddInOVA
         }
 
         #endregion Другие функции
-
-        private void buttonToDeveloper_Click(object sender, RibbonControlEventArgs e)
-        {
-            System.Diagnostics.Process.Start("mailto:glaal@1ab.ru");
-        }
     }
 }
