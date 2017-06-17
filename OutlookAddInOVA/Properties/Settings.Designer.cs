@@ -26,36 +26,12 @@ namespace OutlookAddInOVA.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool prmQuestionForward {
+        public bool prmHideFormRegion {
             get {
-                return ((bool)(this["prmQuestionForward"]));
+                return ((bool)(this["prmHideFormRegion"]));
             }
             set {
-                this["prmQuestionForward"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool prmQuestionAnswer {
-            get {
-                return ((bool)(this["prmQuestionAnswer"]));
-            }
-            set {
-                this["prmQuestionAnswer"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool prmQuestionNew {
-            get {
-                return ((bool)(this["prmQuestionNew"]));
-            }
-            set {
-                this["prmQuestionNew"] = value;
+                this["prmHideFormRegion"] = value;
             }
         }
         

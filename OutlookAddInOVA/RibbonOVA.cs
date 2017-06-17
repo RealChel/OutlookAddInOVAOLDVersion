@@ -12,31 +12,29 @@ namespace OutlookAddInOVA
     {
         #region Закрытые переменные
 
-        private string lastError;
-        private string pathToFile;
-        private string preTextZun;
-        private string textZun;
-        private string errorCreateZun = "";
-        private bool workWorker = false;
-        private bool workWorkerSMART = false;
-        private string createZunResult;
-        private string EMailFromCurrentMail;
-        private Outlook.MailItem curItem;
-        private string executorSMART;
-        private string executorZUn;
-        private string textFormulirovka;
-        private string textKriterii;
-        private string textComment;
-        private int vesSmart;
-        private string DoDate;
+        internal string lastError;
+        internal string pathToFile;
+        internal string preTextZun;
+        internal string textZun;
+        internal string errorCreateZun = "";
+        internal bool workWorker = false;
+        internal bool workWorkerSMART = false;
+        internal string createZunResult;
+        internal string EMailFromCurrentMail;
+        internal Outlook.MailItem curItem;
+        internal string executorSMART;
+        internal string executorZUn;
+        internal string textFormulirovka;
+        internal string textKriterii;
+        internal string textComment;
+        internal int vesSmart;
+        internal string DoDate;
 
         #endregion Закрытые переменные
 
         private void RibbonOVA_Load(object sender, RibbonUIEventArgs e)
         {
-            cbQuestionAnswer.Checked = Properties.Settings.Default.prmQuestionAnswer;
-            cbQuestionForward.Checked = Properties.Settings.Default.prmQuestionForward;
-            cbQuestionNew.Checked = Properties.Settings.Default.prmQuestionNew;
+            
             cbCreateZunFromMe.Checked = Properties.Settings.Default.prmCreateZunFromMe;
             EMailFromCurrentMail = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
             //MessageBox.Show(OutlookAddInOVA.Globals.ThisAddIn.currentusermail);
@@ -48,23 +46,7 @@ namespace OutlookAddInOVA
 
         #region Клик по чек боксам
 
-        private void cbQuestionNew_Click(object sender, RibbonControlEventArgs e)
-        {
-            Properties.Settings.Default.prmQuestionNew = cbQuestionNew.Checked;
-            Properties.Settings.Default.Save();
-        }
-
-        private void cbQuestionAnswer_Click(object sender, RibbonControlEventArgs e)
-        {
-            Properties.Settings.Default.prmQuestionNew = cbQuestionAnswer.Checked;
-            Properties.Settings.Default.Save();
-        }
-
-        private void cbQuestionForward_Click(object sender, RibbonControlEventArgs e)
-        {
-            Properties.Settings.Default.prmQuestionForward = cbQuestionForward.Checked;
-            Properties.Settings.Default.Save();
-        }
+       
 
         private void cbCreateZunFromMe_Click(object sender, RibbonControlEventArgs e)
         {
@@ -206,7 +188,7 @@ namespace OutlookAddInOVA
 
         #region Запуск фоновых обработчиков
 
-        private void backgroundWorkerOVAZUn_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        internal void backgroundWorkerOVAZUn_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             dynamic result = null;
             V83.COMConnector com1s = new V83.COMConnector();
@@ -461,7 +443,7 @@ namespace OutlookAddInOVA
             }
         }
 
-        private void CreateZunFromMail()
+        internal void CreateZunFromMail()
         {
             if (OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA && !Properties.Settings.Default.prmCreateZunFromMe)
             {

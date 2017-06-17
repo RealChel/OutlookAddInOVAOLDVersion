@@ -43,6 +43,7 @@
             this.cbCreateZUn = new System.Windows.Forms.CheckBox();
             this.cbImportant = new System.Windows.Forms.CheckBox();
             this.toolTipRegionOVA = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBoxHideFromRegion = new System.Windows.Forms.CheckBox();
             this.tabOVA = new System.Windows.Forms.TabControl();
             this.tabPageMain = new System.Windows.Forms.TabPage();
             this.cbApproval = new System.Windows.Forms.CheckBox();
@@ -51,6 +52,7 @@
             this.EMail = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Сотрудник = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Степень = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.backgroundWorkerRegionCreatZUn = new System.ComponentModel.BackgroundWorker();
             this.tabOVA.SuspendLayout();
             this.tabPageMain.SuspendLayout();
             this.tabPageApproval.SuspendLayout();
@@ -66,6 +68,9 @@
             // 
             // tbTextZUn
             // 
+            this.tbTextZUn.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbTextZUn.Location = new System.Drawing.Point(185, 34);
             this.tbTextZUn.Multiline = true;
             this.tbTextZUn.Name = "tbTextZUn";
@@ -98,8 +103,26 @@
             this.toolTipRegionOVA.SetToolTip(this.cbImportant, "Указать Срочность заявки");
             this.cbImportant.UseVisualStyleBackColor = true;
             // 
+            // checkBoxHideFromRegion
+            // 
+            this.checkBoxHideFromRegion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBoxHideFromRegion.AutoSize = true;
+            this.checkBoxHideFromRegion.Location = new System.Drawing.Point(576, 9);
+            this.checkBoxHideFromRegion.Name = "checkBoxHideFromRegion";
+            this.checkBoxHideFromRegion.Size = new System.Drawing.Size(224, 17);
+            this.checkBoxHideFromRegion.TabIndex = 6;
+            this.checkBoxHideFromRegion.Text = "Не показывать эту область в будущем";
+            this.toolTipRegionOVA.SetToolTip(this.checkBoxHideFromRegion, "При включении этого флага, эта область впредь не будет показваться.\r\nДля включени" +
+        "я показа, необходимо открыть Настройки этой Надстройки.\r\nМеню Файл/Надстройки/На" +
+        "стройки OutlookAddInOVA");
+            this.checkBoxHideFromRegion.UseVisualStyleBackColor = false;
+            this.checkBoxHideFromRegion.CheckedChanged += new System.EventHandler(this.checkBoxHideFromRegion_CheckedChanged);
+            // 
             // tabOVA
             // 
+            this.tabOVA.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabOVA.Controls.Add(this.tabPageMain);
             this.tabOVA.Controls.Add(this.tabPageApproval);
             this.tabOVA.Location = new System.Drawing.Point(0, 0);
@@ -110,6 +133,7 @@
             // 
             // tabPageMain
             // 
+            this.tabPageMain.Controls.Add(this.checkBoxHideFromRegion);
             this.tabPageMain.Controls.Add(this.cbApproval);
             this.tabPageMain.Controls.Add(this.tbTextZUn);
             this.tabPageMain.Controls.Add(this.cbImportant);
@@ -226,8 +250,10 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn EMail;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Сотрудник;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Степень;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerRegionCreatZUn;
+        private System.Windows.Forms.CheckBox checkBoxHideFromRegion;
 
-		public partial class FormRegionOVAFactory : Microsoft.Office.Tools.Outlook.IFormRegionFactory
+        public partial class FormRegionOVAFactory : Microsoft.Office.Tools.Outlook.IFormRegionFactory
 		{
 			public event Microsoft.Office.Tools.Outlook.FormRegionInitializingEventHandler FormRegionInitializing;
 

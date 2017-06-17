@@ -71,5 +71,7 @@ namespace OutlookAddInOVA
 			DoDate = dTPDoDate.Value;
 			this.Hide();
 		}
-	}
+
+       
+    }
 }

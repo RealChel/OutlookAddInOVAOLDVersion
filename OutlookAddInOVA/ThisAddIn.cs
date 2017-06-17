@@ -37,6 +37,7 @@ namespace OutlookAddInOVA
             inspectors = this.Application.Inspectors;
             inspectors.NewInspector +=
             new Microsoft.Office.Interop.Outlook.InspectorsEvents_NewInspectorEventHandler(Inspectors_NewInspector);
+            this.Application.ItemSend += ThisAddInItemSend;
             currentExplorer = this.Application.ActiveExplorer();
             try
             {
@@ -46,6 +47,17 @@ namespace OutlookAddInOVA
             {
                 CreateZunWithError(err.ToString());
                 listAllCoWorker = new System.Data.DataTable();
+            }
+        }
+        private void ThisAddInItemSend(object Item, ref bool Cancel)
+        {
+            WindowFormRegionCollection formRegions =
+               Globals.FormRegions
+                   [Globals.ThisAddIn.Application.ActiveInspector()];
+         if (formRegions.FormRegionOVA.checkedDoZunOVA)
+            {
+
+                Globals.Ribbons.RibbonOVA.CreateZunFromMail();
             }
         }
 
@@ -72,7 +84,12 @@ namespace OutlookAddInOVA
         void Inspectors_NewInspector(Microsoft.Office.Interop.Outlook.Inspector Inspector)
         {
             Outlook.MailItem mailItem = Inspector.CurrentItem as Outlook.MailItem;
-            mailItem.PropertyChange += ThisAddInPropertyChange;
+            if (!Properties.Settings.Default.prmHideFormRegion)
+            {
+                mailItem.PropertyChange += ThisAddInPropertyChange;
+            }
+            
+            
             //if (mailItem != null)
             //{
             //    if (mailItem.EntryID == null)
@@ -109,14 +126,7 @@ namespace OutlookAddInOVA
                 Globals.FormRegions
                     [Globals.ThisAddIn.Application.ActiveInspector()];
                 formRegions.FormRegionOVA.OutlookFormRegion.Visible = findUserOVA;
-                // if (findUserOVA)
-                //    {
-                //        formRegions.FormRegionOVA
-                //    }
-                //else
-                //    {
-
-                //    }
+           
                 }
                 catch(Exception e)
                 {
