@@ -264,6 +264,7 @@
 				this._Manifest = Globals.Factory.CreateFormRegionManifest();
 				FormRegionOVA.InitializeManifest(this._Manifest, Globals.Factory);
 				this.FormRegionInitializing += new Microsoft.Office.Tools.Outlook.FormRegionInitializingEventHandler(this.FormRegionOVAFactory_FormRegionInitializing);
+                
 			}
 
 			[System.Diagnostics.DebuggerNonUserCodeAttribute()]

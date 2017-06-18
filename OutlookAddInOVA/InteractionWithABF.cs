@@ -171,7 +171,7 @@ namespace OutlookAddInOVA
 
         internal static void CreateMailWithError(string sError = "")
         {
-            Outlook.MailItem mailItem = new Outlook.MailItem();
+            Outlook.MailItem mailItem = (Outlook.MailItem)
             OutlookAddInOVA.Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
             mailItem.Subject = "В работе надстройки OutlookAddInOVA возникла ошибка";
             mailItem.To = "glaal@1ab.ru";
@@ -183,6 +183,7 @@ namespace OutlookAddInOVA
 
     internal class ParamsZUn
     {
+        internal bool CreateZUnFlag;
         internal string textZun;
         internal string preTextZun;
         internal string pathToFile;
@@ -197,12 +198,14 @@ namespace OutlookAddInOVA
         internal  ParamsZUn()
         {
             DoComplit = false;
+            CreateZUnFlag = false;
         }
 
-        internal  ParamsZUn(string textZun, string preTextZun, string pathToFile, string executorZUn, string dopRazrez, DateTime doDate, bool Importan,  string errorCreateZun,  string createZunResult)
+        internal  ParamsZUn(bool CreateZUnFlag, string textZun, string preTextZun, string pathToFile, string executorZUn, string dopRazrez, DateTime doDate, bool Importan,  string errorCreateZun,  string createZunResult)
         {
 
-            
+
+            this.CreateZUnFlag = CreateZUnFlag;
             this.textZun= textZun;
             this.preTextZun= preTextZun;
             this.pathToFile= pathToFile;

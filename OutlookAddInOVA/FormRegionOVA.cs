@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows.Forms;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace OutlookAddInOVA
 {
@@ -22,18 +24,75 @@ namespace OutlookAddInOVA
                 {
                     e.Cancel = true;
                 }
+
+                
             }
         }
 
         #endregion Фабрика областей формы
+
+        private void ThisAddInPropertyChange(string name)
+        {
+            Outlook.MailItem mailItem;
+            if (name == "To")
+            {
+                try
+                {
+                    mailItem = Globals.ThisAddIn.Application.ActiveInspector().CurrentItem as Outlook.MailItem;
+                    try
+                    {
+                        mailItem.PropertyChange -= ThisAddInPropertyChange;
+                        string allmail = Globals.ThisAddIn.GetAllSMTPAddressForRecipients(mailItem);
+                        bool findUserOVA = false;
+                        foreach (string userOVA in Globals.ThisAddIn.arrUsersOVA)
+                        {
+                            if (allmail.Contains(userOVA))
+                            {
+                                findUserOVA = true;
+                            }
+                        }
+
+                        WindowFormRegionCollection formRegions =
+                        Globals.FormRegions
+                            [Globals.ThisAddIn.Application.ActiveInspector()];
+                        formRegions.FormRegionOVA.OutlookFormRegion.Visible = findUserOVA;
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.ToString());
+                    }
+                    finally
+                    {
+                        mailItem.PropertyChange += ThisAddInPropertyChange;
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+            }
+        }
 
         // Возникает перед отображением области формы.
         // Используйте this.OutlookItem для получения ссылки на текущий элемент Outlook.
         // Используйте this.OutlookFormRegion для получения ссылки на область формы.
         private void FormRegionOVA_FormRegionShowing(object sender, System.EventArgs e)
         {
+            Outlook.MailItem mailItem = (Outlook.MailItem)this.OutlookItem;
+            mailItem.PropertyChange += ThisAddInPropertyChange;
+            string allmail = Globals.ThisAddIn.GetAllSMTPAddressForRecipients(mailItem);
+            bool findUserOVA = false;
+            foreach (string userOVA in Globals.ThisAddIn.arrUsersOVA)
+            {
+                if (allmail.Contains(userOVA))
+                {
+                    findUserOVA = true;
+                }
+            }
+            this.OutlookFormRegion.Visible = findUserOVA;
+
             tabOVA.TabPages.Remove(tabPageApproval);
-            this.OutlookFormRegion.Visible = false;
+
             mcIspolnitK.MinDate = DateTime.Now;
             checkBoxHideFromRegion.Checked = Properties.Settings.Default.prmHideFormRegion;
             //dataGridView1.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listCoWorker;
