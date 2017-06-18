@@ -5,6 +5,7 @@ namespace OutlookAddInOVA
     partial class FormRegionOVA
     {
         internal bool checkedDoZunOVA;
+        internal string textZUn;
 
         #region Фабрика областей формы
 
@@ -80,6 +81,11 @@ namespace OutlookAddInOVA
         {
             Properties.Settings.Default.prmHideFormRegion = checkBoxHideFromRegion.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        private void tbTextZUn_TextChanged(object sender, EventArgs e)
+        {
+            textZUn = tbTextZUn.Text;
         }
     }
 }

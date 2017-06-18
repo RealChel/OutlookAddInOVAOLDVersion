@@ -52,7 +52,6 @@
             this.EMail = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Сотрудник = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Степень = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.backgroundWorkerRegionCreatZUn = new System.ComponentModel.BackgroundWorker();
             this.tabOVA.SuspendLayout();
             this.tabPageMain.SuspendLayout();
             this.tabPageApproval.SuspendLayout();
@@ -78,6 +77,7 @@
             this.tbTextZUn.TabIndex = 2;
             this.toolTipRegionOVA.SetToolTip(this.tbTextZUn, "Если ввести в этом поле текст, то только он будет указан в Поручении Заявки униве" +
         "рсальной.\r\nПри этом всё письмо будет прикрепленно к ЗУн");
+            this.tbTextZUn.TextChanged += new System.EventHandler(this.tbTextZUn_TextChanged);
             // 
             // cbCreateZUn
             // 
@@ -250,7 +250,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn EMail;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Сотрудник;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Степень;
-        private System.ComponentModel.BackgroundWorker backgroundWorkerRegionCreatZUn;
         private System.Windows.Forms.CheckBox checkBoxHideFromRegion;
 
         public partial class FormRegionOVAFactory : Microsoft.Office.Tools.Outlook.IFormRegionFactory

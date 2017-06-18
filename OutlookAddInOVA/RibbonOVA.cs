@@ -1,10 +1,9 @@
 ﻿using Microsoft.Office.Tools.Ribbon;
 using System;
-using System.Drawing;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Outlook = Microsoft.Office.Interop.Outlook;
+using WithABF = OutlookAddInOVA.InteractionWithABF;
 
 namespace OutlookAddInOVA
 {
@@ -411,7 +410,7 @@ namespace OutlookAddInOVA
         private void CreatZunFromScreenshot()
         {
             notifyIconOVA.Visible = false;
-            string screenshotName = SaveClipBoardToPicture();
+            string screenshotName =WithABF.SaveClipBoardToPicture(ref lastError);
             if (screenshotName == "")
             {
                 if (lastError == "Буфер не содержит картинку")
@@ -454,7 +453,7 @@ namespace OutlookAddInOVA
                 EMailFromCurrentMail = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
             }
 
-            string pathToFileMsg = SaveEmailToMsg(curItem);
+            string pathToFileMsg = WithABF.SaveEmailToMsg(curItem,ref lastError);
             if (pathToFileMsg == "")
             {
                 MessageBox.Show("При сохранении письма в файл возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + lastError, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -497,66 +496,11 @@ namespace OutlookAddInOVA
             }
         }
 
-        public string SaveClipBoardToPicture()
-        {
-            try
-            {
-                if (!Clipboard.ContainsImage())
-                {
-                    lastError = "Буфер не содержит картинку";
-                    return "";
-                }
-                string fileName = GetPathToSave("png");
-                Image img = new Bitmap(Clipboard.GetImage());
-                img.Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
-                return fileName;
-            }
-            catch (Exception e)
-            {
-                lastError = e.ToString();
-                OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(lastError);
-                return "";
-            }
-        }
+        
 
-        public string SaveEmailToMsg(Outlook.MailItem mailItem)
-        {
-            try
-            {
-                string tempFolder = Path.GetTempPath();
-                string fileName;
-                fileName = mailItem.Subject;
-                if (!string.IsNullOrEmpty(fileName))
-                {
-                    char[] charInvalidFileChars = Path.GetInvalidFileNameChars();
-                    foreach (char charInvalid in charInvalidFileChars)
-                    {
-                        fileName = fileName.Replace(charInvalid, ' ');
-                    }
-                    fileName = tempFolder + fileName + ".msg";
-                }
-                else
-                {
-                    fileName = GetPathToSave("msg");
-                }
-                mailItem.SaveAs(fileName, Outlook.OlSaveAsType.olMSGUnicode);
-                return fileName;
-            }
-            catch (Exception e)
-            {
-                lastError = e.ToString();
-                OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(lastError);
-                return "";
-            }
-        }
+       
 
-        private string GetPathToSave(string extension)
-        {
-            string tempFolder = Path.GetTempPath();
-            string tempFileName = SystemInformation.ComputerName + "_" + SystemInformation.UserName + "_" + DateTime.Now.ToString("dd.MM.yyyy_hhmmss") + "." + extension;
-
-            return tempFolder + tempFileName;
-        }
+       
 
         /// <summary>
         /// Тестовая функция для проверки работы NotifyIcon
@@ -607,7 +551,7 @@ namespace OutlookAddInOVA
 
         private void CreatSMART(bool fastSmart = true, bool showForm = false)
         {
-            string pathToFileMsg = SaveEmailToMsg(curItem);
+            string pathToFileMsg = WithABF.SaveEmailToMsg(curItem,ref lastError);
             if (pathToFileMsg == "")
             {
                 MessageBox.Show("При сохранении письма в файл возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + lastError, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);

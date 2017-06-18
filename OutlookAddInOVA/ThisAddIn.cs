@@ -27,7 +27,9 @@ namespace OutlookAddInOVA
         internal Outlook.Inspectors inspectors;
         internal Outlook.Explorer currentExplorer = null;
         internal bool currentUserIsOVA = false;
-        
+        internal V83.COMConnector com1s;
+        internal dynamic ConnetionTo1C;
+        internal System.ComponentModel.BackgroundWorker BackgroundWorkerABF;
 
         internal System.Data.DataTable listAllCoWorker;
         internal System.Data.DataTable listMyCoWorker;
@@ -48,16 +50,23 @@ namespace OutlookAddInOVA
                 CreateZunWithError(err.ToString());
                 listAllCoWorker = new System.Data.DataTable();
             }
+
+            BackgroundWorkerABF = new System.ComponentModel.BackgroundWorker();
+            BackgroundWorkerABF.DoWork += BackgroundWorkerABFStart;
+            BackgroundWorkerABF.RunWorkerCompleted += BackgroundWorkerABFComplet;
         }
+
         private void ThisAddInItemSend(object Item, ref bool Cancel)
         {
             WindowFormRegionCollection formRegions =
                Globals.FormRegions
                    [Globals.ThisAddIn.Application.ActiveInspector()];
-         if (formRegions.FormRegionOVA.checkedDoZunOVA)
+            if (formRegions.FormRegionOVA.checkedDoZunOVA)
             {
+                
 
-                Globals.Ribbons.RibbonOVA.CreateZunFromMail();
+                //ParamsZUn paramsZUn=new ParamsZUn(formRegions.FormRegionOVA.textZUn,"",)
+                BackgroundWorkerABF.RunWorkerAsync(formRegions.FormRegionOVA.textZUn);
             }
         }
 
@@ -81,54 +90,40 @@ namespace OutlookAddInOVA
 
         #endregion Код, автоматически созданный VSTO
 
-        void Inspectors_NewInspector(Microsoft.Office.Interop.Outlook.Inspector Inspector)
+        private void Inspectors_NewInspector(Microsoft.Office.Interop.Outlook.Inspector Inspector)
         {
             Outlook.MailItem mailItem = Inspector.CurrentItem as Outlook.MailItem;
             if (!Properties.Settings.Default.prmHideFormRegion)
             {
                 mailItem.PropertyChange += ThisAddInPropertyChange;
             }
-            
-            
-            //if (mailItem != null)
-            //{
-            //    if (mailItem.EntryID == null)
-            //    {
-            //        mailItem.Subject = "This text was added by using code";
-            //        mailItem.Body = "This text was added by using code";
-            //    }
-
-            //}
         }
 
         private void ThisAddInPropertyChange(string name)
         {
             Outlook.MailItem mailItem;
-            if (name == "To" )
+            if (name == "To")
             {
                 mailItem = Globals.ThisAddIn.Application.ActiveInspector().CurrentItem as Outlook.MailItem;
                 try
-                { 
-                
-                mailItem.PropertyChange -= ThisAddInPropertyChange;
-                string allmail = GetAllSMTPAddressForRecipients(mailItem);
-                bool findUserOVA = false;
-                foreach (string userOVA in arrUsersOVA)
                 {
-                    if (allmail.Contains(userOVA))
+                    mailItem.PropertyChange -= ThisAddInPropertyChange;
+                    string allmail = GetAllSMTPAddressForRecipients(mailItem);
+                    bool findUserOVA = false;
+                    foreach (string userOVA in arrUsersOVA)
                     {
-                        findUserOVA = true;
+                        if (allmail.Contains(userOVA))
+                        {
+                            findUserOVA = true;
+                        }
                     }
-                }
 
-               
-                WindowFormRegionCollection formRegions =
-                Globals.FormRegions
-                    [Globals.ThisAddIn.Application.ActiveInspector()];
-                formRegions.FormRegionOVA.OutlookFormRegion.Visible = findUserOVA;
-           
+                    WindowFormRegionCollection formRegions =
+                    Globals.FormRegions
+                        [Globals.ThisAddIn.Application.ActiveInspector()];
+                    formRegions.FormRegionOVA.OutlookFormRegion.Visible = findUserOVA;
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     MessageBox.Show(e.ToString());
                 }
@@ -137,9 +132,7 @@ namespace OutlookAddInOVA
                     mailItem.PropertyChange += ThisAddInPropertyChange;
                 }
             }
-           
         }
-
 
         internal string GetAllSMTPAddressForRecipients(Outlook.MailItem myMail)
         {
@@ -150,12 +143,12 @@ namespace OutlookAddInOVA
             foreach (Outlook.Recipient recip in recips)
             {
 #if DEBUG
-                AllEmail += recip.Address + ";" ;
+                AllEmail += recip.Address + ";";
 
 #else
             Outlook.PropertyAccessor pa = recip.PropertyAccessor;
                 AllEmail +=
-                    pa.GetProperty(PR_SMTP_ADDRESS).ToString();                
+                    pa.GetProperty(PR_SMTP_ADDRESS).ToString();
 #endif
             }
             return AllEmail;
@@ -172,7 +165,7 @@ namespace OutlookAddInOVA
             mailItem.Send();
         }
 
-#region Первоначальное заполнение данными
+        #region Первоначальное заполнение данными
 
         private System.Data.DataTable GetListCoWorker()
         {
@@ -293,6 +286,32 @@ namespace OutlookAddInOVA
             }
         }
 
-#endregion New Region
+        #endregion Первоначальное заполнение данными
+
+        internal void BackgroundWorkerABFStart(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            string errorCreateZUn = "";
+            string createZunResult = "";
+
+            if (!InteractionWithABF.Create_ZUn(e.Argument.ToString(), "Созданна автоматически", "", "", "", ref errorCreateZUn, ref createZunResult))
+            {
+                MessageBox.Show(errorCreateZUn + "\n" + createZunResult);
+                e.Result = false;
+            }
+            else
+            {
+                e.Result = true;
+            }
+        }
+
+        internal void BackgroundWorkerABFComplet(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            if ((bool)e.Result)
+            {
+            }
+            else
+            {
+            }
+        }
     }
 }
