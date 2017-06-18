@@ -71,7 +71,7 @@ namespace OutlookAddInOVA
             catch (Exception err)
             {
                 String sError = err.ToString();
-                OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(sError);
+                WithABF.CreateMailWithError(sError);
                 MessageBox.Show(sError);
             }
         }
@@ -94,7 +94,7 @@ namespace OutlookAddInOVA
             catch (Exception err)
             {
                 string sError = err.ToString();
-                OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(sError);
+                WithABF.CreateMailWithError(sError);
                 MessageBox.Show("Не удается идентифицировать текущий объект как письмо.\nСоздать ЗУн можено только на основании письма.", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -121,7 +121,7 @@ namespace OutlookAddInOVA
             catch (Exception err)
             {
                 string sError = err.ToString();
-                OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(sError);
+                WithABF.CreateMailWithError(sError);
                 MessageBox.Show("Не удается идентифицировать текущий объект как письмо.\nСоздать ЗУн можено только на основании письма.", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -150,7 +150,7 @@ namespace OutlookAddInOVA
             catch (Exception err)
             {
                 string sError = err.ToString();
-                OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(sError);
+                WithABF.CreateMailWithError(sError);
                 MessageBox.Show("Не удается идентифицировать текущий объект как письмо.\nСоздать ЗУн можено только на основании письма.", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -314,7 +314,7 @@ namespace OutlookAddInOVA
             catch (Exception err)
             {
                 string sError = err.ToString();
-                OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(sError);
+                WithABF.CreateMailWithError(sError);
                 MessageBox.Show(sError);
                 return;
             }
@@ -364,7 +364,7 @@ namespace OutlookAddInOVA
                 notifyIconOVA.Visible = true;
                 notifyIconOVA.ShowBalloonTip(60000);
 
-                OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(errorCreateZun);
+                WithABF.CreateMailWithError(errorCreateZun);
             }
             workWorker = false;
         }
@@ -398,7 +398,7 @@ namespace OutlookAddInOVA
                 notifyIconOVA.Visible = true;
                 notifyIconOVA.ShowBalloonTip(60000);
 
-                OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(errorCreateZun);
+                WithABF.CreateMailWithError(errorCreateZun);
             }
             workWorkerSMART = false;
         }

@@ -53,7 +53,7 @@ namespace OutlookAddInOVA
             }
             catch (Exception e)
             {
-                Globals.ThisAddIn.CreateZunWithError(e.ToString());
+                CreateMailWithError(e.ToString());
                 errorCreateZun = "Возникла не предвиденная ошика.";
                 return false;
             }
@@ -105,7 +105,7 @@ namespace OutlookAddInOVA
             }
             catch (Exception e)
             {
-                Globals.ThisAddIn.CreateZunWithError(e.ToString());
+                CreateMailWithError(e.ToString());
                 return false;
             }
         }
@@ -136,7 +136,7 @@ namespace OutlookAddInOVA
             catch (Exception e)
             {
                 lastError = e.ToString();
-                OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(lastError);
+                CreateMailWithError(lastError);
                 return "";
             }
         }
@@ -164,9 +164,20 @@ namespace OutlookAddInOVA
             catch (Exception e)
             {
                 lastError = e.ToString();
-                OutlookAddInOVA.Globals.ThisAddIn.CreateZunWithError(lastError);
+                CreateMailWithError(lastError);
                 return "";
             }
+        }
+
+        internal static void CreateMailWithError(string sError = "")
+        {
+            Outlook.MailItem mailItem = new Outlook.MailItem();
+            OutlookAddInOVA.Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
+            mailItem.Subject = "В работе надстройки OutlookAddInOVA возникла ошибка";
+            mailItem.To = "glaal@1ab.ru";
+            mailItem.Body = sError;
+            mailItem.Importance = Outlook.OlImportance.olImportanceHigh;
+            mailItem.Send();
         }
     }
 
@@ -188,7 +199,7 @@ namespace OutlookAddInOVA
             DoComplit = false;
         }
 
-        internal  ParamsZUn(string textZun, string preTextZun, string pathToFile, string executorZUn, string dopRazrez, DateTime doDate, bool Importan, ref string errorCreateZun, ref string createZunResult)
+        internal  ParamsZUn(string textZun, string preTextZun, string pathToFile, string executorZUn, string dopRazrez, DateTime doDate, bool Importan,  string errorCreateZun,  string createZunResult)
         {
 
             

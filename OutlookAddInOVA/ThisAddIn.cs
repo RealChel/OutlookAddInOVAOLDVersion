@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Outlook = Microsoft.Office.Interop.Outlook;
+using WithABF = OutlookAddInOVA.InteractionWithABF;
 
 namespace OutlookAddInOVA
 {
@@ -29,7 +30,10 @@ namespace OutlookAddInOVA
         internal bool currentUserIsOVA = false;
         internal V83.COMConnector com1s;
         internal dynamic ConnetionTo1C;
-        internal System.ComponentModel.BackgroundWorker BackgroundWorkerABF;
+        private System.ComponentModel.BackgroundWorker BackgroundWorkerABF;
+        private bool doWorker;
+        internal NotifyIcon GlobalNotifyIcon;
+        internal string LastCreateZunResult="";
 
         internal System.Data.DataTable listAllCoWorker;
         internal System.Data.DataTable listMyCoWorker;
@@ -47,13 +51,16 @@ namespace OutlookAddInOVA
             }
             catch (Exception err)
             {
-                CreateZunWithError(err.ToString());
+                WithABF.CreateMailWithError(err.ToString());
                 listAllCoWorker = new System.Data.DataTable();
             }
 
             BackgroundWorkerABF = new System.ComponentModel.BackgroundWorker();
             BackgroundWorkerABF.DoWork += BackgroundWorkerABFStart;
             BackgroundWorkerABF.RunWorkerCompleted += BackgroundWorkerABFComplet;
+
+            GlobalNotifyIcon = new NotifyIcon();
+            GlobalNotifyIcon.Click += copyZUn_Click;
         }
 
         private void ThisAddInItemSend(object Item, ref bool Cancel)
@@ -63,10 +70,26 @@ namespace OutlookAddInOVA
                    [Globals.ThisAddIn.Application.ActiveInspector()];
             if (formRegions.FormRegionOVA.checkedDoZunOVA)
             {
-                
-
-                //ParamsZUn paramsZUn=new ParamsZUn(formRegions.FormRegionOVA.textZUn,"",)
-                BackgroundWorkerABF.RunWorkerAsync(formRegions.FormRegionOVA.textZUn);
+                if (doWorker)
+                {
+                    MessageBox.Show("Вы уже отправляете письмо с созданием ЗУн.\n Пожалуйста дождитесь сообщения о создании ЗУН, и повторите отправку.", "Отпавка письма с созданием ЗУн");
+                    return;
+                }
+                Outlook.MailItem mailItem = (Outlook.MailItem)Item;
+                string lastError = "";
+                string pathToMsgFile = WithABF.SaveEmailToMsg(mailItem, ref lastError);
+                if (pathToMsgFile == "")
+                {
+                    MessageBox.Show(lastError, "Возникла ошибка");
+                    WithABF.CreateMailWithError(lastError);
+                }
+                else
+                {
+                    doWorker = true;
+                    LastCreateZunResult = "";
+                    ParamsZUn paramsZUn = new ParamsZUn(formRegions.FormRegionOVA.textZUn, "", pathToMsgFile, "", "", DateTime.Now, false, "", "");
+                    BackgroundWorkerABF.RunWorkerAsync(paramsZUn);
+                }
             }
         }
 
@@ -152,17 +175,6 @@ namespace OutlookAddInOVA
 #endif
             }
             return AllEmail;
-        }
-
-        internal void CreateZunWithError(string sError = "")
-        {
-            Outlook.MailItem mailItem = (Outlook.MailItem)
-            OutlookAddInOVA.Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
-            mailItem.Subject = "В работе надстройки OutlookAddInOVA возникла ошибка";
-            mailItem.To = "glaal@1ab.ru";
-            mailItem.Body = sError;
-            mailItem.Importance = Outlook.OlImportance.olImportanceHigh;
-            mailItem.Send();
         }
 
         #region Первоначальное заполнение данными
@@ -290,28 +302,61 @@ namespace OutlookAddInOVA
 
         internal void BackgroundWorkerABFStart(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            string errorCreateZUn = "";
-            string createZunResult = "";
+            ParamsZUn paramsZUn = (ParamsZUn)e.Argument;
 
-            if (!InteractionWithABF.Create_ZUn(e.Argument.ToString(), "Созданна автоматически", "", "", "", ref errorCreateZUn, ref createZunResult))
+            if (!InteractionWithABF.Create_ZUn(paramsZUn.textZun, paramsZUn.preTextZun, paramsZUn.pathToFile, paramsZUn.executorZUn, paramsZUn.dopRazrez,
+                ref paramsZUn.errorCreateZun, ref paramsZUn.createZunResult))
             {
-                MessageBox.Show(errorCreateZUn + "\n" + createZunResult);
-                e.Result = false;
+                MessageBox.Show(paramsZUn.errorCreateZun + "\n" + paramsZUn.createZunResult);
+                paramsZUn.DoComplit = false;
             }
             else
             {
-                e.Result = true;
+                paramsZUn.DoComplit = true;
             }
+            e.Result = paramsZUn;
         }
 
         internal void BackgroundWorkerABFComplet(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            if ((bool)e.Result)
+            ParamsZUn paramsZUn = (ParamsZUn)e.Result;
+            if (paramsZUn.DoComplit)
             {
+                //MessageBox.Show("Создана заявка универсальная в УК ОВА.\n" + createZunResult, "Заявка создана успешно", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                GlobalNotifyIcon.Icon = Properties.Resources.ico_1ab;
+                GlobalNotifyIcon.BalloonTipIcon = ToolTipIcon.Info;
+                GlobalNotifyIcon.BalloonTipText = paramsZUn.createZunResult;
+                GlobalNotifyIcon.BalloonTipTitle = "Создана Заявка универсальная";
+                GlobalNotifyIcon.Text = "Через контекстное меню можно скопировать Дату и номер ЗУн";
+                var myContextMenu = new ContextMenuStrip();
+                var copyZUn = new ToolStripMenuItem("Скопировать ЗУн в буфер");
+                LastCreateZunResult = paramsZUn.createZunResult;
+                myContextMenu.Items.Add(copyZUn);
+                copyZUn.Click += copyZUn_Click;
+                GlobalNotifyIcon.ContextMenuStrip = myContextMenu;
+                GlobalNotifyIcon.Visible = true;
+                GlobalNotifyIcon.ShowBalloonTip(60000);
             }
             else
             {
+                //MessageBox.Show("При создании ЗУн возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + errorCreateZun, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                GlobalNotifyIcon.Icon = Properties.Resources.ico_1ab;
+                GlobalNotifyIcon.BalloonTipIcon = ToolTipIcon.Error;
+                GlobalNotifyIcon.BalloonTipText = "В УК ОВА было отпралено письмо с ошибкой.";
+                GlobalNotifyIcon.BalloonTipTitle = "При создании ЗУн возникла ошибка";
+                GlobalNotifyIcon.Text = "";
+                GlobalNotifyIcon.Visible = true;
+                GlobalNotifyIcon.ShowBalloonTip(60000);
+
+                WithABF.CreateMailWithError(paramsZUn.errorCreateZun);
             }
+            doWorker = false;
+        }
+
+        private void copyZUn_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(LastCreateZunResult);
+            GlobalNotifyIcon.Visible = false; ;
         }
     }
 }
