@@ -31,7 +31,7 @@ namespace OutlookAddInOVA
         internal V83.COMConnector com1s;
         internal dynamic ConnetionTo1C;
         private System.ComponentModel.BackgroundWorker BackgroundWorkerABF;
-        private bool doWorker;
+        internal bool doCreateZunInOVA;
         public NotifyIcon GlobalNotifyIcon;
         internal ContextMenuStrip myContextMenu;
         internal ToolStripMenuItem copyZUn;
@@ -87,9 +87,10 @@ namespace OutlookAddInOVA
 
                 if (formRegions.FormRegionOVA.checkedDoZunOVA)
                 {
-                    if (doWorker)
+                    if (doCreateZunInOVA)
                     {
                         MessageBox.Show("Вы уже отправляете письмо с созданием ЗУн.\n Пожалуйста дождитесь сообщения о создании ЗУН, и повторите отправку.", "Отпавка письма с созданием ЗУн");
+                        Cancel = true;
                         return;
                     }
 
@@ -102,7 +103,7 @@ namespace OutlookAddInOVA
                     }
                     else
                     {
-                        doWorker = true;
+                        doCreateZunInOVA = true;
                         LastCreateZunResult = "";
                         ParamsZUn paramsZUn = new ParamsZUn(true, formRegions.FormRegionOVA.textZUn, "", pathToMsgFile, "", "1.Любые вопросы в ОВА (выбирайте этот разрез, если есть сомнения в выборе другого разреза)", DateTime.Now, false, "", "");
                         BackgroundWorkerABF.RunWorkerAsync(paramsZUn);
@@ -148,6 +149,14 @@ namespace OutlookAddInOVA
 
         private void ThisAddInPropertyChange(string name)
         {
+            if (doCreateZunInOVA)
+            {
+                WindowFormRegionCollection formRegions =
+                        Globals.FormRegions
+                            [Globals.ThisAddIn.Application.ActiveInspector()];
+                formRegions.FormRegionOVA.OutlookFormRegion.Visible = false;
+            }
+
             Outlook.MailItem mailItem;
             if (name == "To")
             {
@@ -379,7 +388,7 @@ namespace OutlookAddInOVA
 
                 WithABF.CreateMailWithError(paramsZUn.errorCreateZun);
             }
-            doWorker = false;
+            doCreateZunInOVA = false;
         }
 
         private void copyZUn_Click(object sender, EventArgs e)

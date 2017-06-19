@@ -64,6 +64,7 @@
             this.mcIspolnitK.Name = "mcIspolnitK";
             this.mcIspolnitK.TabIndex = 0;
             this.toolTipRegionOVA.SetToolTip(this.mcIspolnitK, "Указать желаемую дату выполнения Заявки универсальной");
+            this.mcIspolnitK.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.mcIspolnitK_DateChanged);
             // 
             // tbTextZUn
             // 

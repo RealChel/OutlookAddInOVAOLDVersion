@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Outlook = Microsoft.Office.Interop.Outlook;
+using WithABF = OutlookAddInOVA.InteractionWithABF;
 
 namespace OutlookAddInOVA
 {
@@ -8,6 +9,9 @@ namespace OutlookAddInOVA
     {
         internal bool checkedDoZunOVA;
         internal string textZUn;
+        Outlook.MailItem mailItem=null;
+        private bool ShowFormRegion=false;
+        public ParamsZUn paramsZUn=new ParamsZUn();
 
         #region Фабрика областей формы
 
@@ -24,7 +28,7 @@ namespace OutlookAddInOVA
                 {
                     e.Cancel = true;
                 }
-
+                        
                 
             }
         }
@@ -33,12 +37,11 @@ namespace OutlookAddInOVA
 
         private void ThisAddInPropertyChange(string name)
         {
-            Outlook.MailItem mailItem;
             if (name == "To")
             {
                 try
                 {
-                    mailItem = Globals.ThisAddIn.Application.ActiveInspector().CurrentItem as Outlook.MailItem;
+                   
                     try
                     {
                         mailItem.PropertyChange -= ThisAddInPropertyChange;
@@ -52,14 +55,16 @@ namespace OutlookAddInOVA
                             }
                         }
 
-                        WindowFormRegionCollection formRegions =
-                        Globals.FormRegions
-                            [Globals.ThisAddIn.Application.ActiveInspector()];
-                        formRegions.FormRegionOVA.OutlookFormRegion.Visible = findUserOVA;
+                        
+                        OutlookFormRegion.Visible =ShowFormRegion = findUserOVA;
+
+                        
                     }
                     catch (Exception e)
                     {
                         MessageBox.Show(e.ToString());
+                        WithABF.CreateMailWithError(e.ToString());
+                        
                     }
                     finally
                     {
@@ -69,6 +74,7 @@ namespace OutlookAddInOVA
                 catch (Exception e)
                 {
                     MessageBox.Show(e.ToString());
+                    WithABF.CreateMailWithError(e.ToString());
                 }
             }
         }
@@ -78,7 +84,12 @@ namespace OutlookAddInOVA
         // Используйте this.OutlookFormRegion для получения ссылки на область формы.
         private void FormRegionOVA_FormRegionShowing(object sender, System.EventArgs e)
         {
-            Outlook.MailItem mailItem = (Outlook.MailItem)this.OutlookItem;
+            if (Globals.ThisAddIn.doCreateZunInOVA && !ShowFormRegion)
+            {
+                this.OutlookFormRegion.Visible = false;
+                return;
+            }
+            mailItem = (Outlook.MailItem)this.OutlookItem;
             mailItem.PropertyChange += ThisAddInPropertyChange;
             string allmail = Globals.ThisAddIn.GetAllSMTPAddressForRecipients(mailItem);
             bool findUserOVA = false;
@@ -89,7 +100,11 @@ namespace OutlookAddInOVA
                     findUserOVA = true;
                 }
             }
-            this.OutlookFormRegion.Visible = findUserOVA;
+            this.OutlookFormRegion.Visible = ShowFormRegion= findUserOVA;
+
+            mcIspolnitK.SelectionStart = paramsZUn.doDate;
+            tbTextZUn.Text = paramsZUn.textZun;
+            cbCreateZUn.Checked = paramsZUn.CreateZUnFlag;
 
             tabOVA.TabPages.Remove(tabPageApproval);
 
@@ -133,7 +148,28 @@ namespace OutlookAddInOVA
 
         private void cbCreateZUn_CheckedChanged(object sender, EventArgs e)
         {
-            checkedDoZunOVA = cbCreateZUn.Checked;
+            if (cbCreateZUn.Checked)
+            {
+                if (Globals.ThisAddIn.doCreateZunInOVA)
+                {
+                    MessageBox.Show("Вы уже создаете письмо в УК ОВА с созданием ЗУн.\nСнимите флаг создания ЗУн в другом письме и\nповторите попытку.", "Не возможно создать ЗУн");
+                    cbCreateZUn.Checked = false;
+                }
+                else
+                {
+                    Globals.ThisAddIn.doCreateZunInOVA = true;
+                }
+            }
+            else
+            {
+                if (Globals.ThisAddIn.doCreateZunInOVA)
+                {
+                    Globals.ThisAddIn.doCreateZunInOVA = false;
+                }
+            }
+
+            //checkedDoZunOVA = cbCreateZUn.Checked;
+            paramsZUn.CreateZUnFlag = cbCreateZUn.Checked;
         }
 
         private void checkBoxHideFromRegion_CheckedChanged(object sender, EventArgs e)
@@ -144,7 +180,12 @@ namespace OutlookAddInOVA
 
         private void tbTextZUn_TextChanged(object sender, EventArgs e)
         {
-            textZUn = tbTextZUn.Text;
+            paramsZUn.textZun = tbTextZUn.Text;
+        }
+
+        private void mcIspolnitK_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            paramsZUn.doDate = mcIspolnitK.SelectionStart;
         }
     }
 }
