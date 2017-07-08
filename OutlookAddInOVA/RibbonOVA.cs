@@ -429,11 +429,11 @@ namespace OutlookAddInOVA
                 instructionInZUn instructionForm = new instructionInZUn();
                 pathToFile = screenshotName;
                 preTextZun = "Ошибка зарегестрирована из MS Outlook.\nПодробности в приложенном скриншоте.";
-                instructionForm.textZun = "При необходимости укажите подробности ошибки." + Environment.NewLine + "Либо просто нажмите ОК(Ctr+Enter)";
+                instructionForm.TextZun = "При необходимости укажите подробности ошибки." + Environment.NewLine + "Либо просто нажмите ОК(Ctr+Enter)";
                 instructionForm.ShowDialog();
-                textZun = instructionForm.textZun;
-                executorZUn = instructionForm.executor;
-                if (instructionForm.clickBnOk)
+                textZun = instructionForm.TextZun;
+                executorZUn = instructionForm.Executor;
+                if (instructionForm.ClickBnOk)
                 {
                     workWorker = true;
                     this.backgroundWorkerOVAZUn.RunWorkerAsync();
@@ -463,11 +463,11 @@ namespace OutlookAddInOVA
             instructionInZUn instructionForm = new instructionInZUn();
             pathToFile = pathToFileMsg;
             preTextZun = "Заявка создана автоматически из MS Outlook.\nПодробности в приложенном письме.";
-            instructionForm.textZun = "При необходимости укажите подробности для заявки." + Environment.NewLine + "Либо просто нажмите ОК(Ctr+Enter)";
+            instructionForm.TextZun = "При необходимости укажите подробности для заявки." + Environment.NewLine + "Либо просто нажмите ОК(Ctr+Enter)";
             instructionForm.ShowDialog();
-            textZun = instructionForm.textZun;
-            executorZUn = instructionForm.executor;
-            if (instructionForm.clickBnOk)
+            textZun = instructionForm.TextZun;
+            executorZUn = instructionForm.Executor;
+            if (instructionForm.ClickBnOk)
             {
                 workWorker = true;
                 this.backgroundWorkerOVAZUn.RunWorkerAsync();

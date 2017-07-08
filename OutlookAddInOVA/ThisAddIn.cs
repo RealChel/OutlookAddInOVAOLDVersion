@@ -156,6 +156,7 @@ namespace OutlookAddInOVA
             paramsZUN.executorZUn = formRegions.Executor;
             paramsZUN.doDate = formRegions.DoDate;
             paramsZUN.pathToFile = pathToMsgFile;
+            paramsZUN.approval = formRegions.ApproveList; 
 
             return paramsZUN;
         }
@@ -322,8 +323,8 @@ namespace OutlookAddInOVA
             if (listCoWorkerUkOva.Count() > 0)
             {
 #if DEBUG
-                //usersOVA = "aleks;";
-                usersOVA = "";
+                usersOVA = "aleks;";
+                //usersOVA = "";
 #else
 				usersOVA = "";
 #endif
@@ -396,11 +397,11 @@ namespace OutlookAddInOVA
             if (!InteractionWithABF.Create_ZUn(paramsZUn))
             {
                 MessageBox.Show(paramsZUn.errorCreateZun + "\n" + paramsZUn.createZunResult);
-                paramsZUn.DoComplit = false;
+                paramsZUn.doComplit = false;
             }
             else
             {
-                paramsZUn.DoComplit = true;
+                paramsZUn.doComplit = true;
             }
             e.Result = paramsZUn;
         }
@@ -408,7 +409,7 @@ namespace OutlookAddInOVA
         internal void BackgroundWorkerABFComplet(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
             ParamsZUn paramsZUn = (ParamsZUn)e.Result;
-            if (paramsZUn.DoComplit)
+            if (paramsZUn.doComplit)
             {
                 GlobalNotifyIcon.Icon = Properties.Resources.ico_1ab;
                 GlobalNotifyIcon.BalloonTipIcon = ToolTipIcon.Info;

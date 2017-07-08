@@ -14,11 +14,11 @@ namespace OutlookAddInOVA
         private string textZunVal;
         private string executorVal;
 
-        public string executor { get { return executorVal; } set { executorVal = value; } }
+        public string Executor { get { return executorVal; } set { executorVal = value; } }
 
-        public string textZun { get { return textZunVal; } set { textZunVal = value; } }
+        public string TextZun { get { return textZunVal; } set { textZunVal = value; } }
 
-        public bool clickBnOk { get { return clickBnOkVal; } set { clickBnOkVal = value; } }
+        public bool ClickBnOk { get { return clickBnOkVal; } set { clickBnOkVal = value; } }
 
         #endregion Параметры
 
@@ -31,12 +31,12 @@ namespace OutlookAddInOVA
 
         private void instructionInZUn_Shown(object sender, EventArgs e)
         {
-            tbInstruction.Text = textZun;
+            tbInstruction.Text = TextZun;
             tbInstruction.ForeColor = Color.Silver;
             tbInstruction.SelectionStart = 0;
-            clickBnOk = false;
+            ClickBnOk = false;
             comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
-            executor = "";
+            Executor = "";
             if (!OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA)
             {
                 labelExecutor.Visible = false;
@@ -57,9 +57,9 @@ namespace OutlookAddInOVA
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            clickBnOk = false;
-            textZun = "";
-            executor = "";
+            ClickBnOk = false;
+            TextZun = "";
+            Executor = "";
             this.Hide();
         }
 
@@ -84,7 +84,7 @@ namespace OutlookAddInOVA
 
         private void comboBoxExecutor_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            executor = comboBoxExecutor.SelectedValue.ToString();
+            Executor = comboBoxExecutor.SelectedValue.ToString();
         }
 
         #endregion События
@@ -93,8 +93,8 @@ namespace OutlookAddInOVA
 
         private void CloseFormOnOK()
         {
-            clickBnOk = true;
-            textZun = tbInstruction.Text;
+            ClickBnOk = true;
+            TextZun = tbInstruction.Text;
             this.Hide();
         }
 

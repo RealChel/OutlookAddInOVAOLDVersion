@@ -10,6 +10,7 @@ namespace OutlookAddInOVA
     {
         private bool DoEnterInstruction = false;
         private bool DoEnterComment = false;
+        private string[,] approveList;
 
         public bool CheckedDoZunOVA { get; set; }
         public string TextZUn { get; set; }
@@ -19,6 +20,24 @@ namespace OutlookAddInOVA
 
         public bool Important { get; set; }
         public string DopRazrez { get; set; }
+
+        public string[,] ApproveList
+        {
+            get
+            {
+                int rowscount = dataGVWapproval.RowCount-1;
+                if (rowscount > 1)
+                {
+                    approveList = new string[rowscount, 2];
+                    for (int i = 0; i <= rowscount-1; i++)
+                    {
+                        approveList[i, 0] = (string)dataGVWapproval.Rows[i].Cells[0].Value;
+                        approveList[i, 1] = (string)dataGVWapproval.Rows[i].Cells[1].Value;
+                    }
+                }
+                return approveList;
+            }
+        }
 
         private Outlook.MailItem mailItem = null;
         //private bool ShowFormRegion=false;
@@ -48,7 +67,7 @@ namespace OutlookAddInOVA
         // Используйте this.OutlookItem для получения ссылки на текущий элемент Outlook.
         // Используйте this.OutlookFormRegion для получения ссылки на область формы.
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -57,50 +76,54 @@ namespace OutlookAddInOVA
             this.OutlookFormRegion.Visible = false;
             try
             {
-
-            Microsoft.Office.Tools.Outlook.FormRegionControl _sender = (Microsoft.Office.Tools.Outlook.FormRegionControl)sender;
-            if (_sender.OutlookFormRegion.Inspector is Microsoft.Office.Interop.Outlook.Explorer)
-            {
-                    return;
-            }
-            bool currUserIsOVA = Globals.ThisAddIn.currentUserIsOVA;
-            Outlook.MailItem mailItem = (Outlook.MailItem)this.OutlookItem;
-            string allmail = Globals.ThisAddIn.GetAllSMTPAddressForRecipients(mailItem);
-            bool findUserOVA = false;
-            foreach (string userOVA in Globals.ThisAddIn.arrUsersOVA)
-            {
-                if (allmail.Contains(userOVA))
+                Microsoft.Office.Tools.Outlook.FormRegionControl _sender = (Microsoft.Office.Tools.Outlook.FormRegionControl)sender;
+                if (_sender.OutlookFormRegion.Inspector is Microsoft.Office.Interop.Outlook.Explorer)
                 {
-                    findUserOVA = true;
+                    return;
                 }
-            }
+                bool currUserIsOVA = Globals.ThisAddIn.currentUserIsOVA;
+                Outlook.MailItem mailItem = (Outlook.MailItem)this.OutlookItem;
+                string allmail = Globals.ThisAddIn.GetAllSMTPAddressForRecipients(mailItem);
+                bool findUserOVA = false;
+                foreach (string userOVA in Globals.ThisAddIn.arrUsersOVA)
+                {
+                    if (allmail.Contains(userOVA))
+                    {
+                        findUserOVA = true;
+                    }
+                }
 
-           this.OutlookFormRegion.Visible = findUserOVA;
+                this.OutlookFormRegion.Visible = findUserOVA;
 
-            mcIspolnitK.MinDate = DateTime.Now;
-            checkBoxHideFromRegion.Checked = Properties.Settings.Default.prmHideFormRegion;
-            //dataGridView1.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listCoWorker;
-            this.EnabledChanged += FormEnabledChange;
-            comboBoxDopRazrez.Visible = cbApproval.Visible = currUserIsOVA;
-            if (!currUserIsOVA)
-            {
-                tabOVA.TabPages.Remove(tabPageAdditionalForOVA);
+                mcIspolnitK.MinDate = DateTime.Now;
+                checkBoxHideFromRegion.Checked = Properties.Settings.Default.prmHideFormRegion;
+                //dataGridView1.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listCoWorker;
+                this.EnabledChanged += FormEnabledChange;
+                comboBoxDopRazrez.Visible = cbApproval.Visible = currUserIsOVA;
+                if (!currUserIsOVA)
+                {
+                    tabOVA.TabPages.Remove(tabPageAdditionalForOVA);
+                }
+                else
+                {
+                    comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
+                    tbCommentToExecutor.ForeColor = Color.Silver;
+                    tbCommentToExecutor.SelectionStart = 0;
+                    //DataGridViewComboBoxColumn CoWorkerColumn = (DataGridViewComboBoxColumn)dataGVWapproval.Columns["CoWorker"];
+                    //CoWorkerColumn.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listAllCoWorker;
+                    CoWorker.DataSource= OutlookAddInOVA.Globals.ThisAddIn.listAllCoWorker;
+                    CoWorker.ValueMember = "Email";
+                    CoWorker.DisplayMember = "FIO";
+                }
+                tbTextZUn.ForeColor = Color.Silver;
+                tbTextZUn.SelectionStart = 0;
+                tabOVA.TabPages.Remove(tabPageApproval);
+                comboBoxExecutor.SelectedIndex = -1;
+                comboBoxDopRazrez.SelectedIndex = 0;
             }
-            else
+            catch (InvalidCastException e_cast)
             {
-                comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
-                tbCommentToExecutor.ForeColor = Color.Silver;
-                tbCommentToExecutor.SelectionStart = 0;
-            }
-            tbTextZUn.ForeColor = Color.Silver;
-            tbTextZUn.SelectionStart = 0;
-            tabOVA.TabPages.Remove(tabPageApproval);
-            comboBoxExecutor.SelectedIndex = -1;
-            comboBoxDopRazrez.SelectedIndex = 0;
-            }
-            catch(InvalidCastException e_cast)
-            {
-             //Пришлось так обработать , понимание того что форма открываеться не в одтельном инспекторе
+                //Пришлось так обработать , понимание того что форма открываеться не в одтельном инспекторе
             }
             catch (Exception err)
             {
@@ -144,10 +167,7 @@ namespace OutlookAddInOVA
 
         private void cbCreateZUn_CheckedChanged(object sender, EventArgs e)
         {
-   
-
             CheckedDoZunOVA = cbCreateZUn.Checked;
-  
         }
 
         private void checkBoxHideFromRegion_CheckedChanged(object sender, EventArgs e)
@@ -200,12 +220,28 @@ namespace OutlookAddInOVA
 
         private void comboBoxDopRazrez_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DopRazrez = comboBoxDopRazrez.SelectedItem?.ToString()??"";
+            DopRazrez = comboBoxDopRazrez.SelectedItem?.ToString() ?? "";
         }
 
         private void comboBoxExecutor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Executor = comboBoxExecutor.SelectedValue?.ToString()??"";
+            Executor = comboBoxExecutor.SelectedValue?.ToString() ?? "";
+        }
+
+        private void dataGVWapproval_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGVWapproval.Rows.Count>1 && e.ColumnIndex == 0)
+            {
+                if (dataGVWapproval.Rows[e.RowIndex].Cells[1].Value is null)
+                {
+                    dataGVWapproval.Rows[e.RowIndex].Cells[1].Value = "Согласовать";
+                }
+            }
+        }
+
+        private void dataGVWapproval_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGVWapproval.BeginEdit(true);
             
         }
     }

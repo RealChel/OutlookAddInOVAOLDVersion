@@ -38,6 +38,7 @@
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.mcIspolnitK = new System.Windows.Forms.MonthCalendar();
             this.tbTextZUn = new System.Windows.Forms.TextBox();
             this.cbCreateZUn = new System.Windows.Forms.CheckBox();
@@ -50,18 +51,19 @@
             this.cbApproval = new System.Windows.Forms.CheckBox();
             this.tabPageApproval = new System.Windows.Forms.TabPage();
             this.dataGVWapproval = new System.Windows.Forms.DataGridView();
-            this.EMail = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Сотрудник = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Степень = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPageAdditionalForOVA = new System.Windows.Forms.TabPage();
             this.labelExecutor = new System.Windows.Forms.Label();
             this.tbCommentToExecutor = new System.Windows.Forms.TextBox();
             this.comboBoxExecutor = new System.Windows.Forms.ComboBox();
+            this.thisAddInBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.CoWorker = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Degree = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.tabOVA.SuspendLayout();
             this.tabPageMain.SuspendLayout();
             this.tabPageApproval.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGVWapproval)).BeginInit();
             this.tabPageAdditionalForOVA.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.thisAddInBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // mcIspolnitK
@@ -203,30 +205,19 @@
             // 
             // dataGVWapproval
             // 
+            this.dataGVWapproval.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.dataGVWapproval.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGVWapproval.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.EMail,
-            this.Сотрудник,
-            this.Степень});
-            this.dataGVWapproval.Location = new System.Drawing.Point(0, 27);
+            this.CoWorker,
+            this.Degree});
+            this.dataGVWapproval.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.dataGVWapproval.Location = new System.Drawing.Point(0, 0);
             this.dataGVWapproval.Name = "dataGVWapproval";
-            this.dataGVWapproval.Size = new System.Drawing.Size(805, 168);
+            this.dataGVWapproval.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGVWapproval.Size = new System.Drawing.Size(805, 195);
             this.dataGVWapproval.TabIndex = 0;
-            // 
-            // EMail
-            // 
-            this.EMail.HeaderText = "E-Mail";
-            this.EMail.Name = "EMail";
-            // 
-            // Сотрудник
-            // 
-            this.Сотрудник.HeaderText = "Сотрудник";
-            this.Сотрудник.Name = "Сотрудник";
-            // 
-            // Степень
-            // 
-            this.Степень.HeaderText = "Степень";
-            this.Степень.Name = "Степень";
+            this.dataGVWapproval.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGVWapproval_CellClick);
+            this.dataGVWapproval.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGVWapproval_CellValueChanged);
             // 
             // tabPageAdditionalForOVA
             // 
@@ -278,6 +269,34 @@
             this.comboBoxExecutor.ValueMember = "EMail";
             this.comboBoxExecutor.SelectedIndexChanged += new System.EventHandler(this.comboBoxExecutor_SelectedIndexChanged);
             // 
+            // thisAddInBindingSource
+            // 
+            this.thisAddInBindingSource.DataSource = typeof(OutlookAddInOVA.ThisAddIn);
+            // 
+            // CoWorker
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            this.CoWorker.DefaultCellStyle = dataGridViewCellStyle1;
+            this.CoWorker.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.CoWorker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CoWorker.HeaderText = "Сотрудник";
+            this.CoWorker.Name = "CoWorker";
+            this.CoWorker.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.CoWorker.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.CoWorker.Width = 250;
+            // 
+            // Degree
+            // 
+            this.Degree.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.Degree.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Degree.HeaderText = "Степень";
+            this.Degree.Items.AddRange(new object[] {
+            "Согласовать",
+            "Ознакомиться"});
+            this.Degree.Name = "Degree";
+            this.Degree.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Degree.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // FormRegionOVA
             // 
             this.AccessibleName = "";
@@ -297,6 +316,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGVWapproval)).EndInit();
             this.tabPageAdditionalForOVA.ResumeLayout(false);
             this.tabPageAdditionalForOVA.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.thisAddInBindingSource)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -330,15 +350,15 @@
 		private System.Windows.Forms.CheckBox cbApproval;
 		private System.Windows.Forms.TabPage tabPageApproval;
 		private System.Windows.Forms.DataGridView dataGVWapproval;
-		private System.Windows.Forms.DataGridViewTextBoxColumn EMail;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Сотрудник;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Степень;
         private System.Windows.Forms.CheckBox checkBoxHideFromRegion;
         private System.Windows.Forms.ComboBox comboBoxDopRazrez;
         private System.Windows.Forms.TabPage tabPageAdditionalForOVA;
         private System.Windows.Forms.TextBox tbCommentToExecutor;
         private System.Windows.Forms.ComboBox comboBoxExecutor;
         private System.Windows.Forms.Label labelExecutor;
+        private System.Windows.Forms.BindingSource thisAddInBindingSource;
+        private System.Windows.Forms.DataGridViewComboBoxColumn CoWorker;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Degree;
 
         public partial class FormRegionOVAFactory : Microsoft.Office.Tools.Outlook.IFormRegionFactory
 		{

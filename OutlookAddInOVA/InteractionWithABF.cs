@@ -49,7 +49,7 @@ namespace OutlookAddInOVA
 
 #if DEBUG
                 paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn
-                    ("glaal@1ab.ru", paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun,paramsZUn.executorZUn,paramsZUn.dopRazrez,paramsZUn.commentExecutorZUn,doDate,paramsZUn.importan,paramsZUn.Approval);
+                    ("glaal@1ab.ru", paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun,paramsZUn.executorZUn,paramsZUn.dopRazrez,paramsZUn.commentExecutorZUn,doDate,paramsZUn.importan,paramsZUn.approval);
                 //createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun,executorZUn,dopRazrez);
 #else
                 createZunResult = result.ДляВнешнихСоединений.Create_ZUn(EMailFromCurrentMail, pathToFile, textZun + preTextZun, ref errorCreateZun,executorZUn);
@@ -207,14 +207,14 @@ namespace OutlookAddInOVA
         internal string dopRazrez;
         internal DateTime doDate;
         internal bool importan;
-        internal bool DoComplit;
-        internal string[] Approval;
+        internal bool doComplit;
+        internal string[,] approval;
         internal string errorCreateZun;
         internal string createZunResult;
 
         internal ParamsZUn()
         {
-            DoComplit = false;
+            doComplit = false;
             textZun = "";
             preTextZun = "";
             pathToFile = "";
@@ -226,7 +226,7 @@ namespace OutlookAddInOVA
             
         }
 
-        internal ParamsZUn(string textZun, string preTextZun, string pathToFile, string executorZUn, string commentExecutorZUn, string dopRazrez, DateTime doDate, bool importan, string[] approval)
+        internal ParamsZUn(string textZun, string preTextZun, string pathToFile, string executorZUn, string commentExecutorZUn, string dopRazrez, DateTime doDate, bool importan, string[,] approval)
         {
             this.textZun = textZun;
             this.preTextZun = preTextZun;
@@ -236,7 +236,7 @@ namespace OutlookAddInOVA
             this.dopRazrez = dopRazrez;
             this.doDate = doDate;
             this.importan = importan;
-            this.Approval = approval;    
+            this.approval = approval;    
         }
     }
 }
