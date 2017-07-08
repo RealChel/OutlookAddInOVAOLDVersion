@@ -99,7 +99,6 @@
             this.dTPDoDate.Size = new System.Drawing.Size(92, 20);
             this.dTPDoDate.TabIndex = 0;
             this.toolTipSmart.SetToolTip(this.dTPDoDate, "Укажите желаемую дату выполнения задачи");
-           
             // 
             // nUDVes
             // 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using Outlook = Microsoft.Office.Interop.Outlook;
 using WithABF = OutlookAddInOVA.InteractionWithABF;
@@ -7,11 +8,21 @@ namespace OutlookAddInOVA
 {
     partial class FormRegionOVA
     {
-        internal bool checkedDoZunOVA;
-        internal string textZUn;
-        Outlook.MailItem mailItem=null;
-        private bool ShowFormRegion=false;
-        public ParamsZUn paramsZUn=new ParamsZUn();
+        private bool DoEnterInstruction = false;
+        private bool DoEnterComment = false;
+
+        public bool CheckedDoZunOVA { get; set; }
+        public string TextZUn { get; set; }
+        public DateTime DoDate { get; set; }
+        public String CommentExecutor { get; set; }
+        public String Executor { get; set; }
+
+        public bool Important { get; set; }
+        public string DopRazrez { get; set; }
+
+        private Outlook.MailItem mailItem = null;
+        //private bool ShowFormRegion=false;
+        //public ParamsZUn paramsZUn=new ParamsZUn();
 
         #region Фабрика областей формы
 
@@ -28,69 +39,32 @@ namespace OutlookAddInOVA
                 {
                     e.Cancel = true;
                 }
-                        
-                
             }
         }
 
         #endregion Фабрика областей формы
 
-        private void ThisAddInPropertyChange(string name)
-        {
-            if (name == "To")
-            {
-                try
-                {
-                   
-                    try
-                    {
-                        mailItem.PropertyChange -= ThisAddInPropertyChange;
-                        string allmail = Globals.ThisAddIn.GetAllSMTPAddressForRecipients(mailItem);
-                        bool findUserOVA = false;
-                        foreach (string userOVA in Globals.ThisAddIn.arrUsersOVA)
-                        {
-                            if (allmail.Contains(userOVA))
-                            {
-                                findUserOVA = true;
-                            }
-                        }
-
-                        
-                        OutlookFormRegion.Visible =ShowFormRegion = findUserOVA;
-
-                        
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(e.ToString());
-                        WithABF.CreateMailWithError(e.ToString());
-                        
-                    }
-                    finally
-                    {
-                        mailItem.PropertyChange += ThisAddInPropertyChange;
-                    }
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString());
-                    WithABF.CreateMailWithError(e.ToString());
-                }
-            }
-        }
-
         // Возникает перед отображением области формы.
         // Используйте this.OutlookItem для получения ссылки на текущий элемент Outlook.
         // Используйте this.OutlookFormRegion для получения ссылки на область формы.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FormRegionOVA_FormRegionShowing(object sender, System.EventArgs e)
         {
-            if (Globals.ThisAddIn.doCreateZunInOVA && !ShowFormRegion)
+            this.OutlookFormRegion.Visible = false;
+            try
             {
-                this.OutlookFormRegion.Visible = false;
-                return;
+
+            Microsoft.Office.Tools.Outlook.FormRegionControl _sender = (Microsoft.Office.Tools.Outlook.FormRegionControl)sender;
+            if (_sender.OutlookFormRegion.Inspector is Microsoft.Office.Interop.Outlook.Explorer)
+            {
+                    return;
             }
-            mailItem = (Outlook.MailItem)this.OutlookItem;
-            mailItem.PropertyChange += ThisAddInPropertyChange;
+            bool currUserIsOVA = Globals.ThisAddIn.currentUserIsOVA;
+            Outlook.MailItem mailItem = (Outlook.MailItem)this.OutlookItem;
             string allmail = Globals.ThisAddIn.GetAllSMTPAddressForRecipients(mailItem);
             bool findUserOVA = false;
             foreach (string userOVA in Globals.ThisAddIn.arrUsersOVA)
@@ -100,18 +74,40 @@ namespace OutlookAddInOVA
                     findUserOVA = true;
                 }
             }
-            this.OutlookFormRegion.Visible = ShowFormRegion= findUserOVA;
 
-            mcIspolnitK.SelectionStart = paramsZUn.doDate;
-            tbTextZUn.Text = paramsZUn.textZun;
-            cbCreateZUn.Checked = paramsZUn.CreateZUnFlag;
-
-            tabOVA.TabPages.Remove(tabPageApproval);
+           this.OutlookFormRegion.Visible = findUserOVA;
 
             mcIspolnitK.MinDate = DateTime.Now;
             checkBoxHideFromRegion.Checked = Properties.Settings.Default.prmHideFormRegion;
             //dataGridView1.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listCoWorker;
             this.EnabledChanged += FormEnabledChange;
+            comboBoxDopRazrez.Visible = cbApproval.Visible = currUserIsOVA;
+            if (!currUserIsOVA)
+            {
+                tabOVA.TabPages.Remove(tabPageAdditionalForOVA);
+            }
+            else
+            {
+                comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
+                tbCommentToExecutor.ForeColor = Color.Silver;
+                tbCommentToExecutor.SelectionStart = 0;
+            }
+            tbTextZUn.ForeColor = Color.Silver;
+            tbTextZUn.SelectionStart = 0;
+            tabOVA.TabPages.Remove(tabPageApproval);
+            comboBoxExecutor.SelectedIndex = -1;
+            comboBoxDopRazrez.SelectedIndex = 0;
+            }
+            catch(InvalidCastException e_cast)
+            {
+             //Пришлось так обработать , понимание того что форма открываеться не в одтельном инспекторе
+            }
+            catch (Exception err)
+            {
+                String sError = err.ToString();
+                WithABF.CreateMailWithError(sError);
+                MessageBox.Show(sError);
+            }
         }
 
         // Возникает перед закрытием области формы.
@@ -126,7 +122,7 @@ namespace OutlookAddInOVA
             if (Enabled)
             {
                 checkBoxHideFromRegion.Checked = Properties.Settings.Default.prmHideFormRegion;
-                cbCreateZUn.Checked = checkedDoZunOVA;
+                cbCreateZUn.Checked = CheckedDoZunOVA;
             }
             else
             {
@@ -148,28 +144,10 @@ namespace OutlookAddInOVA
 
         private void cbCreateZUn_CheckedChanged(object sender, EventArgs e)
         {
-            if (cbCreateZUn.Checked)
-            {
-                if (Globals.ThisAddIn.doCreateZunInOVA)
-                {
-                    MessageBox.Show("Вы уже создаете письмо в УК ОВА с созданием ЗУн.\nСнимите флаг создания ЗУн в другом письме и\nповторите попытку.", "Не возможно создать ЗУн");
-                    cbCreateZUn.Checked = false;
-                }
-                else
-                {
-                    Globals.ThisAddIn.doCreateZunInOVA = true;
-                }
-            }
-            else
-            {
-                if (Globals.ThisAddIn.doCreateZunInOVA)
-                {
-                    Globals.ThisAddIn.doCreateZunInOVA = false;
-                }
-            }
+   
 
-            //checkedDoZunOVA = cbCreateZUn.Checked;
-            paramsZUn.CreateZUnFlag = cbCreateZUn.Checked;
+            CheckedDoZunOVA = cbCreateZUn.Checked;
+  
         }
 
         private void checkBoxHideFromRegion_CheckedChanged(object sender, EventArgs e)
@@ -180,12 +158,55 @@ namespace OutlookAddInOVA
 
         private void tbTextZUn_TextChanged(object sender, EventArgs e)
         {
-            paramsZUn.textZun = tbTextZUn.Text;
+            TextZUn = tbTextZUn.Text;
         }
 
         private void mcIspolnitK_DateChanged(object sender, DateRangeEventArgs e)
         {
-            paramsZUn.doDate = mcIspolnitK.SelectionStart;
+            DoDate = mcIspolnitK.SelectionStart;
+        }
+
+        private void tbCommentToExecutor_TextChanged(object sender, EventArgs e)
+        {
+            CommentExecutor = tbCommentToExecutor.Text;
+        }
+
+        private void tbCommentToExecutor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!DoEnterComment)
+            {
+                tbCommentToExecutor.ForeColor = Color.Black;
+                tbCommentToExecutor.Font = new Font(tbCommentToExecutor.Font.FontFamily, (float)10);
+                tbCommentToExecutor.Text = "";
+                DoEnterComment = true;
+            }
+        }
+
+        private void tbTextZUn_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!DoEnterInstruction)
+            {
+                tbTextZUn.ForeColor = Color.Black;
+                tbTextZUn.Font = new Font(tbCommentToExecutor.Font.FontFamily, (float)10);
+                tbTextZUn.Text = "";
+                DoEnterInstruction = true;
+            }
+        }
+
+        private void cbImportant_CheckedChanged(object sender, EventArgs e)
+        {
+            Important = cbImportant.Checked;
+        }
+
+        private void comboBoxDopRazrez_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DopRazrez = comboBoxDopRazrez.SelectedItem?.ToString()??"";
+        }
+
+        private void comboBoxExecutor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Executor = comboBoxExecutor.SelectedValue?.ToString()??"";
+            
         }
     }
 }

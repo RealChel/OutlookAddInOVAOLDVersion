@@ -12,7 +12,8 @@ namespace OutlookAddInOVA
     {
 #if DEBUG
         internal const string pathToListCOWorker = "D:\\temp\\Сотрудники1АБ.xlsx";
-        internal string usersOVA = "aleks;glaal;vasta;rogva;lihyu;provi;chest";
+        //internal string usersOVA = "aleks;glaal;vasta;rogva;lihyu;provi;chest";
+        internal string usersOVA = "glaal;vasta;rogva;lihyu;provi;chest";
         internal string[] arrUsersOVA;
         internal string currentuser = "aleks";
         internal string currentusermail = "glaal@1ab.ru";
@@ -32,7 +33,7 @@ namespace OutlookAddInOVA
         internal dynamic ConnetionTo1C;
         private System.ComponentModel.BackgroundWorker BackgroundWorkerABF;
         internal bool doCreateZunInOVA;
-        public NotifyIcon GlobalNotifyIcon;
+        internal NotifyIcon GlobalNotifyIcon;
         internal ContextMenuStrip myContextMenu;
         internal ToolStripMenuItem copyZUn;
         internal string LastCreateZunResult = "";
@@ -40,12 +41,15 @@ namespace OutlookAddInOVA
         internal System.Data.DataTable listAllCoWorker;
         internal System.Data.DataTable listMyCoWorker;
 
+      
+
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             inspectors = this.Application.Inspectors;
             inspectors.NewInspector +=
             new Microsoft.Office.Interop.Outlook.InspectorsEvents_NewInspectorEventHandler(Inspectors_NewInspector);
             this.Application.ItemSend += ThisAddInItemSend;
+            
 
             currentExplorer = this.Application.ActiveExplorer();
             try
@@ -66,12 +70,25 @@ namespace OutlookAddInOVA
             GlobalNotifyIcon.Click += copyZUn_Click;
         }
 
+        private void Application_ItemLoad(object Item)
+        {
+            throw new NotImplementedException();
+        }
+
         private void ThisAddInItemSend(object Item, ref bool Cancel)
         {
             Outlook.MailItem mailItem = (Outlook.MailItem)Item;
             WindowFormRegionCollection formRegions;
             try
             {
+                //своегообразного рода защита.
+                //создание ЗУн возможна только если письмо отправляеться из отдельного окна.
+                if (Globals.ThisAddIn.Application.ActiveWindow() is Microsoft.Office.Interop.Outlook.Explorer)
+                {
+                    return;
+                }
+              
+
                 try
                 {
                     formRegions =
@@ -85,11 +102,11 @@ namespace OutlookAddInOVA
                        [Globals.ThisAddIn.Application.ActiveWindow()];
                 }
 
-                if (formRegions.FormRegionOVA.checkedDoZunOVA)
+                if (formRegions.FormRegionOVA.CheckedDoZunOVA)
                 {
                     if (doCreateZunInOVA)
                     {
-                        MessageBox.Show("Вы уже отправляете письмо с созданием ЗУн.\n Пожалуйста дождитесь сообщения о создании ЗУН, и повторите отправку.", "Отпавка письма с созданием ЗУн");
+                        MessageBox.Show("Вы уже отправляете письмо с созданием ЗУн.\n Пожалуйста дождитесь сообщения о создании ЗУн, и повторите отправку.", "Отпавка письма с созданием ЗУн");
                         Cancel = true;
                         return;
                     }
@@ -105,8 +122,8 @@ namespace OutlookAddInOVA
                     {
                         doCreateZunInOVA = true;
                         LastCreateZunResult = "";
-                        ParamsZUn paramsZUn = new ParamsZUn(true, formRegions.FormRegionOVA.textZUn, "", pathToMsgFile, "", "1.Любые вопросы в ОВА (выбирайте этот разрез, если есть сомнения в выборе другого разреза)", DateTime.Now, false, "", "");
-                        BackgroundWorkerABF.RunWorkerAsync(paramsZUn);
+                        //ParamsZUn paramsZUn = new ParamsZUn(true, formRegions.FormRegionOVA.TextZUn,"", pathToMsgFile, "", "1.Любые вопросы в ОВА (выбирайте этот разрез, если есть сомнения в выборе другого разреза)", DateTime.Now, false, "", "");
+                        BackgroundWorkerABF.RunWorkerAsync(FillParamsForZUn(formRegions.FormRegionOVA, mailItem, pathToMsgFile));
                     }
                 }
             }
@@ -115,6 +132,32 @@ namespace OutlookAddInOVA
                 MessageBox.Show("При создании ЗУн возникла ошибка\nИнформация об ошибки отправлена в УК ОВА", "Не удалось создать ЗУн");
                 WithABF.CreateMailWithError(e.ToString());
             }
+        }
+
+        private ParamsZUn FillParamsForZUn( FormRegionOVA formRegions,  Outlook.MailItem mailItem,string pathToMsgFile)
+        {
+            ParamsZUn paramsZUN = new ParamsZUn();
+            string textZUn = formRegions.TextZUn;
+            string commentExecutor = formRegions.CommentExecutor;
+            if (String.IsNullOrEmpty(textZUn) || textZUn.Contains("При необходимости введите текст поручения ЗУн"))
+            {
+                textZUn = "Заявка создана автоматически из MS Outlook.\nПодробности в приложенном письме.";
+            }
+            //if (commentExecutor.Contains("При необходимости введите текст поручения ЗУн") || String.IsNullOrEmpty(textZUn))
+            //{
+            //    commentExecutor = "Заявка создана автоматически из MS Outlook.\nПодробности в приложенном письме.";
+            //}
+
+            paramsZUN.textZun = textZUn;
+            paramsZUN.executorZUn = formRegions.Executor;
+            paramsZUN.commentExecutorZUn = formRegions.CommentExecutor;
+            paramsZUN.importan = formRegions.Important;
+            paramsZUN.dopRazrez = formRegions.DopRazrez;
+            paramsZUN.executorZUn = formRegions.Executor;
+            paramsZUN.doDate = formRegions.DoDate;
+            paramsZUN.pathToFile = pathToMsgFile;
+
+            return paramsZUN;
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
@@ -133,6 +176,7 @@ namespace OutlookAddInOVA
         {
             this.Startup += new System.EventHandler(ThisAddIn_Startup);
             this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
+            
         }
 
         #endregion Код, автоматически созданный VSTO
@@ -144,59 +188,61 @@ namespace OutlookAddInOVA
             if (!Properties.Settings.Default.prmHideFormRegion)
             {
                 mailItem.PropertyChange += ThisAddInPropertyChange;
+                //ShowForRegion(Inspector);
             }
         }
 
         private void ThisAddInPropertyChange(string name)
         {
-            if (doCreateZunInOVA)
-            {
-                WindowFormRegionCollection formRegions =
-                        Globals.FormRegions
-                            [Globals.ThisAddIn.Application.ActiveInspector()];
-                formRegions.FormRegionOVA.OutlookFormRegion.Visible = false;
-            }
-
-            Outlook.MailItem mailItem;
+            
             if (name == "To")
             {
+                ShowForRegion(Globals.ThisAddIn.Application.ActiveInspector());
+            }
+        }
+        private void ShowForRegion(Microsoft.Office.Interop.Outlook.Inspector Inspector)
+        {
+            if (Inspector is null)
+            { return; }
+
+            Outlook.MailItem mailItem;
+            try
+            {
+                
                 try
                 {
-                    mailItem = Globals.ThisAddIn.Application.ActiveInspector().CurrentItem as Outlook.MailItem;
-                    try
+                    //mailItem = Globals.ThisAddIn.Application.ActiveInspector().CurrentItem as Outlook.MailItem;
+                    mailItem = Inspector.CurrentItem as Outlook.MailItem;
+                    //mailItem.PropertyChange -= ThisAddInPropertyChange;
+                    string allmail = GetAllSMTPAddressForRecipients(mailItem);
+                    bool findUserOVA = false;
+                    foreach (string userOVA in arrUsersOVA)
                     {
-                        mailItem.PropertyChange -= ThisAddInPropertyChange;
-                        string allmail = GetAllSMTPAddressForRecipients(mailItem);
-                        bool findUserOVA = false;
-                        foreach (string userOVA in arrUsersOVA)
+                        if (allmail.Contains(userOVA))
                         {
-                            if (allmail.Contains(userOVA))
-                            {
-                                findUserOVA = true;
-                            }
+                            findUserOVA = true;
                         }
+                    }
 
-                        WindowFormRegionCollection formRegions =
-                        Globals.FormRegions
-                            [Globals.ThisAddIn.Application.ActiveInspector()];
-                        formRegions.FormRegionOVA.OutlookFormRegion.Visible = findUserOVA;
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(e.ToString());
-                    }
-                    finally
-                    {
-                        mailItem.PropertyChange += ThisAddInPropertyChange;
-                    }
+                    WindowFormRegionCollection formRegions =
+                    Globals.FormRegions
+                        [Inspector];
+                    formRegions.FormRegionOVA.OutlookFormRegion.Visible = findUserOVA;
                 }
                 catch (Exception e)
                 {
                     MessageBox.Show(e.ToString());
                 }
+                //finally
+                //{
+                //    mailItem.PropertyChange += ThisAddInPropertyChange;
+                //}
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
             }
         }
-
         internal string GetAllSMTPAddressForRecipients(Outlook.MailItem myMail)
         {
             string AllEmail = "";
@@ -276,7 +322,8 @@ namespace OutlookAddInOVA
             if (listCoWorkerUkOva.Count() > 0)
             {
 #if DEBUG
-                usersOVA = "aleks;";
+                //usersOVA = "aleks;";
+                usersOVA = "";
 #else
 				usersOVA = "";
 #endif
@@ -340,12 +387,13 @@ namespace OutlookAddInOVA
 
         #endregion Первоначальное заполнение данными
 
+        #region Фоновые задания
+
         internal void BackgroundWorkerABFStart(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             ParamsZUn paramsZUn = (ParamsZUn)e.Argument;
 
-            if (!InteractionWithABF.Create_ZUn(paramsZUn.textZun, paramsZUn.preTextZun, paramsZUn.pathToFile, paramsZUn.executorZUn, paramsZUn.dopRazrez,
-                ref paramsZUn.errorCreateZun, ref paramsZUn.createZunResult))
+            if (!InteractionWithABF.Create_ZUn(paramsZUn))
             {
                 MessageBox.Show(paramsZUn.errorCreateZun + "\n" + paramsZUn.createZunResult);
                 paramsZUn.DoComplit = false;
@@ -368,13 +416,13 @@ namespace OutlookAddInOVA
                 GlobalNotifyIcon.BalloonTipTitle = "Создана Заявка универсальная";
                 GlobalNotifyIcon.Text = "Через контекстное меню можно скопировать Дату и номер ЗУн";
                 myContextMenu = new ContextMenuStrip();
-                copyZUn = new ToolStripMenuItem("Скопировать ЗУн в буфер");
+                ToolStripMenuItem copyZUn = new ToolStripMenuItem("Скопировать ЗУн в буфер");
                 LastCreateZunResult = paramsZUn.createZunResult;
                 myContextMenu.Items.Add(copyZUn);
                 copyZUn.Click += copyZUn_Click;
                 GlobalNotifyIcon.ContextMenuStrip = myContextMenu;
                 GlobalNotifyIcon.Visible = true;
-                GlobalNotifyIcon.ShowBalloonTip(60000);
+                GlobalNotifyIcon.ShowBalloonTip(0);
             }
             else
             {
@@ -384,12 +432,14 @@ namespace OutlookAddInOVA
                 GlobalNotifyIcon.BalloonTipTitle = "При создании ЗУн возникла ошибка";
                 GlobalNotifyIcon.Text = "";
                 GlobalNotifyIcon.Visible = true;
-                GlobalNotifyIcon.ShowBalloonTip(60000);
+                GlobalNotifyIcon.ShowBalloonTip(0);
 
                 WithABF.CreateMailWithError(paramsZUn.errorCreateZun);
             }
             doCreateZunInOVA = false;
         }
+
+        #endregion Фоновые задания
 
         private void copyZUn_Click(object sender, EventArgs e)
         {

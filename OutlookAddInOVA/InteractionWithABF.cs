@@ -1,48 +1,62 @@
 ﻿using System;
-using System.Linq;
-using System.Runtime.InteropServices;
-using Outlook = Microsoft.Office.Interop.Outlook;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using System.Drawing;
-
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace OutlookAddInOVA
 {
     internal static class InteractionWithABF
     {
-        internal static bool Create_ZUn(string textZun,string preTextZun,string pathToFile,string executorZUn,string dopRazrez, ref string errorCreateZun,ref string createZunResult)
+        internal static bool Create_ZUn(ParamsZUn paramsZUn)
         {
-            
             try
             {
-                //По простому проверяю изменили текст или сразу нажали ОК
-                if (textZun.Contains("При необходимости укажите"))
-                {
-                    textZun = "";
-                }
+                ////По простому проверяю изменили текст или сразу нажали ОК
+                //if (textZun.Contains("При необходимости укажите"))
+                //{
+                //    textZun = "";
+                //}
 
-                if (!String.IsNullOrEmpty(textZun))
+                //if (!String.IsNullOrEmpty(textZun))
+                //{
+                //    textZun += "\n\n";
+                //}
+
+                string doDate = "";
+                if (paramsZUn.doDate==null)
                 {
-                    textZun += "\n\n";
+                    doDate = DateTime.Now.ToString("yyyyMMdd190000");
                 }
+                else
+                {
+                    doDate = paramsZUn.doDate.ToString("yyyyMMdd190000");
+                }
+                
+
+
+            //    string textZun, string pathToFile, string AddTextZun, string executorZUn, string commentExecutor,
+            //string dopRazrez,bool important, DateTime doDate,string[] approvals, ref string errorCreateZun, ref string createZunResult
 
                 if (!CreateConnection())
                 {
-                    errorCreateZun= "Не удалось создать подключение к 1С";
+                    paramsZUn.errorCreateZun = "Не удалось создать подключение к 1С";
                     return false;
-
                 }
 
+
+
+
 #if DEBUG
-                createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn("glaal@1ab.ru", pathToFile, textZun + preTextZun, ref errorCreateZun, executorZUn, dopRazrez);
+                paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn
+                    ("glaal@1ab.ru", paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun,paramsZUn.executorZUn,paramsZUn.dopRazrez,paramsZUn.commentExecutorZUn,doDate,paramsZUn.importan,paramsZUn.Approval);
                 //createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun,executorZUn,dopRazrez);
 #else
                 createZunResult = result.ДляВнешнихСоединений.Create_ZUn(EMailFromCurrentMail, pathToFile, textZun + preTextZun, ref errorCreateZun,executorZUn);
                 //createZunResult = result.ДляВнешнихСоединений.GetResultCommand("Результат=10",  ref errorCreateZun);
                 //MessageBox.Show(createZunResult);
 #endif
-                if (createZunResult == "")
+                if (paramsZUn.createZunResult == "")
                 {
                     return false;
                 }
@@ -54,10 +68,10 @@ namespace OutlookAddInOVA
             catch (Exception e)
             {
                 CreateMailWithError(e.ToString());
-                errorCreateZun = "Возникла не предвиденная ошика.";
+                paramsZUn.errorCreateZun = "Возникла не предвиденная ошика.";
                 return false;
             }
-            //finally
+            //finally //пока не удалять, посмотрю будет ли много лицензий
             //{
             //    Marshal.ReleaseComObject(result);
             //    result = null;
@@ -110,7 +124,7 @@ namespace OutlookAddInOVA
             }
         }
 
-        internal static string SaveEmailToMsg(Outlook.MailItem mailItem,ref string lastError)
+        internal static string SaveEmailToMsg(Outlook.MailItem mailItem, ref string lastError)
         {
             try
             {
@@ -140,6 +154,7 @@ namespace OutlookAddInOVA
                 return "";
             }
         }
+
         private static string GetPathToSave(string extension)
         {
             string tempFolder = Path.GetTempPath();
@@ -147,6 +162,7 @@ namespace OutlookAddInOVA
 
             return tempFolder + tempFileName;
         }
+
         public static string SaveClipBoardToPicture(ref string lastError)
         {
             try
@@ -183,39 +199,44 @@ namespace OutlookAddInOVA
 
     internal class ParamsZUn
     {
-        internal bool CreateZUnFlag;
         internal string textZun;
         internal string preTextZun;
         internal string pathToFile;
         internal string executorZUn;
+        internal string commentExecutorZUn;
         internal string dopRazrez;
         internal DateTime doDate;
-        internal bool Importan;
+        internal bool importan;
+        internal bool DoComplit;
+        internal string[] Approval;
         internal string errorCreateZun;
         internal string createZunResult;
-        internal bool DoComplit;
 
-        internal  ParamsZUn()
+        internal ParamsZUn()
         {
             DoComplit = false;
-            CreateZUnFlag = false;
+            textZun = "";
+            preTextZun = "";
+            pathToFile = "";
+            executorZUn = "";
+            commentExecutorZUn = "";
+            dopRazrez = "";
+            doDate = DateTime.Now;
+            importan = false;
+            
         }
 
-        internal  ParamsZUn(bool CreateZUnFlag, string textZun, string preTextZun, string pathToFile, string executorZUn, string dopRazrez, DateTime doDate, bool Importan,  string errorCreateZun,  string createZunResult)
+        internal ParamsZUn(string textZun, string preTextZun, string pathToFile, string executorZUn, string commentExecutorZUn, string dopRazrez, DateTime doDate, bool importan, string[] approval)
         {
-
-
-            this.CreateZUnFlag = CreateZUnFlag;
-            this.textZun= textZun;
-            this.preTextZun= preTextZun;
-            this.pathToFile= pathToFile;
-            this.executorZUn= executorZUn;
-            this.dopRazrez= dopRazrez;
-            this.doDate= doDate;
-            this.Importan = Importan;
-            this.errorCreateZun= errorCreateZun;
-            this.createZunResult = createZunResult;
-            
+            this.textZun = textZun;
+            this.preTextZun = preTextZun;
+            this.pathToFile = pathToFile;
+            this.executorZUn = executorZUn;
+            this.commentExecutorZUn = commentExecutorZUn;
+            this.dopRazrez = dopRazrez;
+            this.doDate = doDate;
+            this.importan = importan;
+            this.Approval = approval;    
         }
     }
 }

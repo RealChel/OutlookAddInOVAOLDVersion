@@ -225,7 +225,7 @@ namespace OutlookAddInOVA
                     textZun += "\n\n";
                 }
 
-                string dopRazrez = "1.Любые вопросы в ОВА (выбирайте этот разрез, если есть сомнения в выборе другого разреза)";
+                string dopRazrez = ""; //"1.Любые вопросы в ОВА (выбирайте этот разрез, если есть сомнения в выборе другого разреза)";
 #if DEBUG
                 createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal@1ab.ru", pathToFile, textZun + preTextZun, ref errorCreateZun, executorZUn, dopRazrez);
                 //createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun,executorZUn,dopRazrez);
@@ -362,7 +362,7 @@ namespace OutlookAddInOVA
                 notifyIconOVA.BalloonTipTitle = "При создании ЗУн возникла ошибка";
                 notifyIconOVA.Text = "";
                 notifyIconOVA.Visible = true;
-                notifyIconOVA.ShowBalloonTip(60000);
+                notifyIconOVA.ShowBalloonTip(15000);
 
                 WithABF.CreateMailWithError(errorCreateZun);
             }
@@ -396,7 +396,7 @@ namespace OutlookAddInOVA
                 notifyIconOVA.BalloonTipTitle = "При создании СМАРТ возникла ошибка";
                 notifyIconOVA.Text = "";
                 notifyIconOVA.Visible = true;
-                notifyIconOVA.ShowBalloonTip(60000);
+                notifyIconOVA.ShowBalloonTip(15000);
 
                 WithABF.CreateMailWithError(errorCreateZun);
             }
