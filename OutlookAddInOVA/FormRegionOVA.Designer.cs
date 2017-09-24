@@ -51,13 +51,13 @@
             this.cbApproval = new System.Windows.Forms.CheckBox();
             this.tabPageApproval = new System.Windows.Forms.TabPage();
             this.dataGVWapproval = new System.Windows.Forms.DataGridView();
+            this.CoWorker = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Degree = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.tabPageAdditionalForOVA = new System.Windows.Forms.TabPage();
             this.labelExecutor = new System.Windows.Forms.Label();
             this.tbCommentToExecutor = new System.Windows.Forms.TextBox();
             this.comboBoxExecutor = new System.Windows.Forms.ComboBox();
             this.thisAddInBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.CoWorker = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Degree = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.tabOVA.SuspendLayout();
             this.tabPageMain.SuspendLayout();
             this.tabPageApproval.SuspendLayout();
@@ -205,6 +205,9 @@
             // 
             // dataGVWapproval
             // 
+            this.dataGVWapproval.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGVWapproval.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.dataGVWapproval.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGVWapproval.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -218,6 +221,30 @@
             this.dataGVWapproval.TabIndex = 0;
             this.dataGVWapproval.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGVWapproval_CellClick);
             this.dataGVWapproval.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGVWapproval_CellValueChanged);
+            // 
+            // CoWorker
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
+            this.CoWorker.DefaultCellStyle = dataGridViewCellStyle1;
+            this.CoWorker.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.CoWorker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CoWorker.HeaderText = "Сотрудник";
+            this.CoWorker.Name = "CoWorker";
+            this.CoWorker.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.CoWorker.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.CoWorker.Width = 250;
+            // 
+            // Degree
+            // 
+            this.Degree.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.Degree.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Degree.HeaderText = "Степень";
+            this.Degree.Items.AddRange(new object[] {
+            "Согласовать",
+            "Ознакомиться"});
+            this.Degree.Name = "Degree";
+            this.Degree.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Degree.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // tabPageAdditionalForOVA
             // 
@@ -272,30 +299,6 @@
             // thisAddInBindingSource
             // 
             this.thisAddInBindingSource.DataSource = typeof(OutlookAddInOVA.ThisAddIn);
-            // 
-            // CoWorker
-            // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            this.CoWorker.DefaultCellStyle = dataGridViewCellStyle1;
-            this.CoWorker.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.CoWorker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CoWorker.HeaderText = "Сотрудник";
-            this.CoWorker.Name = "CoWorker";
-            this.CoWorker.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.CoWorker.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.CoWorker.Width = 250;
-            // 
-            // Degree
-            // 
-            this.Degree.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.Degree.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Degree.HeaderText = "Степень";
-            this.Degree.Items.AddRange(new object[] {
-            "Согласовать",
-            "Ознакомиться"});
-            this.Degree.Name = "Degree";
-            this.Degree.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Degree.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // FormRegionOVA
             // 

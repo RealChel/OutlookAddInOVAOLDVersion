@@ -6,19 +6,38 @@ namespace OutlookAddInOVA
 {
     public partial class instructionInZUn : Form
     {
-        private bool doEntertext = false;
+        private bool doEnterInstruction = false;
+        private bool doEnterCommentToExecutor = false;
 
         #region Параметры
 
-        private bool clickBnOkVal;
-        private string textZunVal;
-        private string executorVal;
+       private string[,] approveList;
 
-        public string Executor { get { return executorVal; } set { executorVal = value; } }
+        public string Executor { get; set; }
 
-        public string TextZun { get { return textZunVal; } set { textZunVal = value; } }
+        public string TextZun { get; set; }
 
-        public bool ClickBnOk { get { return clickBnOkVal; } set { clickBnOkVal = value; } }
+        public bool ClickBnOk { get; set; }
+
+        public string[,] ApproveList
+        {
+            get
+            {
+                int rowscount = dataGVWapproval.RowCount - 1;
+                if (rowscount > 1)
+                {
+                    approveList = new string[rowscount, 2];
+                    for (int i = 0; i <= rowscount - 1; i++)
+                    {
+                        approveList[i, 0] = (string)dataGVWapproval.Rows[i].Cells[0].Value;
+                        approveList[i, 1] = (string)dataGVWapproval.Rows[i].Cells[1].Value;
+                    }
+                }
+                return approveList;
+            }
+        }
+
+        public String CommentExecutor { get; set; }
 
         #endregion Параметры
 
@@ -34,16 +53,34 @@ namespace OutlookAddInOVA
             tbInstruction.Text = TextZun;
             tbInstruction.ForeColor = Color.Silver;
             tbInstruction.SelectionStart = 0;
+            tbCommentToExecutor.ForeColor = Color.Silver;
+            tbCommentToExecutor.SelectionStart = 0;
+            comboBoxExecutor.SelectedIndex = -1;
+
             ClickBnOk = false;
             comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
             Executor = "";
+            //if (!OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA)
+            //{
+            //    labelExecutor.Visible = false;
+            //    comboBoxExecutor.Visible = false;
+            //    tbInstruction.Location = new Point(0, 0);
+            //    tbInstruction.Height += 32;
+            //}
             if (!OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA)
             {
-                labelExecutor.Visible = false;
-                comboBoxExecutor.Visible = false;
-                tbInstruction.Location = new Point(0, 0);
-                tbInstruction.Height += 32;
+                tabControlZUn.TabPages.Remove(tabPageOVA);
+                tabControlZUn.TabPages.Remove(tabPageApproved);
             }
+            else
+            {
+                comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
+                CoWorker.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listAllCoWorker;
+                CoWorker.ValueMember = "Email";
+                CoWorker.DisplayMember = "FIO";
+            }
+
+
         }
 
         #endregion Старт формы
@@ -69,12 +106,12 @@ namespace OutlookAddInOVA
 
         private void tbInstruction_KeyDown(object sender, KeyEventArgs e)
         {
-            if (!doEntertext)
+            if (!doEnterInstruction)
             {
                 tbInstruction.ForeColor = Color.Black;
                 tbInstruction.Font = new Font(tbInstruction.Font.FontFamily, (float)10);
                 tbInstruction.Text = "";
-                doEntertext = true;
+                doEnterInstruction = true;
             }
             if (e.KeyCode == Keys.Return && e.Modifiers == Keys.Control)
             {
@@ -82,10 +119,10 @@ namespace OutlookAddInOVA
             }
         }
 
-        private void comboBoxExecutor_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            Executor = comboBoxExecutor.SelectedValue.ToString();
-        }
+        //private void comboBoxExecutor_SelectionChangeCommitted(object sender, EventArgs e)
+        //{
+        //    Executor = comboBoxExecutor.SelectedValue.ToString();
+        //}
 
         #endregion События
 
@@ -99,5 +136,26 @@ namespace OutlookAddInOVA
         }
 
         #endregion Другие функции
+
+        private void tbCommentToExecutor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!doEnterCommentToExecutor)
+            {
+                tbCommentToExecutor.ForeColor = Color.Black;
+                tbCommentToExecutor.Font = new Font(tbInstruction.Font.FontFamily, (float)10);
+                tbCommentToExecutor.Text = "";
+                doEnterCommentToExecutor = true;
+            }
+        }
+
+        private void tbInstruction_TextChanged(object sender, EventArgs e)
+        {
+            TextZun = tbInstruction.Text;
+        }
+
+        private void tbCommentToExecutor_TextChanged(object sender, EventArgs e)
+        {
+            CommentExecutor = tbCommentToExecutor.Text;
+        }
     }
 }

@@ -58,6 +58,7 @@ namespace OutlookAddInOVA
                 {
                     e.Cancel = true;
                 }
+               
             }
         }
 
@@ -97,7 +98,6 @@ namespace OutlookAddInOVA
 
                 mcIspolnitK.MinDate = DateTime.Now;
                 checkBoxHideFromRegion.Checked = Properties.Settings.Default.prmHideFormRegion;
-                //dataGridView1.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listCoWorker;
                 this.EnabledChanged += FormEnabledChange;
                 comboBoxDopRazrez.Visible = cbApproval.Visible = currUserIsOVA;
                 if (!currUserIsOVA)
@@ -106,17 +106,20 @@ namespace OutlookAddInOVA
                 }
                 else
                 {
-                    comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
                     tbCommentToExecutor.ForeColor = Color.Silver;
                     tbCommentToExecutor.SelectionStart = 0;
                     //DataGridViewComboBoxColumn CoWorkerColumn = (DataGridViewComboBoxColumn)dataGVWapproval.Columns["CoWorker"];
                     //CoWorkerColumn.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listAllCoWorker;
+                    comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
                     CoWorker.DataSource= OutlookAddInOVA.Globals.ThisAddIn.listAllCoWorker;
                     CoWorker.ValueMember = "Email";
                     CoWorker.DisplayMember = "FIO";
                 }
                 tbTextZUn.ForeColor = Color.Silver;
                 tbTextZUn.SelectionStart = 0;
+                tbCommentToExecutor.ForeColor = Color.Silver;
+                tbCommentToExecutor.SelectionStart = 0;
+                
                 tabOVA.TabPages.Remove(tabPageApproval);
                 comboBoxExecutor.SelectedIndex = -1;
                 comboBoxDopRazrez.SelectedIndex = 0;
