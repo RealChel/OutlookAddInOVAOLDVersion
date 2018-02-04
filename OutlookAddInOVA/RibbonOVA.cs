@@ -33,7 +33,6 @@ namespace OutlookAddInOVA
 
         private void RibbonOVA_Load(object sender, RibbonUIEventArgs e)
         {
-            
             cbCreateZunFromMe.Checked = Properties.Settings.Default.prmCreateZunFromMe;
             EMailFromCurrentMail = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
             //MessageBox.Show(OutlookAddInOVA.Globals.ThisAddIn.currentusermail);
@@ -44,8 +43,6 @@ namespace OutlookAddInOVA
         }
 
         #region Клик по чек боксам
-
-       
 
         private void cbCreateZunFromMe_Click(object sender, RibbonControlEventArgs e)
         {
@@ -167,9 +164,7 @@ namespace OutlookAddInOVA
 
         #endregion Кнопки на ленте
 
-
-
-        #region Кнопки  
+        #region Кнопки
 
         private void btnAboutProg_Click(object sender, RibbonControlEventArgs e)
         {
@@ -190,60 +185,54 @@ namespace OutlookAddInOVA
         internal void backgroundWorkerOVAZUn_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             dynamic result = null;
-            V83.COMConnector com1s = new V83.COMConnector();
+            ParamsZUn paramsZUn = (ParamsZUn)e.Argument;
+            //V83.COMConnector com1s = new V83.COMConnector();
             try
             {
                 //По простому проверяю изменили текст или сразу нажали ОК
-                if (textZun.Contains("При необходимости укажите"))
+                //Вероятность того что кто то же укажет такой же текст равна 0
+                if (paramsZUn.textZun.Contains("При необходимости укажите"))
                 {
-                    textZun = "";
+                    paramsZUn.textZun = "";
                 }
 
-                string user = @"""Create_ZUn""";
-                string pas = @"""bF6k6mjbCEfEJayL""";
-#if DEBUG
-                string file = @"""G:\\ABF""";
-#else
-                //string Srvr = @"""1ab-1cv81:2541""";
-                //string Ref = @"""copy_abf""";
-                string Srvr = @"""1ab-1cv80""";
-                string Ref = @"""pav-oper82""";
-#endif
-                com1s.PoolCapacity = 1;
-                com1s.PoolTimeout = 1;
-                com1s.MaxConnections = 1;
-#if DEBUG
-                string connectString = "File=" + file + ";Usr=" + user + ";Pwd=" + pas + ";";
-#else
-				string connectString = "Srvr=" + Srvr + ";Ref=" + Ref + ";Usr=" + user + ";Pwd=" + pas + ";";
-#endif
-                result = com1s.Connect(connectString);
-
-                
                 if (!String.IsNullOrEmpty(textZun))
                 {
                     textZun += "\n\n";
                 }
 
-                string dopRazrez = ""; //"1.Любые вопросы в ОВА (выбирайте этот разрез, если есть сомнения в выборе другого разреза)";
+                //                string user = @"""Create_ZUn""";
+                //                string pas = @"""bF6k6mjbCEfEJayL""";
+                //#if DEBUG
+                //                string file = @"""G:\\ABF""";
+                //#else
+                //                //string Srvr = @"""1ab-1cv81:2541""";
+                //                //string Ref = @"""copy_abf""";
+                //                string Srvr = @"""1ab-1cv80""";
+                //                string Ref = @"""pav-oper82""";
+                //#endif
+                //                //com1s.PoolCapacity = 1;
+                //                //com1s.PoolTimeout = 1;
+                //                //com1s.MaxConnections = 1;
+                //#if DEBUG
+                //                string connectString = "File=" + file + ";Usr=" + user + ";Pwd=" + pas + ";";
+                //#else
+                //				string connectString = "Srvr=" + Srvr + ";Ref=" + Ref + ";Usr=" + user + ";Pwd=" + pas + ";";
+                //#endif
+                //                //result = com1s.Connect(connectString);
+                //                //todo: удалить
 
-                ParamsZUn paramsZUn = (ParamsZUn)e.Argument;
+                paramsZUn.dopRazrez = "1.Любые вопросы в ОВА(выбирайте этот разрез, если есть сомнения в выборе другого разреза)";
 
-                paramsZUn.dopRazrez = "";
+                //#if DEBUG
 
-
-
-#if DEBUG
-
-
-
-                //createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal@1ab.ru", pathToFile, textZun + preTextZun, ref errorCreateZun, executorZUn, dopRazrez);
-                //createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun,executorZUn,dopRazrez);
-#else
-                createZunResult = result.ДляВнешнихСоединений.Create_ZUn(EMailFromCurrentMail, pathToFile, textZun + preTextZun, ref errorCreateZun,executorZUn);
-                //createZunResult = result.ДляВнешнихСоединений.GetResultCommand("Результат=10",  ref errorCreateZun);
-                //MessageBox.Show(createZunResult);
-#endif
+                //               //createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal@1ab.ru", pathToFile, textZun + preTextZun, ref errorCreateZun, executorZUn, dopRazrez);
+                //               //createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun,executorZUn,dopRazrez);
+                //#else
+                //                //createZunResult = result.ДляВнешнихСоединений.Create_ZUn(EMailFromCurrentMail, pathToFile, textZun + preTextZun, ref errorCreateZun,executorZUn);
+                //                //createZunResult = result.ДляВнешнихСоединений.GetResultCommand("Результат=10",  ref errorCreateZun);
+                //                //MessageBox.Show(createZunResult);
+                //#endif
 
                 if (!InteractionWithABF.Create_ZUn(paramsZUn))
                 {
@@ -255,13 +244,6 @@ namespace OutlookAddInOVA
                     paramsZUn.doComplit = true;
                 }
                 e.Result = paramsZUn;
-
-
-
-
-
-
-
 
                 //if (createZunResult == "")
                 //{
@@ -282,17 +264,22 @@ namespace OutlookAddInOVA
 
                 return;
             }
-            finally
-            {
-                Marshal.ReleaseComObject(result);
-                result = null;
-
-                Marshal.ReleaseComObject(com1s);
-                com1s = null;
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                GC.Collect();
-            }
+            //finally
+            //{
+            //    if (result != null)
+            //    {
+            //        Marshal.ReleaseComObject(result);
+            //        result = null;
+            //    }
+            //    if (com1s != null)
+            //    {
+            //        Marshal.ReleaseComObject(com1s);
+            //        com1s = null;
+            //    }
+            //    GC.Collect();
+            //    GC.WaitForPendingFinalizers();
+            //    GC.Collect();
+            //}
         }
 
         private void backgroundWorkerOVASMART_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -326,7 +313,7 @@ namespace OutlookAddInOVA
                 createZunResult = result.ДляВнешнихСоединений.Create_SMART("glaal@1ab.ru", executorSMART, textFormulirovka, textKriterii, pathToFile, vesSmart, DoDate, textComment, ref errorCreateZun);
                 //createZunResult = result.ДляВнешнихСоединений.Create_SMART("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun);
 #else
-                
+
                  createZunResult = result.ДляВнешнихСоединений.Create_SMART(OutlookAddInOVA.Globals.ThisAddIn.currentusermail, executorSMART, textFormulirovka, textKriterii, pathToFile, vesSmart, DoDate, textComment, ref errorCreateZun);
 #endif
                 if (createZunResult == "")
@@ -366,10 +353,6 @@ namespace OutlookAddInOVA
 
         private void backgroundWorkerOVAZUn_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-
-
-
-
             //if ((bool)e.Result)
             //{
             //    //MessageBox.Show("Создана заявка универсальная в УК ОВА.\n" + createZunResult, "Заявка создана успешно", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -431,9 +414,6 @@ namespace OutlookAddInOVA
                 WithABF.CreateMailWithError(paramsZUn.errorCreateZun);
             }
             Globals.ThisAddIn.doCreateZunInOVA = false;
-
-
-
         }
 
         private void backgroundWorkerOVASMART_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
@@ -474,10 +454,13 @@ namespace OutlookAddInOVA
 
         #region Другие функции
 
+        /// <summary>
+        /// Создание ЗУн из скриншота находящегося в буфере
+        /// </summary>
         private void CreatZunFromScreenshot()
         {
             notifyIconOVA.Visible = false;
-            string screenshotName =WithABF.SaveClipBoardToPicture(ref lastError);
+            string screenshotName = WithABF.SaveClipBoardToPicture(ref lastError);
             if (screenshotName == "")
             {
                 if (lastError == "Буфер не содержит картинку")
@@ -493,7 +476,7 @@ namespace OutlookAddInOVA
             }
             else
             {
-                instructionInZUn instructionForm = new instructionInZUn();
+                InstructionInZUn instructionForm = new InstructionInZUn();
                 pathToFile = screenshotName;
                 preTextZun = "Ошибка зарегестрирована из MS Outlook.\nПодробности в приложенном скриншоте.";
                 instructionForm.TextZun = "При необходимости укажите подробности ошибки." + Environment.NewLine + "Либо просто нажмите ОК(Ctr+Enter)";
@@ -509,8 +492,14 @@ namespace OutlookAddInOVA
             }
         }
 
+        /// <summary>
+        /// Создание ЗУн из текущего письма
+        /// </summary>
         internal void CreateZunFromMail()
         {
+            //Если пользователь работает в ОВА и не включен флаг Создать ЗУн от текущего пользователя
+            //Получаем адрес отправителя из письма
+            //в противном случаее получаем адрес текущего пользователя
             if (OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA && !Properties.Settings.Default.prmCreateZunFromMe)
             {
                 EMailFromCurrentMail = GetSmtpAddress(curItem);
@@ -520,14 +509,14 @@ namespace OutlookAddInOVA
                 EMailFromCurrentMail = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
             }
 
-            string pathToFileMsg = WithABF.SaveEmailToMsg(curItem,ref lastError);
+            string pathToFileMsg = WithABF.SaveEmailToMsg(curItem, ref lastError);
             if (pathToFileMsg == "")
             {
                 MessageBox.Show("При сохранении письма в файл возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + lastError, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            instructionInZUn instructionForm = new instructionInZUn();
+            InstructionInZUn instructionForm = new InstructionInZUn();
             pathToFile = pathToFileMsg;
             preTextZun = "Заявка создана автоматически из MS Outlook.\nПодробности в приложенном письме.";
             instructionForm.TextZun = "При необходимости укажите подробности для заявки." + Environment.NewLine + "Либо просто нажмите ОК(Ctr+Enter)";
@@ -535,16 +524,15 @@ namespace OutlookAddInOVA
             if (instructionForm.ClickBnOk)
             {
                 Globals.ThisAddIn.doCreateZunInOVA = true;
-                this.backgroundWorkerOVAZUn.RunWorkerAsync(FillParamsForZUn(instructionForm,pathToFileMsg));
+                this.backgroundWorkerOVAZUn.RunWorkerAsync(FillParamsForZUn(instructionForm, pathToFileMsg));
             }
             instructionForm = null;
         }
 
-        private ParamsZUn FillParamsForZUn(instructionInZUn forminstruction, string pathToMsgFile)
+        private ParamsZUn FillParamsForZUn(InstructionInZUn forminstruction, string pathToMsgFile)
         {
             ParamsZUn paramsZUN = new ParamsZUn();
             string textZUn = forminstruction.TextZun;
-            
 
             if (String.IsNullOrEmpty(textZUn) || textZUn.Contains("При необходимости введите текст поручения ЗУн"))
             {
@@ -563,7 +551,6 @@ namespace OutlookAddInOVA
 
             return paramsZUN;
         }
-
 
         private bool SetCurrenEmail(object selectedItem)
         {
@@ -585,12 +572,6 @@ namespace OutlookAddInOVA
                 return false;
             }
         }
-
-        
-
-       
-
-       
 
         /// <summary>
         /// Тестовая функция для проверки работы NotifyIcon
@@ -641,7 +622,7 @@ namespace OutlookAddInOVA
 
         private void CreatSMART(bool fastSmart = true, bool showForm = false)
         {
-            string pathToFileMsg = WithABF.SaveEmailToMsg(curItem,ref lastError);
+            string pathToFileMsg = WithABF.SaveEmailToMsg(curItem, ref lastError);
             if (pathToFileMsg == "")
             {
                 MessageBox.Show("При сохранении письма в файл возникла ошибка.\nПожалуйста сообщите текст ошибки в отдел УК ОВА.\n" + lastError, "Не удалось создать ЗУн в УК ОВА", MessageBoxButtons.OK, MessageBoxIcon.Error);

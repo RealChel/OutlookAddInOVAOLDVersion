@@ -1,6 +1,6 @@
 ﻿namespace OutlookAddInOVA
 {
-	partial class instructionInZUn
+	partial class InstructionInZUn
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -30,7 +30,7 @@
 		{
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(instructionInZUn));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InstructionInZUn));
             this.toolTipInstruction = new System.Windows.Forms.ToolTip(this.components);
             this.tbInstruction = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
@@ -68,6 +68,7 @@
             this.toolTipInstruction.SetToolTip(this.tbInstruction, "В этом поле можно указать дополнительную информацию о возникшей ситуации,\r\nэтот т" +
         "екст будет добавлен в текст поручения Заявки универсальной.");
             this.tbInstruction.TextChanged += new System.EventHandler(this.tbInstruction_TextChanged);
+            this.tbInstruction.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbInstruction_KeyDown);
             // 
             // btnOK
             // 
@@ -80,6 +81,7 @@
             this.btnOK.Text = "ОК";
             this.toolTipInstruction.SetToolTip(this.btnOK, "Создать заявку в УК ОВА");
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // tabControlZUn
             // 
@@ -156,6 +158,7 @@
             this.comboBoxExecutor.Size = new System.Drawing.Size(209, 21);
             this.comboBoxExecutor.TabIndex = 6;
             this.comboBoxExecutor.ValueMember = "EMail";
+            this.comboBoxExecutor.SelectionChangeCommitted += new System.EventHandler(this.comboBoxExecutor_SelectionChangeCommitted);
             // 
             // tabPageApproved
             // 
@@ -215,8 +218,9 @@
             this.btnCancel.TabIndex = 12;
             this.btnCancel.Text = "Отмена";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // instructionInZUn
+            // InstructionInZUn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -228,7 +232,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "instructionInZUn";
+            this.Name = "InstructionInZUn";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Текст поручения для ЗУн";
             this.Shown += new System.EventHandler(this.instructionInZUn_Shown);

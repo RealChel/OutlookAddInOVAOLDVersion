@@ -49,10 +49,10 @@ namespace OutlookAddInOVA
 
 #if DEBUG
                 paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn
-                    ("glaal@1ab.ru", paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun,paramsZUn.executorZUn,paramsZUn.dopRazrez,paramsZUn.commentExecutorZUn,doDate,paramsZUn.importan,paramsZUn.approval);
+                    ("glaal@1ab.ru", paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn, paramsZUn.dopRazrez, paramsZUn.commentExecutorZUn, doDate, paramsZUn.importan, paramsZUn.approval);
                 //createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun,executorZUn,dopRazrez);
 #else
-                createZunResult = result.ДляВнешнихСоединений.Create_ZUn(EMailFromCurrentMail, pathToFile, textZun + preTextZun, ref errorCreateZun,executorZUn);
+                paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn(EMailFromCurrentMail, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn, paramsZUn.dopRazrez, paramsZUn.commentExecutorZUn, doDate, paramsZUn.importan, paramsZUn.approval);
                 //createZunResult = result.ДляВнешнихСоединений.GetResultCommand("Результат=10",  ref errorCreateZun);
                 //MessageBox.Show(createZunResult);
 #endif
@@ -68,7 +68,7 @@ namespace OutlookAddInOVA
             catch (Exception e)
             {
                 CreateMailWithError(e.ToString());
-                paramsZUn.errorCreateZun = "Возникла не предвиденная ошика.";
+                paramsZUn.errorCreateZun = "Возникла не предвиденная ошибка.";
                 return false;
             }
             //finally //пока не удалять, посмотрю будет ли много лицензий
@@ -124,6 +124,12 @@ namespace OutlookAddInOVA
             }
         }
 
+        /// <summary>
+        /// Сохраняем переданное письмо в файл формата msg
+        /// </summary>
+        /// <param name="mailItem"> письмо, тип Outlook.MailItem </param>
+        /// <param name="lastError">текст ошибки, возвращаемый в вызвавшую функцию</param>
+        /// <returns></returns>
         internal static string SaveEmailToMsg(Outlook.MailItem mailItem, ref string lastError)
         {
             try
@@ -155,6 +161,11 @@ namespace OutlookAddInOVA
             }
         }
 
+        /// <summary>
+        /// Составляем имя файла для сохранения во временном каталоге Windows
+        /// </summary>
+        /// <param name="extension">С каким расширением сохранить файл</param>
+        /// <returns></returns>
         private static string GetPathToSave(string extension)
         {
             string tempFolder = Path.GetTempPath();
@@ -163,6 +174,11 @@ namespace OutlookAddInOVA
             return tempFolder + tempFileName;
         }
 
+        /// <summary>
+        /// Сохранение картинки в буфере обмена в файл формата png
+        /// </summary>
+        /// <param name="lastError"></param>
+        /// <returns>путь к файлу формата png</returns>
         public static string SaveClipBoardToPicture(ref string lastError)
         {
             try
@@ -185,15 +201,31 @@ namespace OutlookAddInOVA
             }
         }
 
+        /// <summary>
+        /// Создаем и автоматически отправляем письмо с ошибкой.
+        /// </summary>
+        /// <param name="sError"></param>
         internal static void CreateMailWithError(string sError = "")
         {
-            Outlook.MailItem mailItem = (Outlook.MailItem)
-            OutlookAddInOVA.Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
-            mailItem.Subject = "В работе надстройки OutlookAddInOVA возникла ошибка";
-            mailItem.To = "glaal@1ab.ru";
-            mailItem.Body = sError;
-            mailItem.Importance = Outlook.OlImportance.olImportanceHigh;
-            mailItem.Send();
+            try
+            {
+                Outlook.MailItem mailItem = (Outlook.MailItem)
+           OutlookAddInOVA.Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem);
+                mailItem.Subject = "В работе надстройки OutlookAddInOVA возникла ошибка";
+                mailItem.To = "glaal@1ab.ru";
+                mailItem.Body = sError;
+                mailItem.Importance = Outlook.OlImportance.olImportanceHigh;
+                mailItem.Send();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Возникла не предвиденная ошибка, обратитесь к администратору" +
+                                e.ToString(), "Системная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+             
+            }
+
+
+           
         }
     }
 
@@ -212,6 +244,9 @@ namespace OutlookAddInOVA
         internal string errorCreateZun;
         internal string createZunResult;
 
+        /// <summary>
+        /// Конструктор класса ParamsZUn
+        /// </summary>
         internal ParamsZUn()
         {
             doComplit = false;
@@ -226,6 +261,9 @@ namespace OutlookAddInOVA
             
         }
 
+        /// <summary>
+        /// Конструктор класса ParamsZUn
+        /// </summary>
         internal ParamsZUn(string textZun, string preTextZun, string pathToFile, string executorZUn, string commentExecutorZUn, string dopRazrez, DateTime doDate, bool importan, string[,] approval)
         {
             this.textZun = textZun;

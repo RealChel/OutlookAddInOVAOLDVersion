@@ -4,14 +4,14 @@ using System.Windows.Forms;
 
 namespace OutlookAddInOVA
 {
-    public partial class instructionInZUn : Form
+    public partial class InstructionInZUn : Form
     {
         private bool doEnterInstruction = false;
         private bool doEnterCommentToExecutor = false;
 
         #region Параметры
 
-       private string[,] approveList;
+        private string[,] approveList;
 
         public string Executor { get; set; }
 
@@ -37,13 +37,13 @@ namespace OutlookAddInOVA
             }
         }
 
-        public String CommentExecutor { get; set; }
+        public string CommentExecutor { get; set; }
 
         #endregion Параметры
 
         #region Старт формы
 
-        public instructionInZUn()
+        public InstructionInZUn()
         {
             InitializeComponent();
         }
@@ -119,23 +119,10 @@ namespace OutlookAddInOVA
             }
         }
 
-        //private void comboBoxExecutor_SelectionChangeCommitted(object sender, EventArgs e)
-        //{
-        //    Executor = comboBoxExecutor.SelectedValue.ToString();
-        //}
-
-        #endregion События
-
-        #region Другие функции
-
-        private void CloseFormOnOK()
+        private void comboBoxExecutor_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ClickBnOk = true;
-            TextZun = tbInstruction.Text;
-            this.Hide();
+            Executor = comboBoxExecutor.SelectedValue.ToString();
         }
-
-        #endregion Другие функции
 
         private void tbCommentToExecutor_KeyDown(object sender, KeyEventArgs e)
         {
@@ -157,5 +144,18 @@ namespace OutlookAddInOVA
         {
             CommentExecutor = tbCommentToExecutor.Text;
         }
+
+        #endregion События
+
+        #region Другие функции
+
+        private void CloseFormOnOK()
+        {
+            ClickBnOk = true;
+            TextZun = tbInstruction.Text;
+            this.Hide();
+        }
+
+        #endregion Другие функции
     }
 }
