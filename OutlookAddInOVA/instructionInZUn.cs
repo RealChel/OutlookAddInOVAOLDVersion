@@ -159,3 +159,5 @@ namespace OutlookAddInOVA
         #endregion Другие функции
     }
 }
+
+//Сделать: Добавлять согласующих

@@ -18,7 +18,14 @@ namespace OutlookAddInOVA
             tbKriteriiExecutorSmart.Text = Properties.Settings.Default.prmSmartExecutorKriterii;
             tbFormulirovkaFastSmart.Text = Properties.Settings.Default.prmSmartFastFormulirovka;
             tbKriteriiFastSmart.Text = Properties.Settings.Default.prmSmartFastKriterii;
-            checkBoxHideFormRegion.Checked = Properties.Settings.Default.prmHideFormRegion;
+            cbCreateOtherZUn.Checked = Properties.Settings.Default.prmCreateOtherZUn;
+            cbCreateSMART.Checked = Properties.Settings.Default.prmCreateSMART;
+            cbCreateZUnOVA.Checked = Properties.Settings.Default.prmCreateZUnOVA;
+            tbZUnAddSegment.Text = Properties.Settings.Default.prmZUnAddSegment;
+            tbZUnButtonName.Text = Properties.Settings.Default.prmZUnButtonName;
+
+            showHideZUn();
+            showHideSMART();
         }
 
         #endregion Старт формы
@@ -31,7 +38,11 @@ namespace OutlookAddInOVA
             Properties.Settings.Default.prmSmartExecutorKriterii = tbKriteriiExecutorSmart.Text;
             Properties.Settings.Default.prmSmartFastFormulirovka = tbFormulirovkaFastSmart.Text;
             Properties.Settings.Default.prmSmartFastKriterii = tbKriteriiFastSmart.Text;
-            Properties.Settings.Default.prmHideFormRegion = checkBoxHideFormRegion.Checked;
+            Properties.Settings.Default.prmCreateOtherZUn = cbCreateOtherZUn.Checked;
+            Properties.Settings.Default.prmCreateSMART = cbCreateSMART.Checked;
+            Properties.Settings.Default.prmCreateZUnOVA = cbCreateZUnOVA.Checked;
+            Properties.Settings.Default.prmZUnAddSegment = tbZUnAddSegment.Text.Trim();
+            Properties.Settings.Default.prmZUnButtonName = tbZUnButtonName.Text.Trim();
             Properties.Settings.Default.Save();
         }
 
@@ -51,5 +62,37 @@ namespace OutlookAddInOVA
                 System.Diagnostics.Process.Start("mailto:glaal@1ab.ru");
             }
         }
+
+        private void showHideSMART()
+        {
+            if (!cbCreateSMART.Checked)
+            {
+                tabControlSettings.TabPages.Remove(tabPageSMART);
+            }
+        }
+        private void showHideZUn()
+        {
+            if (!cbCreateZUnOVA.Checked & !cbCreateOtherZUn.Checked)
+            {
+                tabControlSettings.TabPages.Remove(tabPageZUn);
+            }
+
+        }
+
+        private void cbCreateSMART_CheckedChanged(object sender, EventArgs e)
+        {
+            showHideSMART();
+        }
+
+        private void cbCreateOtherZUn_CheckedChanged(object sender, EventArgs e)
+        {
+            showHideZUn();
+        }
+
+        private void cbCreateZUnOVA_CheckedChanged(object sender, EventArgs e)
+        {
+            showHideZUn();
+        }
     }
 }
+//Ошибка: не перерисуются вкладки при включении флагов

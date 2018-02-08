@@ -36,7 +36,7 @@
 		{
             this.components = new System.ComponentModel.Container();
             this.tabOVA = this.Factory.CreateRibbonTab();
-            this.groupCreateZun = this.Factory.CreateRibbonGroup();
+            this.groupCreateZUnOVA = this.Factory.CreateRibbonGroup();
             this.btnCreateZUnInABF = this.Factory.CreateRibbonButton();
             this.buttonCreateZunWithMsg = this.Factory.CreateRibbonButton();
             this.groupSmart = this.Factory.CreateRibbonGroup();
@@ -52,29 +52,34 @@
             this.backgroundWorkerOVASMART = new System.ComponentModel.BackgroundWorker();
             this.buttonSetting = this.Factory.CreateRibbonButton();
             this.btnAboutProg = this.Factory.CreateRibbonButton();
+            this.groupCreateOtherZUN = this.Factory.CreateRibbonGroup();
+            this.buttonCreateOtherZUn = this.Factory.CreateRibbonButton();
             this.tabOVA.SuspendLayout();
-            this.groupCreateZun.SuspendLayout();
+            this.groupCreateZUnOVA.SuspendLayout();
             this.groupSmart.SuspendLayout();
             this.groupSettingOVA.SuspendLayout();
             this.groupTestMode.SuspendLayout();
+            this.groupCreateOtherZUN.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabOVA
             // 
             this.tabOVA.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
-            this.tabOVA.Groups.Add(this.groupCreateZun);
+            this.tabOVA.Groups.Add(this.groupCreateZUnOVA);
+            this.tabOVA.Groups.Add(this.groupCreateOtherZUN);
             this.tabOVA.Groups.Add(this.groupSmart);
             this.tabOVA.Groups.Add(this.groupSettingOVA);
             this.tabOVA.Groups.Add(this.groupTestMode);
             this.tabOVA.Label = "АБФ";
             this.tabOVA.Name = "tabOVA";
             // 
-            // groupCreateZun
+            // groupCreateZUnOVA
             // 
-            this.groupCreateZun.Items.Add(this.btnCreateZUnInABF);
-            this.groupCreateZun.Items.Add(this.buttonCreateZunWithMsg);
-            this.groupCreateZun.Label = "Создать ЗУн в УК ОВА";
-            this.groupCreateZun.Name = "groupCreateZun";
+            this.groupCreateZUnOVA.Items.Add(this.btnCreateZUnInABF);
+            this.groupCreateZUnOVA.Items.Add(this.buttonCreateZunWithMsg);
+            this.groupCreateZUnOVA.Label = "Создать ЗУн в УК ОВА";
+            this.groupCreateZUnOVA.Name = "groupCreateZUnOVA";
+            this.groupCreateZUnOVA.Visible = false;
             // 
             // btnCreateZUnInABF
             // 
@@ -102,6 +107,7 @@
             this.groupSmart.Items.Add(this.buttonCreateSmartToExcevutor);
             this.groupSmart.Label = "Создание SMART";
             this.groupSmart.Name = "groupSmart";
+            this.groupSmart.Visible = false;
             // 
             // buttonCreateSmartToMe
             // 
@@ -190,6 +196,22 @@
             this.btnAboutProg.SuperTip = "Информация о надстройке OutlookAddinOVA";
             this.btnAboutProg.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnAboutProg_Click);
             // 
+            // groupCreateOtherZUN
+            // 
+            this.groupCreateOtherZUN.Items.Add(this.buttonCreateOtherZUn);
+            this.groupCreateOtherZUN.Label = "Создать ЗУн в другие отделы";
+            this.groupCreateOtherZUN.Name = "groupCreateOtherZUN";
+            this.groupCreateOtherZUN.Visible = false;
+            // 
+            // buttonCreateOtherZUn
+            // 
+            this.buttonCreateOtherZUn.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.buttonCreateOtherZUn.Image = global::OutlookAddInOVA.Properties.Resources.forward;
+            this.buttonCreateOtherZUn.Label = "Создать ЗУн из письма";
+            this.buttonCreateOtherZUn.Name = "buttonCreateOtherZUn";
+            this.buttonCreateOtherZUn.ShowImage = true;
+            this.buttonCreateOtherZUn.SuperTip = "Создать ЗУн в АБФ приложив текущее письмо";
+            // 
             // RibbonOVA
             // 
             this.Name = "RibbonOVA";
@@ -204,20 +226,22 @@
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.RibbonOVA_Load);
             this.tabOVA.ResumeLayout(false);
             this.tabOVA.PerformLayout();
-            this.groupCreateZun.ResumeLayout(false);
-            this.groupCreateZun.PerformLayout();
+            this.groupCreateZUnOVA.ResumeLayout(false);
+            this.groupCreateZUnOVA.PerformLayout();
             this.groupSmart.ResumeLayout(false);
             this.groupSmart.PerformLayout();
             this.groupSettingOVA.ResumeLayout(false);
             this.groupSettingOVA.PerformLayout();
             this.groupTestMode.ResumeLayout(false);
             this.groupTestMode.PerformLayout();
+            this.groupCreateOtherZUN.ResumeLayout(false);
+            this.groupCreateOtherZUN.PerformLayout();
             this.ResumeLayout(false);
 
 		}
 
 		#endregion
-		internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupCreateZun;
+		internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupCreateZUnOVA;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCreateZUnInABF;
 		internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonCreateZunWithMsg;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerOVAZUn;
@@ -234,6 +258,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupTestMode;
         internal Microsoft.Office.Tools.Ribbon.RibbonLabel labelToDeveloper;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonToDeveloper;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupCreateOtherZUN;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonCreateOtherZUn;
     }
 
     partial class ThisRibbonCollection

@@ -52,7 +52,7 @@ namespace OutlookAddInOVA
                     ("glaal@1ab.ru", paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn, paramsZUn.dopRazrez, paramsZUn.commentExecutorZUn, doDate, paramsZUn.importan, paramsZUn.approval);
                 //createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun,executorZUn,dopRazrez);
 #else
-                paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn(EMailFromCurrentMail, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn, paramsZUn.dopRazrez, paramsZUn.commentExecutorZUn, doDate, paramsZUn.importan, paramsZUn.approval);
+                paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn(OutlookAddInOVA.Globals.ThisAddIn.currentusermail, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn, paramsZUn.dopRazrez, paramsZUn.commentExecutorZUn, doDate, paramsZUn.importan, paramsZUn.approval);
                 //createZunResult = result.ДляВнешнихСоединений.GetResultCommand("Результат=10",  ref errorCreateZun);
                 //MessageBox.Show(createZunResult);
 #endif

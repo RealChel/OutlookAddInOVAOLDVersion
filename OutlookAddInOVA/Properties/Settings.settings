@@ -2,10 +2,10 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="OutlookAddInOVA.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="prmHideFormRegion" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="prmCreateZUnOVA" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="prmCreateZunFromMe" Type="System.Boolean" Scope="User">
+    <Setting Name="prmCreateZUnFromMe" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="prmSmartFastFormulirovka" Type="System.String" Scope="User">
@@ -18,6 +18,18 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="prmSmartExecutorKriterii" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="prmCreateOtherZUn" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="prmCreateSMART" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="prmZUnAddSegment" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="prmZUnButtonName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

@@ -30,6 +30,10 @@
 		{
             this.components = new System.ComponentModel.Container();
             this.tabControlSettings = new System.Windows.Forms.TabControl();
+            this.tabPageMain = new System.Windows.Forms.TabPage();
+            this.cbCreateOtherZUn = new System.Windows.Forms.CheckBox();
+            this.cbCreateZUnOVA = new System.Windows.Forms.CheckBox();
+            this.cbCreateSMART = new System.Windows.Forms.CheckBox();
             this.tabPageSMART = new System.Windows.Forms.TabPage();
             this.tabSettingsSmart = new System.Windows.Forms.TabControl();
             this.tabPageFastSmart = new System.Windows.Forms.TabPage();
@@ -45,11 +49,16 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tbKriteriiExecutorSmart = new System.Windows.Forms.TextBox();
             this.tabPageZUn = new System.Windows.Forms.TabPage();
-            this.checkBoxHideFormRegion = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.buttonCаncel = new System.Windows.Forms.Button();
             this.toolTipFormSettings = new System.Windows.Forms.ToolTip(this.components);
+            this.tbZUnAddSegment = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelAddSegment = new System.Windows.Forms.Label();
+            this.labelZUnButtonName = new System.Windows.Forms.Label();
+            this.tbZUnButtonName = new System.Windows.Forms.TextBox();
             this.tabControlSettings.SuspendLayout();
+            this.tabPageMain.SuspendLayout();
             this.tabPageSMART.SuspendLayout();
             this.tabSettingsSmart.SuspendLayout();
             this.tabPageFastSmart.SuspendLayout();
@@ -63,6 +72,7 @@
             this.splitContainerSmartExecutor.Panel2.SuspendLayout();
             this.splitContainerSmartExecutor.SuspendLayout();
             this.tabPageZUn.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControlSettings
@@ -70,6 +80,7 @@
             this.tabControlSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControlSettings.Controls.Add(this.tabPageMain);
             this.tabControlSettings.Controls.Add(this.tabPageSMART);
             this.tabControlSettings.Controls.Add(this.tabPageZUn);
             this.tabControlSettings.Location = new System.Drawing.Point(1, 0);
@@ -77,6 +88,51 @@
             this.tabControlSettings.SelectedIndex = 0;
             this.tabControlSettings.Size = new System.Drawing.Size(600, 457);
             this.tabControlSettings.TabIndex = 0;
+            // 
+            // tabPageMain
+            // 
+            this.tabPageMain.Controls.Add(this.cbCreateOtherZUn);
+            this.tabPageMain.Controls.Add(this.cbCreateZUnOVA);
+            this.tabPageMain.Controls.Add(this.cbCreateSMART);
+            this.tabPageMain.Location = new System.Drawing.Point(4, 22);
+            this.tabPageMain.Name = "tabPageMain";
+            this.tabPageMain.Size = new System.Drawing.Size(592, 431);
+            this.tabPageMain.TabIndex = 2;
+            this.tabPageMain.Text = "Основные";
+            this.tabPageMain.UseVisualStyleBackColor = true;
+            // 
+            // cbCreateOtherZUn
+            // 
+            this.cbCreateOtherZUn.AutoSize = true;
+            this.cbCreateOtherZUn.Location = new System.Drawing.Point(7, 49);
+            this.cbCreateOtherZUn.Name = "cbCreateOtherZUn";
+            this.cbCreateOtherZUn.Size = new System.Drawing.Size(190, 17);
+            this.cbCreateOtherZUn.TabIndex = 2;
+            this.cbCreateOtherZUn.Text = "Создавать ЗУн в другие отделы";
+            this.cbCreateOtherZUn.UseVisualStyleBackColor = true;
+            this.cbCreateOtherZUn.CheckedChanged += new System.EventHandler(this.cbCreateOtherZUn_CheckedChanged);
+            // 
+            // cbCreateZUnOVA
+            // 
+            this.cbCreateZUnOVA.AutoSize = true;
+            this.cbCreateZUnOVA.Location = new System.Drawing.Point(7, 26);
+            this.cbCreateZUnOVA.Name = "cbCreateZUnOVA";
+            this.cbCreateZUnOVA.Size = new System.Drawing.Size(156, 17);
+            this.cbCreateZUnOVA.TabIndex = 1;
+            this.cbCreateZUnOVA.Text = "Создавать ЗУн в УК ОВА";
+            this.cbCreateZUnOVA.UseVisualStyleBackColor = true;
+            this.cbCreateZUnOVA.CheckedChanged += new System.EventHandler(this.cbCreateZUnOVA_CheckedChanged);
+            // 
+            // cbCreateSMART
+            // 
+            this.cbCreateSMART.AutoSize = true;
+            this.cbCreateSMART.Location = new System.Drawing.Point(7, 3);
+            this.cbCreateSMART.Name = "cbCreateSMART";
+            this.cbCreateSMART.Size = new System.Drawing.Size(120, 17);
+            this.cbCreateSMART.TabIndex = 0;
+            this.cbCreateSMART.Text = "Создавать СМАРТ";
+            this.cbCreateSMART.UseVisualStyleBackColor = true;
+            this.cbCreateSMART.CheckedChanged += new System.EventHandler(this.cbCreateSMART_CheckedChanged);
             // 
             // tabPageSMART
             // 
@@ -267,7 +323,7 @@
             // 
             // tabPageZUn
             // 
-            this.tabPageZUn.Controls.Add(this.checkBoxHideFormRegion);
+            this.tabPageZUn.Controls.Add(this.groupBox1);
             this.tabPageZUn.Location = new System.Drawing.Point(4, 22);
             this.tabPageZUn.Name = "tabPageZUn";
             this.tabPageZUn.Padding = new System.Windows.Forms.Padding(3);
@@ -276,19 +332,6 @@
             this.tabPageZUn.Text = "Заявка универсальная";
             this.tabPageZUn.ToolTipText = "Настройки для создания Заявки универсальной";
             this.tabPageZUn.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxHideFormRegion
-            // 
-            this.checkBoxHideFormRegion.AutoSize = true;
-            this.checkBoxHideFormRegion.Location = new System.Drawing.Point(24, 16);
-            this.checkBoxHideFormRegion.Name = "checkBoxHideFormRegion";
-            this.checkBoxHideFormRegion.Size = new System.Drawing.Size(245, 17);
-            this.checkBoxHideFormRegion.TabIndex = 0;
-            this.checkBoxHideFormRegion.Text = "Скрывать область создания ЗУн в письме";
-            this.toolTipFormSettings.SetToolTip(this.checkBoxHideFormRegion, "Если снять флаг, то в письмах в которых буде указан получателем один из сотрудник" +
-        "ов отдела УК ОВА\r\nбудет появляться область для создания Заявки универсальной в о" +
-        "тдел УК ОВА");
-            this.checkBoxHideFormRegion.UseVisualStyleBackColor = true;
             // 
             // btnOK
             // 
@@ -313,6 +356,54 @@
             this.buttonCаncel.UseVisualStyleBackColor = true;
             this.buttonCаncel.Click += new System.EventHandler(this.buttonCаncel_Click);
             // 
+            // tbZUnAddSegment
+            // 
+            this.tbZUnAddSegment.AcceptsReturn = true;
+            this.tbZUnAddSegment.Location = new System.Drawing.Point(79, 19);
+            this.tbZUnAddSegment.Name = "tbZUnAddSegment";
+            this.tbZUnAddSegment.Size = new System.Drawing.Size(492, 20);
+            this.tbZUnAddSegment.TabIndex = 0;
+            this.toolTipFormSettings.SetToolTip(this.tbZUnAddSegment, "Необходимо точно указать наименование дополнительного разреза.\r\nЛучше это скопиро" +
+        "вать непосредственно из АБФ");
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tbZUnButtonName);
+            this.groupBox1.Controls.Add(this.labelZUnButtonName);
+            this.groupBox1.Controls.Add(this.labelAddSegment);
+            this.groupBox1.Controls.Add(this.tbZUnAddSegment);
+            this.groupBox1.Location = new System.Drawing.Point(7, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(577, 156);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Создание собственных ЗУн";
+            // 
+            // labelAddSegment
+            // 
+            this.labelAddSegment.AutoSize = true;
+            this.labelAddSegment.Location = new System.Drawing.Point(6, 22);
+            this.labelAddSegment.Name = "labelAddSegment";
+            this.labelAddSegment.Size = new System.Drawing.Size(70, 13);
+            this.labelAddSegment.TabIndex = 2;
+            this.labelAddSegment.Text = "Доп.разрез:";
+            // 
+            // labelZUnButtonName
+            // 
+            this.labelZUnButtonName.AutoSize = true;
+            this.labelZUnButtonName.Location = new System.Drawing.Point(6, 56);
+            this.labelZUnButtonName.Name = "labelZUnButtonName";
+            this.labelZUnButtonName.Size = new System.Drawing.Size(189, 13);
+            this.labelZUnButtonName.TabIndex = 3;
+            this.labelZUnButtonName.Text = "Краткое наименование для кнопки:";
+            // 
+            // tbZUnButtonName
+            // 
+            this.tbZUnButtonName.Location = new System.Drawing.Point(201, 53);
+            this.tbZUnButtonName.Name = "tbZUnButtonName";
+            this.tbZUnButtonName.Size = new System.Drawing.Size(370, 20);
+            this.tbZUnButtonName.TabIndex = 4;
+            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -328,6 +419,8 @@
             this.Text = "Настройки для Надстройки OutlookAddinOVA";
             this.Shown += new System.EventHandler(this.FormSettings_Shown);
             this.tabControlSettings.ResumeLayout(false);
+            this.tabPageMain.ResumeLayout(false);
+            this.tabPageMain.PerformLayout();
             this.tabPageSMART.ResumeLayout(false);
             this.tabSettingsSmart.ResumeLayout(false);
             this.tabPageFastSmart.ResumeLayout(false);
@@ -347,7 +440,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerSmartExecutor)).EndInit();
             this.splitContainerSmartExecutor.ResumeLayout(false);
             this.tabPageZUn.ResumeLayout(false);
-            this.tabPageZUn.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -372,7 +466,15 @@
 		private System.Windows.Forms.TextBox tbFormulirovkaExecutorSmart;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox tbKriteriiExecutorSmart;
-        private System.Windows.Forms.CheckBox checkBoxHideFormRegion;
         private System.Windows.Forms.ToolTip toolTipFormSettings;
+        private System.Windows.Forms.TabPage tabPageMain;
+        private System.Windows.Forms.CheckBox cbCreateOtherZUn;
+        private System.Windows.Forms.CheckBox cbCreateZUnOVA;
+        private System.Windows.Forms.CheckBox cbCreateSMART;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label labelAddSegment;
+        private System.Windows.Forms.TextBox tbZUnAddSegment;
+        private System.Windows.Forms.TextBox tbZUnButtonName;
+        private System.Windows.Forms.Label labelZUnButtonName;
     }
 }

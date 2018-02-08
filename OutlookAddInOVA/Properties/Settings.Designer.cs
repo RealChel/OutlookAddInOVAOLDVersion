@@ -12,7 +12,7 @@ namespace OutlookAddInOVA.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.1.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,25 +25,25 @@ namespace OutlookAddInOVA.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool prmHideFormRegion {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool prmCreateZUnOVA {
             get {
-                return ((bool)(this["prmHideFormRegion"]));
+                return ((bool)(this["prmCreateZUnOVA"]));
             }
             set {
-                this["prmHideFormRegion"] = value;
+                this["prmCreateZUnOVA"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool prmCreateZunFromMe {
+        public bool prmCreateZUnFromMe {
             get {
-                return ((bool)(this["prmCreateZunFromMe"]));
+                return ((bool)(this["prmCreateZUnFromMe"]));
             }
             set {
-                this["prmCreateZunFromMe"] = value;
+                this["prmCreateZUnFromMe"] = value;
             }
         }
         
@@ -92,6 +92,54 @@ namespace OutlookAddInOVA.Properties {
             }
             set {
                 this["prmSmartExecutorKriterii"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool prmCreateOtherZUn {
+            get {
+                return ((bool)(this["prmCreateOtherZUn"]));
+            }
+            set {
+                this["prmCreateOtherZUn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool prmCreateSMART {
+            get {
+                return ((bool)(this["prmCreateSMART"]));
+            }
+            set {
+                this["prmCreateSMART"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string prmZUnAddSegment {
+            get {
+                return ((string)(this["prmZUnAddSegment"]));
+            }
+            set {
+                this["prmZUnAddSegment"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string prmZUnButtonName {
+            get {
+                return ((string)(this["prmZUnButtonName"]));
+            }
+            set {
+                this["prmZUnButtonName"] = value;
             }
         }
     }

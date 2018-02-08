@@ -33,20 +33,33 @@ namespace OutlookAddInOVA
 
         private void RibbonOVA_Load(object sender, RibbonUIEventArgs e)
         {
-            cbCreateZunFromMe.Checked = Properties.Settings.Default.prmCreateZunFromMe;
+            cbCreateZunFromMe.Checked = Properties.Settings.Default.prmCreateZUnFromMe;
             EMailFromCurrentMail = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
             //MessageBox.Show(OutlookAddInOVA.Globals.ThisAddIn.currentusermail);
             if (OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA)
             {
                 groupSettingOVA.Visible = true;
             }
+            if (Properties.Settings.Default.prmCreateSMART)
+            {
+                groupSmart.Visible = true;
+            }
+            if (Properties.Settings.Default.prmCreateZUnOVA)
+            {
+                groupCreateZUnOVA.Visible = true;
+            }
+            if (Properties.Settings.Default.prmCreateOtherZUn)
+            {
+                groupCreateOtherZUN.Visible = true;
+            }
+            buttonCreateOtherZUn.Label = Properties.Settings.Default.prmZUnButtonName;
         }
 
         #region Клик по чек боксам
 
         private void cbCreateZunFromMe_Click(object sender, RibbonControlEventArgs e)
         {
-            Properties.Settings.Default.prmCreateZunFromMe = cbCreateZunFromMe.Checked;
+            Properties.Settings.Default.prmCreateZUnFromMe = cbCreateZunFromMe.Checked;
             Properties.Settings.Default.Save();
         }
 
@@ -500,7 +513,7 @@ namespace OutlookAddInOVA
             //Если пользователь работает в ОВА и не включен флаг Создать ЗУн от текущего пользователя
             //Получаем адрес отправителя из письма
             //в противном случаее получаем адрес текущего пользователя
-            if (OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA && !Properties.Settings.Default.prmCreateZunFromMe)
+            if (OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA && !Properties.Settings.Default.prmCreateZUnFromMe)
             {
                 EMailFromCurrentMail = GetSmtpAddress(curItem);
             }
@@ -716,3 +729,7 @@ namespace OutlookAddInOVA
         #endregion Другие функции
     }
 }
+
+
+//Сделать: Создать перерисовку Рибона при изменении настроек
+//Сделать: Написать функционал создания ЗУн
