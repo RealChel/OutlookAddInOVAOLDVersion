@@ -49,14 +49,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tbKriteriiExecutorSmart = new System.Windows.Forms.TextBox();
             this.tabPageZUn = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbZUnButtonName = new System.Windows.Forms.TextBox();
+            this.labelZUnButtonName = new System.Windows.Forms.Label();
+            this.labelAddSegment = new System.Windows.Forms.Label();
+            this.tbZUnAddSegment = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.buttonCаncel = new System.Windows.Forms.Button();
             this.toolTipFormSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.tbZUnAddSegment = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.labelAddSegment = new System.Windows.Forms.Label();
-            this.labelZUnButtonName = new System.Windows.Forms.Label();
-            this.tbZUnButtonName = new System.Windows.Forms.TextBox();
             this.tabControlSettings.SuspendLayout();
             this.tabPageMain.SuspendLayout();
             this.tabPageSMART.SuspendLayout();
@@ -81,8 +81,8 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlSettings.Controls.Add(this.tabPageMain);
-            this.tabControlSettings.Controls.Add(this.tabPageSMART);
             this.tabControlSettings.Controls.Add(this.tabPageZUn);
+            this.tabControlSettings.Controls.Add(this.tabPageSMART);
             this.tabControlSettings.Location = new System.Drawing.Point(1, 0);
             this.tabControlSettings.Name = "tabControlSettings";
             this.tabControlSettings.SelectedIndex = 0;
@@ -333,6 +333,54 @@
             this.tabPageZUn.ToolTipText = "Настройки для создания Заявки универсальной";
             this.tabPageZUn.UseVisualStyleBackColor = true;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tbZUnButtonName);
+            this.groupBox1.Controls.Add(this.labelZUnButtonName);
+            this.groupBox1.Controls.Add(this.labelAddSegment);
+            this.groupBox1.Controls.Add(this.tbZUnAddSegment);
+            this.groupBox1.Location = new System.Drawing.Point(7, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(577, 156);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Создание собственных ЗУн";
+            // 
+            // tbZUnButtonName
+            // 
+            this.tbZUnButtonName.Location = new System.Drawing.Point(201, 53);
+            this.tbZUnButtonName.Name = "tbZUnButtonName";
+            this.tbZUnButtonName.Size = new System.Drawing.Size(370, 20);
+            this.tbZUnButtonName.TabIndex = 4;
+            // 
+            // labelZUnButtonName
+            // 
+            this.labelZUnButtonName.AutoSize = true;
+            this.labelZUnButtonName.Location = new System.Drawing.Point(6, 56);
+            this.labelZUnButtonName.Name = "labelZUnButtonName";
+            this.labelZUnButtonName.Size = new System.Drawing.Size(189, 13);
+            this.labelZUnButtonName.TabIndex = 3;
+            this.labelZUnButtonName.Text = "Краткое наименование для кнопки:";
+            // 
+            // labelAddSegment
+            // 
+            this.labelAddSegment.AutoSize = true;
+            this.labelAddSegment.Location = new System.Drawing.Point(6, 22);
+            this.labelAddSegment.Name = "labelAddSegment";
+            this.labelAddSegment.Size = new System.Drawing.Size(70, 13);
+            this.labelAddSegment.TabIndex = 2;
+            this.labelAddSegment.Text = "Доп.разрез:";
+            // 
+            // tbZUnAddSegment
+            // 
+            this.tbZUnAddSegment.AcceptsReturn = true;
+            this.tbZUnAddSegment.Location = new System.Drawing.Point(79, 19);
+            this.tbZUnAddSegment.Name = "tbZUnAddSegment";
+            this.tbZUnAddSegment.Size = new System.Drawing.Size(492, 20);
+            this.tbZUnAddSegment.TabIndex = 0;
+            this.toolTipFormSettings.SetToolTip(this.tbZUnAddSegment, "Необходимо точно указать наименование дополнительного разреза.\r\nЛучше это скопиро" +
+        "вать непосредственно из АБФ");
+            // 
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -355,54 +403,6 @@
             this.buttonCаncel.Text = "Отмена";
             this.buttonCаncel.UseVisualStyleBackColor = true;
             this.buttonCаncel.Click += new System.EventHandler(this.buttonCаncel_Click);
-            // 
-            // tbZUnAddSegment
-            // 
-            this.tbZUnAddSegment.AcceptsReturn = true;
-            this.tbZUnAddSegment.Location = new System.Drawing.Point(79, 19);
-            this.tbZUnAddSegment.Name = "tbZUnAddSegment";
-            this.tbZUnAddSegment.Size = new System.Drawing.Size(492, 20);
-            this.tbZUnAddSegment.TabIndex = 0;
-            this.toolTipFormSettings.SetToolTip(this.tbZUnAddSegment, "Необходимо точно указать наименование дополнительного разреза.\r\nЛучше это скопиро" +
-        "вать непосредственно из АБФ");
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.tbZUnButtonName);
-            this.groupBox1.Controls.Add(this.labelZUnButtonName);
-            this.groupBox1.Controls.Add(this.labelAddSegment);
-            this.groupBox1.Controls.Add(this.tbZUnAddSegment);
-            this.groupBox1.Location = new System.Drawing.Point(7, 6);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(577, 156);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Создание собственных ЗУн";
-            // 
-            // labelAddSegment
-            // 
-            this.labelAddSegment.AutoSize = true;
-            this.labelAddSegment.Location = new System.Drawing.Point(6, 22);
-            this.labelAddSegment.Name = "labelAddSegment";
-            this.labelAddSegment.Size = new System.Drawing.Size(70, 13);
-            this.labelAddSegment.TabIndex = 2;
-            this.labelAddSegment.Text = "Доп.разрез:";
-            // 
-            // labelZUnButtonName
-            // 
-            this.labelZUnButtonName.AutoSize = true;
-            this.labelZUnButtonName.Location = new System.Drawing.Point(6, 56);
-            this.labelZUnButtonName.Name = "labelZUnButtonName";
-            this.labelZUnButtonName.Size = new System.Drawing.Size(189, 13);
-            this.labelZUnButtonName.TabIndex = 3;
-            this.labelZUnButtonName.Text = "Краткое наименование для кнопки:";
-            // 
-            // tbZUnButtonName
-            // 
-            this.tbZUnButtonName.Location = new System.Drawing.Point(201, 53);
-            this.tbZUnButtonName.Name = "tbZUnButtonName";
-            this.tbZUnButtonName.Size = new System.Drawing.Size(370, 20);
-            this.tbZUnButtonName.TabIndex = 4;
             // 
             // FormSettings
             // 

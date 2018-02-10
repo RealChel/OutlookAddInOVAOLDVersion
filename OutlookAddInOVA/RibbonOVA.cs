@@ -36,23 +36,7 @@ namespace OutlookAddInOVA
             cbCreateZunFromMe.Checked = Properties.Settings.Default.prmCreateZUnFromMe;
             EMailFromCurrentMail = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
             //MessageBox.Show(OutlookAddInOVA.Globals.ThisAddIn.currentusermail);
-            if (OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA)
-            {
-                groupSettingOVA.Visible = true;
-            }
-            if (Properties.Settings.Default.prmCreateSMART)
-            {
-                groupSmart.Visible = true;
-            }
-            if (Properties.Settings.Default.prmCreateZUnOVA)
-            {
-                groupCreateZUnOVA.Visible = true;
-            }
-            if (Properties.Settings.Default.prmCreateOtherZUn)
-            {
-                groupCreateOtherZUN.Visible = true;
-            }
-            buttonCreateOtherZUn.Label = Properties.Settings.Default.prmZUnButtonName;
+            ReLoadRibbon();
         }
 
         #region Клик по чек боксам
@@ -591,22 +575,22 @@ namespace OutlookAddInOVA
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button1_Click(object sender, RibbonControlEventArgs e)
-        {
-            notifyIconOVA.Icon = Properties.Resources.ico_1ab;
-            notifyIconOVA.BalloonTipIcon = ToolTipIcon.Error;
-            notifyIconOVA.BalloonTipText = "Заявка универсальная №УК12/12312 от 12.12.2017";
-            notifyIconOVA.BalloonTipTitle = "Создана Заявка ниверсальная";
-            notifyIconOVA.Text = "Двойной клик по иконке копировать данные в буфер";
-            notifyIconOVA.Visible = true;
+        //private void button1_Click(object sender, RibbonControlEventArgs e)
+        //{
+        //    notifyIconOVA.Icon = Properties.Resources.ico_1ab;
+        //    notifyIconOVA.BalloonTipIcon = ToolTipIcon.Error;
+        //    notifyIconOVA.BalloonTipText = "Заявка универсальная №УК12/12312 от 12.12.2017";
+        //    notifyIconOVA.BalloonTipTitle = "Создана Заявка ниверсальная";
+        //    notifyIconOVA.Text = "Двойной клик по иконке копировать данные в буфер";
+        //    notifyIconOVA.Visible = true;
 
-            var myContextMenu = new ContextMenuStrip();
-            var exit = new ToolStripMenuItem("Скопировать ЗУн в буфер");
-            myContextMenu.Items.Add(exit);
-            exit.Click += copyZUn_Click;
-            notifyIconOVA.ContextMenuStrip = myContextMenu;
-            notifyIconOVA.ShowBalloonTip(50000);
-        }
+        //    var myContextMenu = new ContextMenuStrip();
+        //    var exit = new ToolStripMenuItem("Скопировать ЗУн в буфер");
+        //    myContextMenu.Items.Add(exit);
+        //    exit.Click += copyZUn_Click;
+        //    notifyIconOVA.ContextMenuStrip = myContextMenu;
+        //    notifyIconOVA.ShowBalloonTip(50000);
+        //}
 
         private void copyZUn_Click(object sender, EventArgs e)
         {
@@ -614,7 +598,7 @@ namespace OutlookAddInOVA
             notifyIconOVA.Visible = false; ;
         }
 
-        public string GetSmtpAddress(Outlook.MailItem oItem)
+        private string GetSmtpAddress(Outlook.MailItem oItem)
         {
             Outlook.Recipient recip;
             Outlook.ExchangeUser exUser;
@@ -726,7 +710,20 @@ namespace OutlookAddInOVA
             }
         }
 
+        internal void ReLoadRibbon()
+        {
+            
+            groupSettingOVA.Visible = OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA;
+            groupSmart.Visible = Properties.Settings.Default.prmCreateSMART;
+            groupCreateZUnOVA.Visible = Properties.Settings.Default.prmCreateZUnOVA;
+            groupCreateOtherZUN.Visible = Properties.Settings.Default.prmCreateOtherZUn;
+            
+            buttonCreateOtherZUn.Label = Properties.Settings.Default.prmZUnButtonName;
+        }
+
         #endregion Другие функции
+
+
     }
 }
 

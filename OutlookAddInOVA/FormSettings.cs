@@ -44,6 +44,8 @@ namespace OutlookAddInOVA
             Properties.Settings.Default.prmZUnAddSegment = tbZUnAddSegment.Text.Trim();
             Properties.Settings.Default.prmZUnButtonName = tbZUnButtonName.Text.Trim();
             Properties.Settings.Default.Save();
+
+            Globals.Ribbons.RibbonOVA.ReLoadRibbon();
         }
 
         private void buttonCаncel_Click(object sender, EventArgs e)
@@ -69,6 +71,13 @@ namespace OutlookAddInOVA
             {
                 tabControlSettings.TabPages.Remove(tabPageSMART);
             }
+            else
+            {
+                if (!tabControlSettings.Contains(tabPageSMART))
+                {
+                    tabControlSettings.TabPages.Insert((tabControlSettings.TabPages.Count == 1) ? 1 : 2, tabPageSMART);
+                }
+            }
         }
         private void showHideZUn()
         {
@@ -76,7 +85,14 @@ namespace OutlookAddInOVA
             {
                 tabControlSettings.TabPages.Remove(tabPageZUn);
             }
-
+            else
+            {
+                if (!tabControlSettings.Contains(tabPageZUn))
+                {
+                    tabControlSettings.TabPages.Insert(1, tabPageZUn);
+                }
+                
+            }
         }
 
         private void cbCreateSMART_CheckedChanged(object sender, EventArgs e)
@@ -95,4 +111,4 @@ namespace OutlookAddInOVA
         }
     }
 }
-//Ошибка: не перерисуются вкладки при включении флагов
+//Сделать: надо как то хайдить и шовить закладки

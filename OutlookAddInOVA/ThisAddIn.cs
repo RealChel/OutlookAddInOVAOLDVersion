@@ -41,7 +41,7 @@ namespace OutlookAddInOVA
         internal bool doCreateZunInOVA;
         internal NotifyIcon GlobalNotifyIcon;
         internal ContextMenuStrip myContextMenu;
-        internal ToolStripMenuItem copyZUn;
+        //internal ToolStripMenuItem copyZUn;
         internal string LastCreateZunResult = "";
 
         internal System.Data.DataTable listAllCoWorker;
