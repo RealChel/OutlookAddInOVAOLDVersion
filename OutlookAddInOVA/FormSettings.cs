@@ -21,8 +21,9 @@ namespace OutlookAddInOVA
             cbCreateOtherZUn.Checked = Properties.Settings.Default.prmCreateOtherZUn;
             cbCreateSMART.Checked = Properties.Settings.Default.prmCreateSMART;
             cbCreateZUnOVA.Checked = Properties.Settings.Default.prmCreateZUnOVA;
-            tbZUnAddSegment.Text = Properties.Settings.Default.prmZUnAddSegment;
+            tbZUnAddSegment.Text = Properties.Settings.Default.prmZUnDopRazrez;
             tbZUnButtonName.Text = Properties.Settings.Default.prmZUnButtonName;
+            tbPodrazdTo.Text = Properties.Settings.Default.prmPodrazdTo;
 
             showHideZUn();
             showHideSMART();
@@ -41,8 +42,9 @@ namespace OutlookAddInOVA
             Properties.Settings.Default.prmCreateOtherZUn = cbCreateOtherZUn.Checked;
             Properties.Settings.Default.prmCreateSMART = cbCreateSMART.Checked;
             Properties.Settings.Default.prmCreateZUnOVA = cbCreateZUnOVA.Checked;
-            Properties.Settings.Default.prmZUnAddSegment = tbZUnAddSegment.Text.Trim();
+            Properties.Settings.Default.prmZUnDopRazrez = tbZUnAddSegment.Text.Trim();
             Properties.Settings.Default.prmZUnButtonName = tbZUnButtonName.Text.Trim();
+            Properties.Settings.Default.prmPodrazdTo = tbPodrazdTo.Text.Trim();
             Properties.Settings.Default.Save();
 
             Globals.Ribbons.RibbonOVA.ReLoadRibbon();
@@ -111,4 +113,3 @@ namespace OutlookAddInOVA
         }
     }
 }
-//Сделать: надо как то хайдить и шовить закладки

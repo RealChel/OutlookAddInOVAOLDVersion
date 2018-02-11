@@ -38,7 +38,7 @@ namespace OutlookAddInOVA
         /// </summary>
         internal dynamic ConnetionTo1C;
         private System.ComponentModel.BackgroundWorker BackgroundWorkerABF;
-        internal bool doCreateZunInOVA;
+        internal bool doCreateZUn;
         internal NotifyIcon GlobalNotifyIcon;
         internal ContextMenuStrip myContextMenu;
         //internal ToolStripMenuItem copyZUn;
@@ -443,7 +443,7 @@ namespace OutlookAddInOVA
 
                 WithABF.CreateMailWithError(paramsZUn.errorCreateZun);
             }
-            doCreateZunInOVA = false;
+            doCreateZUn = false;
         }
 
         #endregion Фоновые задания
@@ -451,7 +451,8 @@ namespace OutlookAddInOVA
         private void copyZUn_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(LastCreateZunResult);
-            GlobalNotifyIcon.Visible = false; ;
+            GlobalNotifyIcon.Visible = false; 
+            //сделать: Не отрабатывает просмотр ошибки через иконку панели задач
         }
     }
 }

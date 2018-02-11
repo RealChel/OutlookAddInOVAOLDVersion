@@ -89,7 +89,7 @@
             this.btnCreateZUnInABF.Name = "btnCreateZUnInABF";
             this.btnCreateZUnInABF.ShowImage = true;
             this.btnCreateZUnInABF.SuperTip = "Создать Заявку универсальную в  УК ОВА с добавлением скриншота из буфера обмена";
-            this.btnCreateZUnInABF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateZUnWithScreenShoot_Click);
+            this.btnCreateZUnInABF.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateZUnWithScreenShootToOVA_Click);
             // 
             // buttonCreateZunWithMsg
             // 
@@ -99,7 +99,7 @@
             this.buttonCreateZunWithMsg.Name = "buttonCreateZunWithMsg";
             this.buttonCreateZunWithMsg.ShowImage = true;
             this.buttonCreateZunWithMsg.SuperTip = "Создать ЗУн в АБФ приложив текущее письмо";
-            this.buttonCreateZunWithMsg.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonCreateZunWithMsg_Click);
+            this.buttonCreateZunWithMsg.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateZunWithMsgToOVA_Click);
             // 
             // groupCreateOtherZUN
             // 
@@ -116,6 +116,7 @@
             this.buttonCreateOtherZUn.Name = "buttonCreateOtherZUn";
             this.buttonCreateOtherZUn.ShowImage = true;
             this.buttonCreateOtherZUn.SuperTip = "Создать ЗУн в АБФ приложив текущее письмо";
+            this.buttonCreateOtherZUn.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateOtherZUn_Click);
             // 
             // groupSmart
             // 
@@ -133,7 +134,7 @@
             this.buttonCreateSmartToMe.Name = "buttonCreateSmartToMe";
             this.buttonCreateSmartToMe.ShowImage = true;
             this.buttonCreateSmartToMe.SuperTip = "Быстро создать СМАРТ задачу себе с приложением текущего письма.";
-            this.buttonCreateSmartToMe.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonCreateSmartToMe_Click);
+            this.buttonCreateSmartToMe.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateSmartToMe_Click);
             // 
             // buttonCreateSmartToExcevutor
             // 
@@ -144,7 +145,7 @@
             this.buttonCreateSmartToExcevutor.ShowImage = true;
             this.buttonCreateSmartToExcevutor.SuperTip = "Позволяет создавать СМАРТ  задачу себе либо своим подчиненным, с вводом дополните" +
     "льных параметров.";
-            this.buttonCreateSmartToExcevutor.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonCreateSmartToExcevutor_Click);
+            this.buttonCreateSmartToExcevutor.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCreateSmartToExcevutor_Click);
             // 
             // groupSettingOVA
             // 
@@ -178,8 +179,8 @@
             this.buttonToDeveloper.Label = "Написать разработчику";
             this.buttonToDeveloper.Name = "buttonToDeveloper";
             this.buttonToDeveloper.ShowImage = true;
-            this.buttonToDeveloper.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonToDeveloper_Click);
-            // 
+            this.buttonToDeveloper.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnToDeveloper_Click);
+            //
             // backgroundWorkerOVAZUn
             // 
             this.backgroundWorkerOVAZUn.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerOVAZUn_DoWork);

@@ -26,10 +26,13 @@
     <Setting Name="prmCreateSMART" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="prmZUnAddSegment" Type="System.String" Scope="User">
+    <Setting Name="prmZUnDopRazrez" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="prmZUnButtonName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="prmPodrazdTo" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

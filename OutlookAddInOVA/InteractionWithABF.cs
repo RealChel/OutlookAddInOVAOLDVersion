@@ -23,15 +23,16 @@ namespace OutlookAddInOVA
                 //    textZun += "\n\n";
                 //}
 
-                string doDate = "";
-                if (paramsZUn.doDate==null)
-                {
-                    doDate = DateTime.Now.ToString("yyyyMMdd190000");
-                }
-                else
-                {
-                    doDate = paramsZUn.doDate.ToString("yyyyMMdd190000");
-                }
+                //Проверить: Решил не проверятьдату, все равно она на стороне 1С создается в туже самую
+                //string doDate = "";
+                //if (paramsZUn.doDate==null)
+                //{
+                //    doDate = DateTime.Now.ToString("yyyyMMdd190000");
+                //}
+                //else
+                //{
+                //    doDate = paramsZUn.doDate.ToString("yyyyMMdd190000");
+                //}
                 
 
 
@@ -48,11 +49,16 @@ namespace OutlookAddInOVA
 
 
 #if DEBUG
-                paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn
-                    ("glaal@1ab.ru", paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn, paramsZUn.dopRazrez, paramsZUn.commentExecutorZUn, doDate, paramsZUn.importan, paramsZUn.approval);
-                //createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun,executorZUn,dopRazrez);
+                //paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn
+                //    ("glaal@1ab.ru", paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn, paramsZUn.dopRazrez, paramsZUn.commentExecutorZUn, doDate, paramsZUn.importan, paramsZUn.approval);
+                ////createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun,executorZUn,dopRazrez);
+                paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn("glaal@1ab.ru", paramsZUn.podrazdTo, paramsZUn.dopRazrez, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn,
+                paramsZUn.commentExecutorZUn, paramsZUn.doDate, paramsZUn.importan, paramsZUn.approval);
 #else
-                paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn(OutlookAddInOVA.Globals.ThisAddIn.currentusermail, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn, paramsZUn.dopRazrez, paramsZUn.commentExecutorZUn, doDate, paramsZUn.importan, paramsZUn.approval);
+               
+                //paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn(OutlookAddInOVA.Globals.ThisAddIn.currentusermail, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn, paramsZUn.dopRazrez, paramsZUn.commentExecutorZUn, doDate, paramsZUn.importan, paramsZUn.approval);
+                paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn(OutlookAddInOVA.Globals.ThisAddIn.currentusermail, paramsZUn.podrazdTo, paramsZUn.dopRazrez, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn,
+                paramsZUn.commentExecutorZUn, paramsZUn.doDate, paramsZUn.importan, paramsZUn.approval);
                 //createZunResult = result.ДляВнешнихСоединений.GetResultCommand("Результат=10",  ref errorCreateZun);
                 //MessageBox.Show(createZunResult);
 #endif
@@ -71,7 +77,8 @@ namespace OutlookAddInOVA
                 paramsZUn.errorCreateZun = "Возникла не предвиденная ошибка.";
                 return false;
             }
-            //finally //пока не удалять, посмотрю будет ли много лицензий
+            //Проверить:   пока не удалять, посмотрю будет ли много лицензий
+            //finally 
             //{
             //    Marshal.ReleaseComObject(result);
             //    result = null;
@@ -98,7 +105,7 @@ namespace OutlookAddInOVA
                     string user = @"""Create_ZUn""";
                     string pas = @"""bF6k6mjbCEfEJayL""";
 #if DEBUG
-                    string file = @"""G:\\ABF""";
+                    string file = @"""G:\ABF""";
 #else
                     //string Srvr = @"""1ab-1cv81:2541""";
                     //string Ref = @"""copy_abf""";
@@ -237,6 +244,7 @@ namespace OutlookAddInOVA
         internal string executorZUn;
         internal string commentExecutorZUn;
         internal string dopRazrez;
+        internal string podrazdTo;
         internal DateTime doDate;
         internal bool importan;
         internal bool doComplit;
@@ -256,6 +264,7 @@ namespace OutlookAddInOVA
             executorZUn = "";
             commentExecutorZUn = "";
             dopRazrez = "";
+            podrazdTo ="";
             doDate = DateTime.Now;
             importan = false;
             
@@ -264,7 +273,7 @@ namespace OutlookAddInOVA
         /// <summary>
         /// Конструктор класса ParamsZUn
         /// </summary>
-        internal ParamsZUn(string textZun, string preTextZun, string pathToFile, string executorZUn, string commentExecutorZUn, string dopRazrez, DateTime doDate, bool importan, string[,] approval)
+        internal ParamsZUn(string textZun, string preTextZun, string pathToFile, string executorZUn, string commentExecutorZUn, string dopRazrez, string podrazdTo, DateTime doDate, bool importan, string[,] approval)
         {
             this.textZun = textZun;
             this.preTextZun = preTextZun;
@@ -272,6 +281,7 @@ namespace OutlookAddInOVA
             this.executorZUn = executorZUn;
             this.commentExecutorZUn = commentExecutorZUn;
             this.dopRazrez = dopRazrez;
+            this.podrazdTo = podrazdTo;
             this.doDate = doDate;
             this.importan = importan;
             this.approval = approval;    

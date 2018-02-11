@@ -122,12 +122,12 @@ namespace OutlookAddInOVA.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string prmZUnAddSegment {
+        public string prmZUnDopRazrez {
             get {
-                return ((string)(this["prmZUnAddSegment"]));
+                return ((string)(this["prmZUnDopRazrez"]));
             }
             set {
-                this["prmZUnAddSegment"] = value;
+                this["prmZUnDopRazrez"] = value;
             }
         }
         
@@ -140,6 +140,18 @@ namespace OutlookAddInOVA.Properties {
             }
             set {
                 this["prmZUnButtonName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string prmPodrazdTo {
+            get {
+                return ((string)(this["prmPodrazdTo"]));
+            }
+            set {
+                this["prmPodrazdTo"] = value;
             }
         }
     }
