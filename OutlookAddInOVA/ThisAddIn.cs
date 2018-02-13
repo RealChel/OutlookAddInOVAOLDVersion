@@ -341,8 +341,7 @@ namespace OutlookAddInOVA
                 usersOVA = usersOVA.Substring(0, usersOVA.Length - 1);
             }
             arrUsersOVA = usersOVA.Split(';');
-            //Выберим тех где текущий пользователь Руководитель
-            //Найдем GUID Руководителя
+            //Выберим по GUID тех где текущий пользователь Руководитель
             System.Data.DataRow[] GUIDChief;
             GUIDChief = listAllCoWorker.Select("Email='" + currentusermail + "'");
             string guidchief = "";
@@ -353,10 +352,14 @@ namespace OutlookAddInOVA
             if (guidchief != "")
             {
                 System.Data.DataRow[] listRowsMyCoWorker;
+                //все строки с руководителем по ГУИД
                 listRowsMyCoWorker = listAllCoWorker.Select("GUIDChief='" + guidchief + "'");
                 listMyCoWorker = listAllCoWorker.Clone();
+                //Нужна первая пустая строка(т.к. я не нашел способа не заполнять комбобоксы на формах, система всегда делает первую строку)
+                
+                listMyCoWorker.Rows.Add();
                 //Добавлю руководителя
-                object[] row = GUIDChief[0].ItemArray;
+                object[]  row = GUIDChief[0].ItemArray;
                 listMyCoWorker.Rows.Add(row);
                 //listMyCoWorker.LoadDataRow(listRowsMyCoWorker, true);
                 foreach (System.Data.DataRow dr in listRowsMyCoWorker)

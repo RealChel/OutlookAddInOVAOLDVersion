@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Windows.Forms;
 
+
 namespace OutlookAddInOVA
 {
 	partial class FormAboutBox : Form
@@ -11,7 +12,7 @@ namespace OutlookAddInOVA
 			InitializeComponent();
 			this.Text = String.Format("О надстройке {0}", AssemblyTitle);
 			this.labelProductName.Text = AssemblyProduct;
-			this.labelVersion.Text = String.Format("Версия {0}", AssemblyVersion);
+            this.labelVersion.Text = String.Format("Версия {0}", AssemblyVersion);
 			this.labelCopyright.Text = AssemblyCopyright;
 			this.labelCompanyName.Text = AssemblyCompany;
 			this.textBoxDescription.Text = AssemblyDescription;
@@ -103,5 +104,10 @@ namespace OutlookAddInOVA
 			this.Hide();
 			System.Diagnostics.Process.Start("mailto:aleks@glaviznin.ru");
 		}
-	}
+
+        private void labelVersion_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
 }

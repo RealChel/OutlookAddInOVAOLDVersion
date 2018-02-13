@@ -12,34 +12,7 @@ namespace OutlookAddInOVA
         {
             try
             {
-                ////По простому проверяю изменили текст или сразу нажали ОК
-                //if (textZun.Contains("При необходимости укажите"))
-                //{
-                //    textZun = "";
-                //}
-
-                //if (!String.IsNullOrEmpty(textZun))
-                //{
-                //    textZun += "\n\n";
-                //}
-
-                //Проверить: Решил не проверятьдату, все равно она на стороне 1С создается в туже самую
-                //string doDate = "";
-                //if (paramsZUn.doDate==null)
-                //{
-                //    doDate = DateTime.Now.ToString("yyyyMMdd190000");
-                //}
-                //else
-                //{
-                //    doDate = paramsZUn.doDate.ToString("yyyyMMdd190000");
-                //}
-                
-
-
-            //    string textZun, string pathToFile, string AddTextZun, string executorZUn, string commentExecutor,
-            //string dopRazrez,bool important, DateTime doDate,string[] approvals, ref string errorCreateZun, ref string createZunResult
-
-                if (!CreateConnection())
+                      if (!CreateConnection())
                 {
                     paramsZUn.errorCreateZun = "Не удалось создать подключение к 1С";
                     return false;
@@ -49,9 +22,6 @@ namespace OutlookAddInOVA
 
 
 #if DEBUG
-                //paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn
-                //    ("glaal@1ab.ru", paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn, paramsZUn.dopRazrez, paramsZUn.commentExecutorZUn, doDate, paramsZUn.importan, paramsZUn.approval);
-                ////createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun,executorZUn,dopRazrez);
                 paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn("glaal@1ab.ru", paramsZUn.podrazdTo, paramsZUn.dopRazrez, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn,
                 paramsZUn.commentExecutorZUn, paramsZUn.doDate, paramsZUn.importan, paramsZUn.approval);
 #else

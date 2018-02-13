@@ -41,7 +41,7 @@
             this.labelExecutor = new System.Windows.Forms.Label();
             this.comboBoxExecutor = new System.Windows.Forms.ComboBox();
             this.tabPageApproved = new System.Windows.Forms.TabPage();
-            this.dataGVWapproval = new System.Windows.Forms.DataGridView();
+            this.dgwApproval = new System.Windows.Forms.DataGridView();
             this.CoWorker = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Degree = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -49,7 +49,7 @@
             this.tabPageInstruction.SuspendLayout();
             this.tabPageOVA.SuspendLayout();
             this.tabPageApproved.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGVWapproval)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwApproval)).BeginInit();
             this.SuspendLayout();
             // 
             // tbInstruction
@@ -162,7 +162,7 @@
             // 
             // tabPageApproved
             // 
-            this.tabPageApproved.Controls.Add(this.dataGVWapproval);
+            this.tabPageApproved.Controls.Add(this.dgwApproval);
             this.tabPageApproved.Location = new System.Drawing.Point(4, 22);
             this.tabPageApproved.Name = "tabPageApproved";
             this.tabPageApproved.Size = new System.Drawing.Size(671, 178);
@@ -170,19 +170,20 @@
             this.tabPageApproved.Text = "Согласование";
             this.tabPageApproved.UseVisualStyleBackColor = true;
             // 
-            // dataGVWapproval
+            // dgwApproval
             // 
-            this.dataGVWapproval.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-            this.dataGVWapproval.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGVWapproval.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgwApproval.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            this.dgwApproval.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgwApproval.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CoWorker,
             this.Degree});
-            this.dataGVWapproval.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dataGVWapproval.Location = new System.Drawing.Point(0, 0);
-            this.dataGVWapproval.Name = "dataGVWapproval";
-            this.dataGVWapproval.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGVWapproval.Size = new System.Drawing.Size(671, 178);
-            this.dataGVWapproval.TabIndex = 1;
+            this.dgwApproval.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.dgwApproval.Location = new System.Drawing.Point(0, 0);
+            this.dgwApproval.Name = "dgwApproval";
+            this.dgwApproval.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgwApproval.Size = new System.Drawing.Size(671, 178);
+            this.dgwApproval.TabIndex = 1;
+            this.dgwApproval.RowLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGVWapproval_RowLeave);
             // 
             // CoWorker
             // 
@@ -242,7 +243,7 @@
             this.tabPageOVA.ResumeLayout(false);
             this.tabPageOVA.PerformLayout();
             this.tabPageApproved.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGVWapproval)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwApproval)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -258,7 +259,7 @@
         private System.Windows.Forms.TabPage tabPageApproved;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.DataGridView dataGVWapproval;
+        private System.Windows.Forms.DataGridView dgwApproval;
         private System.Windows.Forms.DataGridViewComboBoxColumn CoWorker;
         private System.Windows.Forms.DataGridViewComboBoxColumn Degree;
         private System.Windows.Forms.TextBox tbCommentToExecutor;

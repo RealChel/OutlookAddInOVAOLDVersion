@@ -238,56 +238,10 @@ namespace OutlookAddInOVA
 
         internal void backgroundWorkerOVAZUn_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            dynamic result = null;
             ParamsZUn paramsZUn = (ParamsZUn)e.Argument;
-            //V83.COMConnector com1s = new V83.COMConnector();
             try
             {
-                //По простому проверяю изменили текст или сразу нажали ОК
-                //Вероятность того что кто то же укажет такой же текст равна 0
-                //if (paramsZUn.textZun.Contains("При необходимости укажите"))
-                //{
-                //    paramsZUn.textZun = "";
-                //}
-
-                if (!String.IsNullOrEmpty(textZun))
-                {
-                    textZun += "\n\n";
-                }
-
-                //                string user = @"""Create_ZUn""";
-                //                string pas = @"""bF6k6mjbCEfEJayL""";
-                //#if DEBUG
-                //                string file = @"""G:\\ABF""";
-                //#else
-                //                //string Srvr = @"""1ab-1cv81:2541""";
-                //                //string Ref = @"""copy_abf""";
-                //                string Srvr = @"""1ab-1cv80""";
-                //                string Ref = @"""pav-oper82""";
-                //#endif
-                //                //com1s.PoolCapacity = 1;
-                //                //com1s.PoolTimeout = 1;
-                //                //com1s.MaxConnections = 1;
-                //#if DEBUG
-                //                string connectString = "File=" + file + ";Usr=" + user + ";Pwd=" + pas + ";";
-                //#else
-                //				string connectString = "Srvr=" + Srvr + ";Ref=" + Ref + ";Usr=" + user + ";Pwd=" + pas + ";";
-                //#endif
-                //                //result = com1s.Connect(connectString);
-                //                //todo: удалить
-
-                
-
-                //#if DEBUG
-
-                //               //createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal@1ab.ru", pathToFile, textZun + preTextZun, ref errorCreateZun, executorZUn, dopRazrez);
-                //               //createZunResult = result.ДляВнешнихСоединений.Create_ZUn("glaal12@1ab.ru", pathToFile, preTextZun + textZun,ref errorCreateZun,executorZUn,dopRazrez);
-                //#else
-                //                //createZunResult = result.ДляВнешнихСоединений.Create_ZUn(EMailFromCurrentMail, pathToFile, textZun + preTextZun, ref errorCreateZun,executorZUn);
-                //                //createZunResult = result.ДляВнешнихСоединений.GetResultCommand("Результат=10",  ref errorCreateZun);
-                //                //MessageBox.Show(createZunResult);
-                //#endif
-
+    
                 if (!InteractionWithABF.Create_ZUn(paramsZUn))
                 {
                     MessageBox.Show(paramsZUn.errorCreateZun + "\n" + paramsZUn.createZunResult);
@@ -299,18 +253,7 @@ namespace OutlookAddInOVA
                 }
                 e.Result = paramsZUn;
 
-                //if (createZunResult == "")
-                //{
-                //    e.Result = false;
-
-                //    return;
-                //}
-                //else
-                //{
-                //    e.Result = true;
-
-                //    return;
-                //}
+            
             }
             catch (Exception err)
             {
@@ -333,6 +276,7 @@ namespace OutlookAddInOVA
             //    GC.Collect();
             //    GC.WaitForPendingFinalizers();
             //    GC.Collect();
+            // Возможно закрытие соеденения вынести туда где оно создается
             //}
         }
 
@@ -588,7 +532,7 @@ namespace OutlookAddInOVA
 
                 InstructionInZUn instructionForm = new InstructionInZUn();
                 pathToFile = pathToFileMsg;
-                preTextZun = "Заявка создана автоматически из MS Outlook.\nПодробности в приложенном письме.";
+                preTextZun = "Заявка создана автоматически из MS Outlook.\nАвтор не указал дополнительный текст поручения\nПодробности в приложенном письме.";
                 instructionForm.TextZun = "При необходимости укажите подробности для заявки." + Environment.NewLine + "Либо просто нажмите ОК(Ctr+Enter)";
                 instructionForm.ShowDialog();
                 if (instructionForm.ClickBnOk)
@@ -621,9 +565,9 @@ namespace OutlookAddInOVA
             ParamsZUn paramsZUN = new ParamsZUn();
             string textZUn = forminstruction.TextZun;
 
-            if (String.IsNullOrEmpty(textZUn) || textZUn.Contains("При необходимости введите текст поручения ЗУн"))
+            if (String.IsNullOrEmpty(textZUn))
             {
-                textZUn = "Заявка создана автоматически из MS Outlook.\nПодробности в приложенном письме.";
+                textZUn = "Заявка создана автоматически из MS Outlook.\nАвтор не указал дополнительный текст поручения\nПодробности в приложенном письме.";
             }
           
             paramsZUN.textZun = textZUn;
@@ -828,6 +772,4 @@ namespace OutlookAddInOVA
        
     }
 }
-
-
 

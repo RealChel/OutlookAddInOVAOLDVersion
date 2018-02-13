@@ -23,14 +23,14 @@ namespace OutlookAddInOVA
         {
             get
             {
-                int rowscount = dataGVWapproval.RowCount - 1;
-                if (rowscount > 1)
+                int rowscount = dgwApproval.RowCount - 1;
+                if (rowscount > 0)
                 {
                     approveList = new string[rowscount, 2];
                     for (int i = 0; i <= rowscount - 1; i++)
                     {
-                        approveList[i, 0] = (string)dataGVWapproval.Rows[i].Cells[0].Value;
-                        approveList[i, 1] = (string)dataGVWapproval.Rows[i].Cells[1].Value;
+                        approveList[i, 0] = (string)dgwApproval.Rows[i].Cells[0].Value;
+                        approveList[i, 1] = (string)dgwApproval.Rows[i].Cells[1].Value;
                     }
                 }
                 return approveList;
@@ -59,7 +59,8 @@ namespace OutlookAddInOVA
 
             ClickBnOk = false;
             comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
-            Executor = "";
+            comboBoxExecutor.SelectedIndex = 0;
+            //Executor = "";
             //if (!OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA)
             //{
             //    labelExecutor.Visible = false;
@@ -70,7 +71,7 @@ namespace OutlookAddInOVA
             if (!OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA)
             {
                 tabControlZUn.TabPages.Remove(tabPageOVA);
-                tabControlZUn.TabPages.Remove(tabPageApproved);
+                //tabControlZUn.TabPages.Remove(tabPageApproved);
             }
             else
             {
@@ -151,15 +152,30 @@ namespace OutlookAddInOVA
 
         private void CloseFormOnOK()
         {
+            if (String.IsNullOrEmpty(tbInstruction.Text) || tbInstruction.Text.Contains("При необходимости укажите подробности для заявки"))
+            {
+                TextZun = "Заявка создана автоматически из MS Outlook.\nАвтор не указал дополнительный текст поручения.\nПодробности в приложенном письме.";
+            }
+            else
+            {
+                TextZun = tbInstruction.Text;
+            }
             ClickBnOk = true;
-            TextZun = tbInstruction.Text;
+            
             this.Hide();
         }
 
         #endregion Другие функции
+
+        private void dataGVWapproval_RowLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (String.IsNullOrEmpty((string)dgwApproval.Rows[e.RowIndex].Cells["Degree"].Value))
+            {
+                dgwApproval.Rows[e.RowIndex].Cells["Degree"].Value = "Согласовать";
+            }
+        }
     }
 }
 
-//Сделать: Добавлять согласующих
+
 //Сделать: Исполнителя вынести для всех, в 1С сделать проверку что бы исполнитель работал только в указанном подразделении
-//Сделать: Список Исполнителей изначально должен быть пустым
