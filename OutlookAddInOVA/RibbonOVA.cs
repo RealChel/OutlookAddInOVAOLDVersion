@@ -538,7 +538,7 @@ namespace OutlookAddInOVA
                 if (instructionForm.ClickBnOk)
                 {
                     Globals.ThisAddIn.doCreateZUn = true;
-                    this.backgroundWorkerOVAZUn.RunWorkerAsync(FillParamsForZUn(podrazdTo, dopRazrez, instructionForm, pathToFileMsg));
+                    this.backgroundWorkerOVAZUn.RunWorkerAsync(FillParamsForZUn(podrazdTo, dopRazrez, instructionForm, pathToFileMsg, EMailFromCurrentMail));
                 }
                 instructionForm = null;
             }
@@ -560,11 +560,14 @@ namespace OutlookAddInOVA
         /// <param name="forminstruction">Форма ввода данных для зун, тип класс InstructionInZUn</param>
         /// <param name="pathToMsgFile">Путь к файлу который надо вложить</param>
         /// <returns></returns>
-        private ParamsZUn FillParamsForZUn(string podrazdTo, string dopRazrez,InstructionInZUn forminstruction, string pathToMsgFile)
+        private ParamsZUn FillParamsForZUn(string podrazdTo, string dopRazrez,InstructionInZUn forminstruction, string pathToMsgFile,string EMailFromCurrentMail="")
         {
             ParamsZUn paramsZUN = new ParamsZUn();
             string textZUn = forminstruction.TextZun;
-
+            if (String.IsNullOrEmpty(EMailFromCurrentMail))
+            {
+                EMailFromCurrentMail = OutlookAddInOVA.Globals.ThisAddIn.currentusermail;
+            }
             if (String.IsNullOrEmpty(textZUn))
             {
                 textZUn = "Заявка создана автоматически из MS Outlook.\nАвтор не указал дополнительный текст поручения\nПодробности в приложенном письме.";
@@ -577,6 +580,7 @@ namespace OutlookAddInOVA
             paramsZUN.approval = forminstruction.ApproveList;
             paramsZUN.dopRazrez = dopRazrez;
             paramsZUN.podrazdTo = podrazdTo;
+            paramsZUN.zunfrom = EMailFromCurrentMail;
 
             return paramsZUN;
         }

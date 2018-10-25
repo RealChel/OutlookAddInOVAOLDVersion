@@ -105,9 +105,5 @@ namespace OutlookAddInOVA
 			System.Diagnostics.Process.Start("mailto:aleks@glaviznin.ru");
 		}
 
-        private void labelVersion_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

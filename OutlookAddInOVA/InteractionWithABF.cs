@@ -22,14 +22,15 @@ namespace OutlookAddInOVA
 
 
 #if DEBUG
-                paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn("glaal@1ab.ru", paramsZUn.podrazdTo, paramsZUn.dopRazrez, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn,
+                paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn(paramsZUn.zunfrom, paramsZUn.podrazdTo, paramsZUn.dopRazrez, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn,
                 paramsZUn.commentExecutorZUn, paramsZUn.doDate, paramsZUn.importan, paramsZUn.approval);
 #else
                
                 //paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn(OutlookAddInOVA.Globals.ThisAddIn.currentusermail, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn, paramsZUn.dopRazrez, paramsZUn.commentExecutorZUn, doDate, paramsZUn.importan, paramsZUn.approval);
-                paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn(OutlookAddInOVA.Globals.ThisAddIn.currentusermail, paramsZUn.podrazdTo, paramsZUn.dopRazrez, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn,
+                paramsZUn.createZunResult = Globals.ThisAddIn.ConnetionTo1C.ДляВнешнихСоединений.Create_ZUn(paramsZUn.zunfrom, paramsZUn.podrazdTo, paramsZUn.dopRazrez, paramsZUn.pathToFile, paramsZUn.textZun + paramsZUn.preTextZun, ref paramsZUn.errorCreateZun, paramsZUn.executorZUn,
                 paramsZUn.commentExecutorZUn, paramsZUn.doDate, paramsZUn.importan, paramsZUn.approval);
                 //createZunResult = result.ДляВнешнихСоединений.GetResultCommand("Результат=10",  ref errorCreateZun);
+                //Сделать: В переменную createZunResult передается текст который потом используется при получении данных через иконку панели задач
                 //MessageBox.Show(createZunResult);
 #endif
                 if (paramsZUn.createZunResult == "")
@@ -221,6 +222,7 @@ namespace OutlookAddInOVA
         internal string[,] approval;
         internal string errorCreateZun;
         internal string createZunResult;
+        internal string zunfrom;
 
         /// <summary>
         /// Конструктор класса ParamsZUn
@@ -237,13 +239,14 @@ namespace OutlookAddInOVA
             podrazdTo ="";
             doDate = DateTime.Now;
             importan = false;
+            zunfrom = "";
             
         }
 
         /// <summary>
         /// Конструктор класса ParamsZUn
         /// </summary>
-        internal ParamsZUn(string textZun, string preTextZun, string pathToFile, string executorZUn, string commentExecutorZUn, string dopRazrez, string podrazdTo, DateTime doDate, bool importan, string[,] approval)
+        internal ParamsZUn(string textZun, string preTextZun, string pathToFile, string executorZUn, string commentExecutorZUn, string dopRazrez, string podrazdTo, DateTime doDate, bool importan, string[,] approval,string zunfrom)
         {
             this.textZun = textZun;
             this.preTextZun = preTextZun;
@@ -254,7 +257,8 @@ namespace OutlookAddInOVA
             this.podrazdTo = podrazdTo;
             this.doDate = doDate;
             this.importan = importan;
-            this.approval = approval;    
+            this.approval = approval;
+            this.zunfrom = zunfrom;
         }
     }
 }

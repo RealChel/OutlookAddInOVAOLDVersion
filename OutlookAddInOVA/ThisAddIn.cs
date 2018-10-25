@@ -33,6 +33,7 @@ namespace OutlookAddInOVA
         /// Объект 1С
         /// </summary>
         internal V83.COMConnector com1s;
+        
         /// <summary>
         /// Объект Coonection возвращаемый функцией 1С Connect(connectString)
         /// </summary>
@@ -253,8 +254,7 @@ namespace OutlookAddInOVA
         internal string GetAllSMTPAddressForRecipients(Outlook.MailItem myMail)
         {
             string AllEmail = "";
-            const string PR_SMTP_ADDRESS =
-                "http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
+            const string PR_SMTP_ADDRESS =    "http://schemas.microsoft.com/mapi/proptag/0x39FE001E";
             Outlook.Recipients recips = myMail.Recipients;
             foreach (Outlook.Recipient recip in recips)
             {
@@ -278,7 +278,8 @@ namespace OutlookAddInOVA
             dt.Clear();
             Excel.Application appExcel = new Excel.Application();
             appExcel.Visible = false;
-            Excel.Workbook workbook = appExcel.Workbooks.Open(pathToListCOWorker, Type.Missing, Type.Missing, Type.Missing, "n2mZ8ihQ");
+            //Excel.Workbook workbook = appExcel.Workbooks.Open(pathToListCOWorker, Type.Missing, Type.Missing, Type.Missing, "n2mZ8ihQ");
+            Excel.Workbook workbook = appExcel.Workbooks.Open(pathToListCOWorker, Type.Missing, Type.Missing, Type.Missing);
             Excel.Worksheet worksheet = workbook.Sheets[1];
             Excel.Range range = worksheet.UsedRange;
 
