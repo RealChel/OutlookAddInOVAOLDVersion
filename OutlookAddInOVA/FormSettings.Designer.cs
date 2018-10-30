@@ -31,11 +31,14 @@
             this.components = new System.ComponentModel.Container();
             this.tabControlSettings = new System.Windows.Forms.TabControl();
             this.tabPageMain = new System.Windows.Forms.TabPage();
+            this.cbCreateZUnTO = new System.Windows.Forms.CheckBox();
             this.cbCreateOtherZUn = new System.Windows.Forms.CheckBox();
             this.cbCreateZUnOVA = new System.Windows.Forms.CheckBox();
             this.cbCreateSMART = new System.Windows.Forms.CheckBox();
             this.tabPageZUn = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbPodrazdTo = new System.Windows.Forms.TextBox();
+            this.labelPodrazdTo = new System.Windows.Forms.Label();
             this.tbZUnButtonName = new System.Windows.Forms.TextBox();
             this.labelZUnButtonName = new System.Windows.Forms.Label();
             this.labelAddSegment = new System.Windows.Forms.Label();
@@ -57,8 +60,6 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.buttonCаncel = new System.Windows.Forms.Button();
             this.toolTipFormSettings = new System.Windows.Forms.ToolTip(this.components);
-            this.labelPodrazdTo = new System.Windows.Forms.Label();
-            this.tbPodrazdTo = new System.Windows.Forms.TextBox();
             this.tabControlSettings.SuspendLayout();
             this.tabPageMain.SuspendLayout();
             this.tabPageZUn.SuspendLayout();
@@ -93,6 +94,7 @@
             // 
             // tabPageMain
             // 
+            this.tabPageMain.Controls.Add(this.cbCreateZUnTO);
             this.tabPageMain.Controls.Add(this.cbCreateOtherZUn);
             this.tabPageMain.Controls.Add(this.cbCreateZUnOVA);
             this.tabPageMain.Controls.Add(this.cbCreateSMART);
@@ -103,10 +105,21 @@
             this.tabPageMain.Text = "Основные";
             this.tabPageMain.UseVisualStyleBackColor = true;
             // 
+            // cbCreateZUnTO
+            // 
+            this.cbCreateZUnTO.AutoSize = true;
+            this.cbCreateZUnTO.Location = new System.Drawing.Point(7, 49);
+            this.cbCreateZUnTO.Name = "cbCreateZUnTO";
+            this.cbCreateZUnTO.Size = new System.Drawing.Size(149, 17);
+            this.cbCreateZUnTO.TabIndex = 3;
+            this.cbCreateZUnTO.Text = "Создавать ЗУн в УК ТО";
+            this.cbCreateZUnTO.UseVisualStyleBackColor = true;
+            this.cbCreateZUnTO.CheckedChanged += new System.EventHandler(this.cbCreateZUnTO_CheckedChanged);
+            // 
             // cbCreateOtherZUn
             // 
             this.cbCreateOtherZUn.AutoSize = true;
-            this.cbCreateOtherZUn.Location = new System.Drawing.Point(7, 49);
+            this.cbCreateOtherZUn.Location = new System.Drawing.Point(7, 72);
             this.cbCreateOtherZUn.Name = "cbCreateOtherZUn";
             this.cbCreateOtherZUn.Size = new System.Drawing.Size(190, 17);
             this.cbCreateOtherZUn.TabIndex = 2;
@@ -162,6 +175,22 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Создание собственных ЗУн";
+            // 
+            // tbPodrazdTo
+            // 
+            this.tbPodrazdTo.Location = new System.Drawing.Point(141, 25);
+            this.tbPodrazdTo.Name = "tbPodrazdTo";
+            this.tbPodrazdTo.Size = new System.Drawing.Size(430, 20);
+            this.tbPodrazdTo.TabIndex = 6;
+            // 
+            // labelPodrazdTo
+            // 
+            this.labelPodrazdTo.AutoSize = true;
+            this.labelPodrazdTo.Location = new System.Drawing.Point(6, 25);
+            this.labelPodrazdTo.Name = "labelPodrazdTo";
+            this.labelPodrazdTo.Size = new System.Drawing.Size(116, 13);
+            this.labelPodrazdTo.TabIndex = 5;
+            this.labelPodrazdTo.Text = "Подразделение куда:";
             // 
             // tbZUnButtonName
             // 
@@ -408,22 +437,6 @@
             this.buttonCаncel.UseVisualStyleBackColor = true;
             this.buttonCаncel.Click += new System.EventHandler(this.buttonCаncel_Click);
             // 
-            // labelPodrazdTo
-            // 
-            this.labelPodrazdTo.AutoSize = true;
-            this.labelPodrazdTo.Location = new System.Drawing.Point(6, 25);
-            this.labelPodrazdTo.Name = "labelPodrazdTo";
-            this.labelPodrazdTo.Size = new System.Drawing.Size(116, 13);
-            this.labelPodrazdTo.TabIndex = 5;
-            this.labelPodrazdTo.Text = "Подразделение куда:";
-            // 
-            // tbPodrazdTo
-            // 
-            this.tbPodrazdTo.Location = new System.Drawing.Point(141, 25);
-            this.tbPodrazdTo.Name = "tbPodrazdTo";
-            this.tbPodrazdTo.Size = new System.Drawing.Size(430, 20);
-            this.tbPodrazdTo.TabIndex = 6;
-            // 
             // FormSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -498,5 +511,6 @@
         private System.Windows.Forms.Label labelZUnButtonName;
         private System.Windows.Forms.TextBox tbPodrazdTo;
         private System.Windows.Forms.Label labelPodrazdTo;
+        private System.Windows.Forms.CheckBox cbCreateZUnTO;
     }
 }

@@ -118,7 +118,7 @@
             this.tabPageOVA.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageOVA.Size = new System.Drawing.Size(671, 178);
             this.tabPageOVA.TabIndex = 1;
-            this.tabPageOVA.Text = "OVA";
+            this.tabPageOVA.Text = "УК ОВА";
             this.tabPageOVA.UseVisualStyleBackColor = true;
             // 
             // tbCommentToExecutor

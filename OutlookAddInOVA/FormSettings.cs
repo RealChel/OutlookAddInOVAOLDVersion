@@ -21,6 +21,7 @@ namespace OutlookAddInOVA
             cbCreateOtherZUn.Checked = Properties.Settings.Default.prmCreateOtherZUn;
             cbCreateSMART.Checked = Properties.Settings.Default.prmCreateSMART;
             cbCreateZUnOVA.Checked = Properties.Settings.Default.prmCreateZUnOVA;
+            cbCreateZUnTO.Checked = Properties.Settings.Default.prmCreateZUnTO;
             tbZUnAddSegment.Text = Properties.Settings.Default.prmZUnDopRazrez;
             tbZUnButtonName.Text = Properties.Settings.Default.prmZUnButtonName;
             tbPodrazdTo.Text = Properties.Settings.Default.prmPodrazdTo;
@@ -45,6 +46,7 @@ namespace OutlookAddInOVA
             Properties.Settings.Default.prmZUnDopRazrez = tbZUnAddSegment.Text.Trim();
             Properties.Settings.Default.prmZUnButtonName = tbZUnButtonName.Text.Trim();
             Properties.Settings.Default.prmPodrazdTo = tbPodrazdTo.Text.Trim();
+            Properties.Settings.Default.prmCreateZUnTO = cbCreateZUnTO.Checked;
             Properties.Settings.Default.Save();
 
             Globals.Ribbons.RibbonOVA.ReLoadRibbon();
@@ -81,9 +83,12 @@ namespace OutlookAddInOVA
                 }
             }
         }
+        /// <summary>
+        /// Показывать скрывать группу Заявок
+        /// </summary>
         private void showHideZUn()
         {
-            if (!cbCreateZUnOVA.Checked & !cbCreateOtherZUn.Checked)
+            if (!cbCreateZUnOVA.Checked & !cbCreateOtherZUn.Checked & !cbCreateZUnTO.Checked)
             {
                 tabControlSettings.TabPages.Remove(tabPageZUn);
             }
@@ -95,6 +100,7 @@ namespace OutlookAddInOVA
                 }
                 
             }
+
         }
 
         private void cbCreateSMART_CheckedChanged(object sender, EventArgs e)
@@ -108,6 +114,11 @@ namespace OutlookAddInOVA
         }
 
         private void cbCreateZUnOVA_CheckedChanged(object sender, EventArgs e)
+        {
+            showHideZUn();
+        }
+
+        private void cbCreateZUnTO_CheckedChanged(object sender, EventArgs e)
         {
             showHideZUn();
         }

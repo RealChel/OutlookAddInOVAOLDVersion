@@ -68,18 +68,22 @@ namespace OutlookAddInOVA
             //    tbInstruction.Location = new Point(0, 0);
             //    tbInstruction.Height += 32;
             //}
-            if (!OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA)
+            if (!(OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA || OutlookAddInOVA.Globals.ThisAddIn.currentUserIsTO))
             {
                 tabControlZUn.TabPages.Remove(tabPageOVA);
                 //tabControlZUn.TabPages.Remove(tabPageApproved);
             }
             else
             {
+              
+                tabPageOVA.Text = OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA ? "УК ОВА" : "УК ТО";
                 comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
                 CoWorker.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listAllCoWorker;
                 CoWorker.ValueMember = "Email";
                 CoWorker.DisplayMember = "FIO";
             }
+
+
 
 
         }

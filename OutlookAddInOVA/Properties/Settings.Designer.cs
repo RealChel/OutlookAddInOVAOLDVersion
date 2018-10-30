@@ -109,7 +109,7 @@ namespace OutlookAddInOVA.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool prmCreateSMART {
             get {
                 return ((bool)(this["prmCreateSMART"]));
@@ -152,6 +152,18 @@ namespace OutlookAddInOVA.Properties {
             }
             set {
                 this["prmPodrazdTo"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool prmCreateZUnTO {
+            get {
+                return ((bool)(this["prmCreateZUnTO"]));
+            }
+            set {
+                this["prmCreateZUnTO"] = value;
             }
         }
     }

@@ -100,7 +100,6 @@
             this.labelVersion.TabIndex = 0;
             this.labelVersion.Text = "Версия";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            
             // 
             // textBoxDescription
             // 

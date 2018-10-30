@@ -24,7 +24,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="prmCreateSMART" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="prmZUnDopRazrez" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -34,6 +34,9 @@
     </Setting>
     <Setting Name="prmPodrazdTo" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="prmCreateZUnTO" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

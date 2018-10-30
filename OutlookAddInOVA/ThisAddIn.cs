@@ -15,20 +15,27 @@ namespace OutlookAddInOVA
         //internal string usersOVA = "aleks;glaal;vasta;rogva;lihyu;provi;chest";
         internal string usersOVA = "glaal;vasta;rogva;lihyu;provi;chest";
         internal string[] arrUsersOVA;
-        internal string currentuser = "aleks";
-        internal string currentusermail = "glaal@1ab.ru";
+        internal string usersTO = "LeoAl;kazdm;seral;shman";
+        internal string[] arrUsersTO;
+        //internal string currentUser = "leoal";
+        //internal string currentUserMail = "leoal@1ab.ru";
+        internal string currentUser = "glaal";
+        internal string currentUserMail = "glaal@1ab.ru";
 #else
 		private const string pathToListCOWorker = "J:\\ABFant80\\ExtProjectABF\\OutlookAddInOVA\\Сотрудники1АБ.xlsx";
 		internal string usersOVA = "glaal;vasta;rogva;lihyu;provi;chest";
         internal string[] arrUsersOVA;
-		internal string currentuser = SystemInformation.UserName;
-		internal string currentusermail = SystemInformation.UserName + "@1ab.ru";
+        internal string usersTO = "LeoAl;kazdm;seral;shman";
+        internal string[] arrUsersTO;
+		internal string currentUser = SystemInformation.UserName;
+		internal string currentUserMail = SystemInformation.UserName + "@1ab.ru";
 #endif
         internal const string strcolName = "FIO;Family;Name;Otchest;Podrazd;Office;Email;GUIDCoWorker;GUIDChief";
         internal string[] colName = strcolName.Split(';');
         internal Outlook.Inspectors inspectors;
         internal Outlook.Explorer currentExplorer = null;
         internal bool currentUserIsOVA = false;
+        internal bool currentUserIsTO = false;
         /// <summary>
         /// Объект 1С
         /// </summary>
@@ -342,9 +349,29 @@ namespace OutlookAddInOVA
                 usersOVA = usersOVA.Substring(0, usersOVA.Length - 1);
             }
             arrUsersOVA = usersOVA.Split(';');
+
+            //Выберим только с подразделением УК ТО
+            System.Data.DataRow[] listCoWorkerUkTO;
+            listCoWorkerUkTO = listAllCoWorker.Select("Podrazd='УК ТО'");
+            if (listCoWorkerUkTO.Count() > 0)
+            {
+#if DEBUG
+                usersTO = "aleks;";
+                //usersOVA = "";
+#else
+				usersTO = "";
+#endif
+                foreach (System.Data.DataRow rowCoWorker in listCoWorkerUkTO)
+                {
+                    usersTO += rowCoWorker["EMail"] + ";";
+                }
+                usersTO = usersTO.Substring(0, usersTO.Length - 1);
+            }
+            arrUsersTO = usersTO.Split(';');
+
             //Выберим по GUID тех где текущий пользователь Руководитель
             System.Data.DataRow[] GUIDChief;
-            GUIDChief = listAllCoWorker.Select("Email='" + currentusermail + "'");
+            GUIDChief = listAllCoWorker.Select("Email='" + currentUserMail + "'");
             string guidchief = "";
             if (GUIDChief.Count() > 0)
             {
@@ -370,9 +397,13 @@ namespace OutlookAddInOVA
                 }
             }
 
-            if (usersOVA.Contains(currentuser))
+            if (usersOVA.Contains(currentUser))
             {
                 currentUserIsOVA = true;
+            }
+            if (usersTO.Contains(currentUser))
+            {
+                currentUserIsTO = true;
             }
         }
 
