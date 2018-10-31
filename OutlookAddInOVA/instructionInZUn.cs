@@ -78,6 +78,8 @@ namespace OutlookAddInOVA
               
                 tabPageOVA.Text = OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA ? "УК ОВА" : "УК ТО";
                 comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
+                //Сделать: нужно понимать куда отправляется зун и показывать соответствующий список исполнителей
+                //т.е. не показывать для ова то и для то ова
                 CoWorker.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listAllCoWorker;
                 CoWorker.ValueMember = "Email";
                 CoWorker.DisplayMember = "FIO";
