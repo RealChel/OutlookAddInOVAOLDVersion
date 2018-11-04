@@ -17,6 +17,8 @@ namespace OutlookAddInOVA
 
         public string TextZun { get; set; }
 
+        public string ZunTo { get; set; }
+
         public bool ClickBnOk { get; set; }
 
         public string[,] ApproveList
@@ -75,8 +77,48 @@ namespace OutlookAddInOVA
             }
             else
             {
-              
-                tabPageOVA.Text = OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA ? "УК ОВА" : "УК ТО";
+                
+                if (ZunTo=="УК ОВА")
+                {
+                    if (OutlookAddInOVA.Globals.ThisAddIn.currentUserIsTO)
+                    {
+                        tabControlZUn.TabPages.Remove(tabPageOVA);
+                    }
+                    else
+                    {
+                        tabPageOVA.Text = "УК ОВА";
+                        
+                    }
+                }
+                else if (ZunTo == "УК ТО")
+                {
+                    if (OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA)
+                    {
+                        tabControlZUn.TabPages.Remove(tabPageOVA);
+                    }
+                    else
+                    {
+                        tabPageOVA.Text ="УК ТО";
+                    }
+                }
+                else
+                {
+                    tabControlZUn.TabPages.Remove(tabPageOVA);
+                }
+
+                if (ZunTo == "УК ОВА")
+                {
+                    Text = "Текст поручения для ЗУн в УК ОВА";
+                }
+                else if (ZunTo == "УК ТО")
+                {
+                    Text = "Текст поручения для ЗУн в УК ТО";
+                }
+                else
+                {
+                    Text = "Текст поручения для ЗУн "+ Properties.Settings.Default.prmZUnButtonName ;
+                }
+
                 comboBoxExecutor.DataSource = OutlookAddInOVA.Globals.ThisAddIn.listMyCoWorker;
                 //Сделать: нужно понимать куда отправляется зун и показывать соответствующий список исполнителей
                 //т.е. не показывать для ова то и для то ова

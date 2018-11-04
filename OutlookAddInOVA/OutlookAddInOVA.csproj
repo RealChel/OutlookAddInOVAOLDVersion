@@ -229,7 +229,6 @@
       <DependentUpon>RibbonOVA.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="OutlookAddInOVA_TemporaryKey.pfx" />
     <None Include="Properties\DataSources\ThisAddIn.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

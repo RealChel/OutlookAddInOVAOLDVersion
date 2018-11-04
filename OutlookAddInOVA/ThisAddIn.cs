@@ -17,10 +17,10 @@ namespace OutlookAddInOVA
         internal string[] arrUsersOVA;
         internal string usersTO = "LeoAl;kazdm;seral;shman";
         internal string[] arrUsersTO;
-        //internal string currentUser = "leoal";
-        //internal string currentUserMail = "leoal@1ab.ru";
-        internal string currentUser = "glaal";
-        internal string currentUserMail = "glaal@1ab.ru";
+        internal string currentUser = "leoal";
+        internal string currentUserMail = "leoal@1ab.ru";
+        //internal string currentUser = "glaal";
+        //internal string currentUserMail = "glaal@1ab.ru";
 #else
 		private const string pathToListCOWorker = "J:\\ABFant80\\ExtProjectABF\\OutlookAddInOVA\\Сотрудники1АБ.xlsx";
 		internal string usersOVA = "glaal;vasta;rogva;lihyu;provi;chest";

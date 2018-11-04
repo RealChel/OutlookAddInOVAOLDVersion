@@ -609,6 +609,7 @@ namespace OutlookAddInOVA
                 InstructionInZUn instructionForm = new InstructionInZUn();
                 preTextZun = "Заявка создана автоматически из MS Outlook.\nАвтор не указал дополнительный текст поручения\nПодробности в приложенном письме.";
                 instructionForm.TextZun = "При необходимости укажите подробности для заявки." + Environment.NewLine + "Либо просто нажмите ОК(Ctr+Enter)";
+                instructionForm.ZunTo = podrazdTo;
                 instructionForm.ShowDialog();
                 if (instructionForm.ClickBnOk)
                 {
