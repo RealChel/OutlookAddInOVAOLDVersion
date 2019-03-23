@@ -595,8 +595,16 @@ namespace OutlookAddInOVA
 
 
                 //Определяем от кого создавать ЗУн
-                //Если переданная строка пустая, значит мы создаем из скриншота, а значит только от имени текущего пользователя создается ЗУн
-                if (String.IsNullOrEmpty(pathToFileMsg) && ((OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA || OutlookAddInOVA.Globals.ThisAddIn.currentUserIsTO) && !Properties.Settings.Default.prmCreateZUnFromMe))
+                //Я решил усложнить код для более простого чтения
+                bool createZunFromCurrent = true;
+                //Если передали не пустой путь, значит это скриншот, а скриншоты всегда 
+                if (!(String.IsNullOrEmpty(pathToFileMsg))
+                {
+                    createZunFromCurrent = false;
+                }
+
+
+                if ((String.IsNullOrEmpty(pathToFileMsg)) && ((OutlookAddInOVA.Globals.ThisAddIn.currentUserIsOVA || OutlookAddInOVA.Globals.ThisAddIn.currentUserIsTO) && !Properties.Settings.Default.prmCreateZUnFromMe))
                 {
                     EMailFromCurrentMail = GetSmtpAddress(curItem);
                 }
